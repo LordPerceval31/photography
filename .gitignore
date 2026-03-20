@@ -8,3 +8,4 @@ node_modules/
 /app/generated/prisma
 
 tsconfig.tsbuildinfo
+.next
