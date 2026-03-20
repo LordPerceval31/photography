@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homepage — Maquette complète</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #111; color: #fff; }
+
+  /* ─── HEADER ─── */
+  .page-header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 48px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .logo { font-size: 18px; font-weight: 700; letter-spacing: 0.12em; color: #fff; text-transform: uppercase; }
+  nav { display: flex; gap: 32px; }
+  nav a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  nav a:hover { color: #fff; }
+
+  /* ─── SECTION 1 : HERO ─── */
+  .hero {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg,
+      #0a0a0a 0%,
+      #1a1a2e 30%,
+      #16213e 55%,
+      #2d1b1b 80%,
+      #1a0a0a 100%
+    );
+  }
+  /* Simule une photo N&B avec grains */
+  .hero-bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(80,60,60,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 60%, rgba(40,40,80,0.3) 0%, transparent 50%);
+  }
+  .hero-glass {
+    position: relative; z-index: 2;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 52px 64px;
+    text-align: center;
+    max-width: 620px;
+  }
+  .hero-glass .eyebrow {
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); margin-bottom: 16px;
+  }
+  .hero-glass h1 {
+    font-size: 52px; font-weight: 300; line-height: 1.1;
+    letter-spacing: -0.02em; color: #fff; margin-bottom: 12px;
+  }
+  .hero-glass h1 strong { font-weight: 700; }
+  .hero-glass p {
+    font-size: 15px; color: rgba(255,255,255,0.6);
+    line-height: 1.7; margin-bottom: 32px;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: #fff; color: #111;
+    padding: 13px 32px; border-radius: 999px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .btn-primary:hover { background: #e5e5e5; transform: scale(1.03); }
+  .scroll-hint {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    z-index: 2; text-align: center;
+    font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+  }
+  .scroll-hint::after {
+    content: '↓'; display: block; font-size: 18px; margin-top: 6px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  /* ─── SECTION 2 : IMAGE IMMERSIVE + TEXTE ─── */
+  .about {
+    height: 85vh; min-height: 500px;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center;
+    background: #f5f5f0;
+  }
+  .about-img {
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg,
+      #8b7355 0%, #5c4a3a 30%, #3d3228 60%, #1a1410 100%
+    );
+  }
+  .about-img::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to right,
+      rgba(0,0,0,0.05) 0%,
+      rgba(0,0,0,0.1) 35%,
+      rgba(245,245,240,0.75) 58%,
+      rgba(245,245,240,0.97) 75%,
+      #f5f5f0 90%
+    );
+  }
+  .about-content {
+    position: relative; z-index: 2;
+    margin-left: auto;
+    padding: 64px;
+    max-width: 440px;
+  }
+  .about-content .tag {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: #a0856a; margin-bottom: 20px;
+  }
+  .about-content h2 {
+    font-size: 38px; font-weight: 300; line-height: 1.2;
+    color: #1a1410; margin-bottom: 20px; letter-spacing: -0.02em;
+  }
+  .about-content h2 em { font-style: italic; font-weight: 400; color: #5c4a3a; }
+  .about-content p { font-size: 15px; color: #6b5c50; line-height: 1.8; margin-bottom: 32px; }
+  .btn-outline {
+    display: inline-block;
+    border: 1.5px solid #1a1410; color: #1a1410;
+    padding: 12px 28px; border-radius: 999px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none;
+  }
+
+  /* ─── SECTION 3 : SOMBRE — texte gauche + 2 images droite ─── */
+  .dark-section {
+    background: #0d0d0d;
+    min-height: 70vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 80px;
+    gap: 80px;
+  }
+  .dark-text { }
+  .dark-text .quote-mark {
+    font-size: 80px; line-height: 0.8; color: rgba(255,255,255,0.1);
+    font-family: Georgia, serif; margin-bottom: 16px;
+  }
+  .dark-text blockquote {
+    font-size: 26px; font-weight: 300; line-height: 1.5;
+    color: rgba(255,255,255,0.9); font-style: italic;
+    margin-bottom: 24px; letter-spacing: -0.01em;
+  }
+  .dark-text cite {
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); font-style: normal;
+  }
+  .dark-text .second-quote {
+    margin-top: 48px; padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .dark-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+  }
+  .dark-img {
+    border-radius: 8px; overflow: hidden;
+    aspect-ratio: 3/4;
+  }
+  .dark-img:first-child {
+    grid-column: 1; grid-row: 1 / 3;
+    aspect-ratio: 2/3;
+    transform: translateY(20px);
+  }
+  .dark-img:nth-child(2) {
+    grid-column: 2; grid-row: 1;
+    aspect-ratio: 4/3;
+  }
+  .dark-img:nth-child(3) {
+    grid-column: 2; grid-row: 2;
+    aspect-ratio: 4/3;
+  }
+  .img-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+  .dark-img:first-child .img-placeholder { background: linear-gradient(160deg, #2a2a2a, #1a1a1a); }
+  .dark-img:nth-child(2) .img-placeholder { background: linear-gradient(160deg, #1e1e2e, #141420); }
+  .dark-img:nth-child(3) .img-placeholder { background: linear-gradient(160deg, #2e1e1e, #201414); }
+
+  /* ─── SECTION 4 : CAROUSEL ─── */
+  .carousel-section {
+    background: #f8f7f4;
+    padding: 80px 0 80px 80px;
+    overflow: hidden;
+  }
+  .carousel-header {
+    margin-bottom: 40px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding-right: 80px;
+  }
+  .carousel-header h2 {
+    font-size: 32px; font-weight: 300; color: #1a1410; letter-spacing: -0.02em;
+  }
+  .carousel-header a {
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #8b7355; text-decoration: none; border-bottom: 1px solid #8b7355;
+    padding-bottom: 2px;
+  }
+  .carousel-track {
+    display: flex; gap: 16px; align-items: stretch;
+    overflow: hidden;
+  }
+  .carousel-item {
+    flex-shrink: 0; border-radius: 12px; overflow: hidden;
+    height: 360px;
+  }
+  .carousel-item .img-placeholder {
+    font-size: 9px; color: rgba(0,0,0,0.25);
+  }
+  .ci-1 { width: 260px; background: linear-gradient(160deg, #c9b8a8, #a08060); }
+  .ci-2 { width: 380px; background: linear-gradient(160deg, #8ba8c9, #607080); }
+  .ci-3 { width: 220px; background: linear-gradient(160deg, #c9a8a8, #a06060); }
+  .ci-4 { width: 320px; background: linear-gradient(160deg, #a8c9b8, #608060); }
+  .ci-5 { width: 280px; background: linear-gradient(160deg, #c9c9a8, #808060); }
+  .ci-6 { width: 200px; background: linear-gradient(160deg, #b8a8c9, #806090); }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: #0d0d0d; color: rgba(255,255,255,0.35);
+    padding: 40px 64px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; letter-spacing: 0.08em;
+  }
+
+  /* ─── BADGE MOCKUP ─── */
+  .mockup-badge {
+    position: fixed; bottom: 20px; right: 20px; z-index: 999;
+    background: rgba(0,0,0,0.85); color: #fff;
+    padding: 8px 14px; border-radius: 8px;
+    font-size: 11px; letter-spacing: 0.08em;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="page-header">
+  <div class="logo">Jean Dupont</div>
+  <nav>
+    <a href="#">Galeries</a>
+    <a href="#">Street</a>
+    <a href="#">Paysages</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
+
+<!-- SECTION 1 : HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glass">
+    <div class="eyebrow">Photographe — Paris</div>
+    <h1>La lumière<br>comme <strong>langage</strong></h1>
+    <p>Street, paysages, portrait — des instants capturés<br>entre ombre et lumière.</p>
+    <a href="#" class="btn-primary">Voir les galeries</a>
+  </div>
+  <div class="scroll-hint">Défiler</div>
+</section>
+
+<!-- SECTION 2 : IMAGE IMMERSIVE + TEXTE DROITE -->
+<section class="about">
+  <div class="about-img"></div>
+  <div class="about-content">
+    <div class="tag">À propos</div>
+    <h2>Capturer<br>l'<em>essentiel</em></h2>
+    <p>Des rues animées de Paris aux paysages silencieux, chaque cliché est une tentative de figer ce qui disparaît.</p>
+    <a href="#" class="btn-outline">Découvrir les galeries</a>
+  </div>
+</section>
+
+<!-- SECTION 3 : SOMBRE — texte gauche + images droite -->
+<section class="dark-section">
+  <div class="dark-text">
+    <div class="quote-mark">"</div>
+    <blockquote>La photographie, c'est une façon de crier, de se libérer.</blockquote>
+    <cite>— Henri Cartier-Bresson</cite>
+    <div class="second-quote">
+      <div class="quote-mark">"</div>
+      <blockquote>Votre premier 10 000 photos sont les pires.</blockquote>
+      <cite>— Henri Cartier-Bresson</cite>
+    </div>
+  </div>
+  <div class="dark-images">
+    <div class="dark-img"><div class="img-placeholder">Photo 1</div></div>
+    <div class="dark-img"><div class="img-placeholder">Photo 2</div></div>
+    <div class="dark-img"><div class="img-placeholder">Photo 3</div></div>
+  </div>
+</section>
+
+<!-- SECTION 4 : CAROUSEL -->
+<section class="carousel-section">
+  <div class="carousel-header">
+    <h2>Dernières images</h2>
+    <a href="#">Toutes les galeries →</a>
+  </div>
+  <div class="carousel-track">
+    <div class="carousel-item ci-1"><div class="img-placeholder">Street</div></div>
+    <div class="carousel-item ci-2"><div class="img-placeholder">Paysage</div></div>
+    <div class="carousel-item ci-3"><div class="img-placeholder">Portrait</div></div>
+    <div class="carousel-item ci-4"><div class="img-placeholder">Auto</div></div>
+    <div class="carousel-item ci-5"><div class="img-placeholder">Studio</div></div>
+    <div class="carousel-item ci-6"><div class="img-placeholder">Soirée</div></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>© 2025 Jean Dupont Photography</span>
+  <span>Tous droits réservés</span>
+</footer>
+
+<div class="mockup-badge">Maquette — non cliquable</div>
+
+</body>
+</html>
