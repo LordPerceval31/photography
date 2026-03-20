@@ -33,6 +33,7 @@ model Photo {
   description String?
   url         String
   createdAt   DateTime @default(now())
+  isCover     Boolean  @default(false)
 
   userId      String
   user        User     @relation(fields: [userId], references: [id])
