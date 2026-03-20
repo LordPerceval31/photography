@@ -13,85 +13,82 @@ const NavBar = () => {
   const textClasses =
     "font-semibold tracking-wide text-xs tablet:text-lg laptop:text-lg desktop:text-lg 2k:text-lg 4k:text-4xl ultrawide:text-4xl";
 
-  // 1. LES HAUTEURS
   const heightClasses =
     "h-12 tablet:h-16 laptop:h-12 desktop:h-14 2k:h-16 4k:h-24 ultrawide:h-24";
 
-  // 2. LES LARGEURS FERMÉES
   const widthClosed =
     "w-12 tablet:w-16 laptop:w-12 desktop:w-14 2k:w-16 4k:w-24 ultrawide:w-24";
 
-  // 3. LES LARGEURS OUVERTES
   const widthOpen =
     "w-[260px] tablet:w-[420px] laptop:w-[380px] desktop:w-[460px] 2k:w-[460px] 4k:w-[760px] ultrawide:w-[760px]";
 
-  // 4. LE GAP SUR MESURE
   const gapClasses =
     "gap-5 tablet:gap-8 laptop:gap-8 desktop:gap-12 2k:gap-12 4k:gap-14 ultrawide:gap-14";
 
   return (
     <nav>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center justify-center
-
-    /* TAILLE DU GLASSMORPHING */
-    ${heightClasses}
-    ${isOpen ? widthOpen : widthClosed}
-
-    /* EFFET VERRE ET BORDURES */
-    rounded-full
-    bg-cream/5 backdrop-blur-[3px]
-    border border-cream/30
-    shadow-[inset_0_0_0_2px_rgba(0,0,0,0.4),0_8px_32px_0_rgba(0,0,0,0.2)]
-    
-    text-cream transition-all duration-300 ease-in-out active:scale-95 overflow-hidden`}
+      {/* LE CONTENEUR PRINCIPAL N'EST PLUS UN BOUTON */}
+      <div
+        className={`relative flex items-center justify-center transition-all duration-300 ease-in-out overflow-hidden rounded-full
+          bg-cream/5 backdrop-blur-[3px] border border-cream/30
+          shadow-[inset_0_0_0_2px_rgba(0,0,0,0.4),0_8px_32px_0_rgba(0,0,0,0.2)]
+          text-cream
+          ${heightClasses}
+          ${isOpen ? widthOpen : widthClosed}`}
       >
-        {/* L'icône MENU (visible quand fermé) */}
-        <div
-          className={`cursor-pointer absolute flex items-center justify-center transition-all duration-300 ease-in-out ${
+        {/* BOUTON MENU : Visible seulement quand c'est fermé */}
+        <button
+          onClick={() => setIsOpen(true)}
+          className={`absolute flex items-center justify-center transition-all duration-300 ease-in-out active:scale-95 ${
             isOpen
               ? "opacity-0 scale-50 pointer-events-none"
-              : "opacity-100 scale-100 rotate-0"
+              : "opacity-100 scale-100"
           }`}
         >
           <Menu className={iconClasses} strokeWidth={1} />
-        </div>
+        </button>
 
-        {/* LES MOTS + LA CROIX (visibles quand ouvert) */}
+        {/* CONTENU OUVERT : Liens + Croix */}
         <div
-          className={`absolute flex items-center justify-center transition-all duration-300 ease-in-out w-full px-4 tablet:px-8
+          className={`flex items-center justify-center w-full px-4 tablet:px-8 transition-all duration-300 ease-in-out
           ${gapClasses} 
           ${isOpen ? "opacity-100 scale-100" : "opacity-0 scale-150 pointer-events-none"}`}
         >
+          {/* TES MOTS : Ils ferment la barre AU CLIC */}
           <Link
             href="/about"
-            className={`${textClasses} hover:text-cream transition-colors`}
+            onClick={() => setIsOpen(false)}
+            className={`${textClasses} hover:text-cream/70 transition-colors`}
           >
             About
           </Link>
           <Link
             href="/gallery"
-            className={`${textClasses} hover:text-cream transition-colors`}
+            onClick={() => setIsOpen(false)}
+            className={`${textClasses} hover:text-cream/70 transition-colors`}
           >
             Gallery
           </Link>
           <Link
             href="/contact"
-            className={`${textClasses} hover:text-cream transition-colors`}
+            onClick={() => setIsOpen(false)}
+            className={`${textClasses} hover:text-cream/70 transition-colors`}
           >
             Contact
           </Link>
 
-          {/* LA CROIX (strictement redimensionnée selon les écrans) */}
-          <span onClick={() => setIsOpen(false)}>
+          {/* LA CROIX : Elle ferme la barre AU CLIC */}
+          <button
+            onClick={() => setIsOpen(false)}
+            className="flex items-center justify-center active:scale-90"
+          >
             <X
               className="text-cream/60 hover:text-cream transition-colors cursor-pointer w-4 h-4 tablet:w-5 tablet:h-5 laptop:w-4 laptop:h-4 desktop:w-5 desktop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8 ultrawide:w-8 ultrawide:h-8"
               strokeWidth={2}
             />
-          </span>
+          </button>
         </div>
-      </button>
+      </div>
     </nav>
   );
 };

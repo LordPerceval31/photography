@@ -12,24 +12,25 @@
 
 ## Fichiers créés / modifiés
 
-| Fichier | Action | Rôle |
-|---------|--------|------|
-| `prisma/schema.prisma` | Modifier | Ajouter `isCover` sur `Photo` |
-| `app/lib/prisma.ts` | Créer | Singleton Prisma client |
-| `app/globals.css` | Modifier | Variables CSS + keyframes carousel |
-| `app/layout.tsx` | Modifier | Mettre à jour les métadonnées |
-| `app/page.tsx` | Modifier | Assemblage + ISR + fetch données |
-| `app/_components/Navbar.tsx` | Créer | Nav glassmorphism sticky (Client) |
-| `app/_components/HeroSection.tsx` | Créer | Hero plein écran glassmorphism |
-| `app/_components/AboutSection.tsx` | Créer | Image 2/3 + fondu + texte |
-| `app/_components/DarkSection.tsx` | Créer | Citations + 2 images chevauchées |
-| `app/_components/CarouselSection.tsx` | Créer | Carousel CSS auto-scroll |
+| Fichier                                 | Action   | Rôle                               |
+| --------------------------------------- | -------- | ---------------------------------- |
+| `prisma/schema.prisma`                  | Modifier | Ajouter `isCover` sur `Photo`      |
+| `app/lib/prisma.ts`                     | Créer    | Singleton Prisma client            |
+| `app/globals.css`                       | Modifier | Variables CSS + keyframes carousel |
+| `app/layout.tsx`                        | Modifier | Mettre à jour les métadonnées      |
+| `app/page.tsx`                          | Modifier | Assemblage + ISR + fetch données   |
+| `app/_components/Navbar.tsx`            | Créer    | Nav glassmorphism sticky (Client)  |
+| `app/_components/HeroSection.tsx`       | Créer    | Hero plein écran glassmorphism     |
+| `app/_components/LastGalleryection.tsx` | Créer    | Image 2/3 + fondu + texte          |
+| `app/_components/DarkSection.tsx`       | Créer    | Citations + 2 images chevauchées   |
+| `app/_components/CarouselSection.tsx`   | Créer    | Carousel CSS auto-scroll           |
 
 ---
 
 ## Task 0 : Configurer `next.config.ts` pour les images externes
 
 **Fichiers :**
+
 - Modifier : `next.config.ts`
 
 > À faire EN PREMIER. Sans cette configuration, `next/image` refusera toutes les URLs Cloudinary et Unsplash avec une erreur runtime bloquante.
@@ -37,24 +38,24 @@
 - [ ] **Étape 1 : Modifier `next.config.ts`**
 
 ```ts
-import type { NextConfig } from 'next'
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com', // images de production
+        protocol: "https",
+        hostname: "res.cloudinary.com", // images de production
       },
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com', // placeholders v1 uniquement
+        protocol: "https",
+        hostname: "images.unsplash.com", // placeholders v1 uniquement
       },
     ],
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;
 ```
 
 - [ ] **Étape 2 : Vérifier le build**
@@ -77,6 +78,7 @@ git commit -m "feat(config): allow Cloudinary and Unsplash image domains"
 ## Task 1 : Ajouter `isCover` au schema Prisma
 
 **Fichiers :**
+
 - Modifier : `prisma/schema.prisma`
 
 - [ ] **Étape 1 : Modifier le schema**
@@ -138,6 +140,7 @@ git commit -m "feat(db): add isCover field to Photo model"
 ## Task 2 : Créer le singleton Prisma client
 
 **Fichiers :**
+
 - Créer : `app/lib/prisma.ts`
 
 > Pourquoi un singleton ? En développement, Next.js recharge les modules à chaque changement. Sans singleton, chaque rechargement crée une nouvelle connexion à la base de données — tu dépasses rapidement la limite de connexions PostgreSQL.
@@ -145,18 +148,17 @@ git commit -m "feat(db): add isCover field to Photo model"
 - [ ] **Étape 1 : Créer `app/lib/prisma.ts`**
 
 ```ts
-import { PrismaClient } from '../generated/prisma'
+import { PrismaClient } from "../generated/prisma";
 
 // Variable globale pour éviter plusieurs instances en développement
 const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
-}
+  prisma: PrismaClient | undefined;
+};
 
-export const prisma =
-  globalForPrisma.prisma ?? new PrismaClient()
+export const prisma = globalForPrisma.prisma ?? new PrismaClient();
 
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = prisma
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
 }
 ```
 
@@ -180,6 +182,7 @@ git commit -m "feat(lib): add Prisma client singleton"
 ## Task 3 : Variables CSS et keyframes carousel
 
 **Fichiers :**
+
 - Modifier : `app/globals.css`
 
 - [ ] **Étape 1 : Mettre à jour `app/globals.css`**
@@ -242,6 +245,7 @@ git commit -m "feat(styles): add CSS variables and carousel keyframes"
 ## Task 4 : Navbar glassmorphism
 
 **Fichiers :**
+
 - Créer : `app/_components/Navbar.tsx`
 
 > C'est le seul composant avec `"use client"` car il doit détecter le scroll pour changer d'apparence (transparente sur le hero, opaque sur le reste).
@@ -249,23 +253,23 @@ git commit -m "feat(styles): add CSS variables and carousel keyframes"
 - [ ] **Étape 1 : Créer `app/_components/Navbar.tsx`**
 
 ```tsx
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       // Devient opaque après 80px de scroll
-      setScrolled(window.scrollY > 80)
-    }
+      setScrolled(window.scrollY > 80);
+    };
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header
@@ -274,9 +278,10 @@ export default function Navbar() {
         flex items-center justify-between
         px-8 py-5
         border-b transition-all duration-300
-        ${scrolled
-          ? 'bg-white/90 backdrop-blur-md border-black/10 shadow-sm'
-          : 'bg-white/5 backdrop-blur-xl border-white/10'
+        ${
+          scrolled
+            ? "bg-white/90 backdrop-blur-md border-black/10 shadow-sm"
+            : "bg-white/5 backdrop-blur-xl border-white/10"
         }
       `}
     >
@@ -285,7 +290,7 @@ export default function Navbar() {
         href="/"
         className={`
           text-sm font-bold tracking-[0.2em] uppercase
-          ${scrolled ? 'text-[var(--color-text)]' : 'text-white'}
+          ${scrolled ? "text-[var(--color-text)]" : "text-white"}
         `}
       >
         Jean Dupont
@@ -294,18 +299,19 @@ export default function Navbar() {
       {/* Navigation */}
       <nav className="flex items-center gap-8">
         {[
-          { label: 'Galeries', href: '/galeries' },
-          { label: 'À propos', href: '/about' },
-          { label: 'Contact', href: '/contact' },
+          { label: "Galeries", href: "/galeries" },
+          { label: "À propos", href: "/about" },
+          { label: "Contact", href: "/contact" },
         ].map(({ label, href }) => (
           <Link
             key={href}
             href={href}
             className={`
               text-xs tracking-[0.12em] uppercase transition-opacity hover:opacity-100
-              ${scrolled
-                ? 'text-[var(--color-text)] opacity-70'
-                : 'text-white/70'
+              ${
+                scrolled
+                  ? "text-[var(--color-text)] opacity-70"
+                  : "text-white/70"
               }
             `}
           >
@@ -314,7 +320,7 @@ export default function Navbar() {
         ))}
       </nav>
     </header>
-  )
+  );
 }
 ```
 
@@ -338,6 +344,7 @@ git commit -m "feat(ui): add glassmorphism sticky navbar"
 ## Task 5 : HeroSection
 
 **Fichiers :**
+
 - Créer : `app/_components/HeroSection.tsx`
 
 > Server Component pur. L'image de fond et le contenu sont passés en props depuis `page.tsx`.
@@ -345,21 +352,21 @@ git commit -m "feat(ui): add glassmorphism sticky navbar"
 - [ ] **Étape 1 : Créer `app/_components/HeroSection.tsx`**
 
 ```tsx
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
 
 type HeroSectionProps = {
-  imageUrl: string
+  imageUrl: string;
   // Textes configurables
-  eyebrow?: string
-  title: string
-  titleAccent: string
-  subtitle?: string
-}
+  eyebrow?: string;
+  title: string;
+  titleAccent: string;
+  subtitle?: string;
+};
 
 export default function HeroSection({
   imageUrl,
-  eyebrow = 'Photographe — Paris',
+  eyebrow = "Photographe — Paris",
   title,
   titleAccent,
   subtitle,
@@ -388,9 +395,9 @@ export default function HeroSection({
             border border-white/15
           "
           style={{
-            background: 'rgba(255, 255, 255, 0.07)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)', /* Safari */
+            background: "rgba(255, 255, 255, 0.07)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)" /* Safari */,
           }}
         >
           {/* Eyebrow */}
@@ -435,7 +442,7 @@ export default function HeroSection({
         <span className="text-white/35 animate-bounce text-lg">↓</span>
       </div>
     </section>
-  )
+  );
 }
 ```
 
@@ -457,25 +464,26 @@ git commit -m "feat(ui): add hero section with glassmorphism card"
 ## Task 6 : AboutSection (image 2/3 + texte)
 
 **Fichiers :**
+
 - Créer : `app/_components/AboutSection.tsx`
 
 - [ ] **Étape 1 : Créer `app/_components/AboutSection.tsx`**
 
 ```tsx
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
 
 type AboutSectionProps = {
-  imageUrl: string
-  tag?: string
-  title: string
-  titleItalic: string
-  body: string
-}
+  imageUrl: string;
+  tag?: string;
+  title: string;
+  titleItalic: string;
+  body: string;
+};
 
 export default function AboutSection({
   imageUrl,
-  tag = 'À propos',
+  tag = "À propos",
   title,
   titleItalic,
   body,
@@ -483,7 +491,7 @@ export default function AboutSection({
   return (
     <section
       className="relative grid grid-cols-[2fr_1fr] min-h-[85vh] overflow-hidden"
-      style={{ background: 'var(--color-cream)' }}
+      style={{ background: "var(--color-cream)" }}
     >
       {/* Colonne gauche : image 2/3 de la largeur */}
       <div className="relative">
@@ -499,7 +507,7 @@ export default function AboutSection({
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(to right, transparent 0%, transparent 50%, var(--color-cream) 85%, var(--color-cream) 100%)',
+              "linear-gradient(to right, transparent 0%, transparent 50%, var(--color-cream) 85%, var(--color-cream) 100%)",
           }}
         />
       </div>
@@ -507,12 +515,12 @@ export default function AboutSection({
       {/* Colonne droite : texte 1/3 */}
       <div
         className="flex flex-col justify-center px-12 py-16"
-        style={{ background: 'var(--color-cream)' }}
+        style={{ background: "var(--color-cream)" }}
       >
         {/* Tag */}
         <p
           className="text-[10px] tracking-[0.2em] uppercase mb-5"
-          style={{ color: 'var(--color-accent)' }}
+          style={{ color: "var(--color-accent)" }}
         >
           {tag}
         </p>
@@ -520,13 +528,13 @@ export default function AboutSection({
         {/* Titre */}
         <h2
           className="text-4xl font-light leading-snug tracking-tight mb-5"
-          style={{ color: 'var(--color-text)' }}
+          style={{ color: "var(--color-text)" }}
         >
           {title}
           <br />
           <em
             className="not-italic font-normal"
-            style={{ color: 'var(--color-accent-light)' }}
+            style={{ color: "var(--color-accent-light)" }}
           >
             {titleItalic}
           </em>
@@ -535,7 +543,7 @@ export default function AboutSection({
         {/* Corps */}
         <p
           className="text-[15px] leading-[1.8] mb-8"
-          style={{ color: 'var(--color-text-muted)' }}
+          style={{ color: "var(--color-text-muted)" }}
         >
           {body}
         </p>
@@ -549,13 +557,13 @@ export default function AboutSection({
             text-xs font-semibold tracking-[0.1em] uppercase
             transition-opacity hover:opacity-60
           "
-          style={{ color: 'var(--color-text)' }}
+          style={{ color: "var(--color-text)" }}
         >
           Découvrir les galeries
         </Link>
       </div>
     </section>
-  )
+  );
 }
 ```
 
@@ -577,40 +585,43 @@ git commit -m "feat(ui): add about section with 2/3 immersive image"
 ## Task 7 : DarkSection (citations + 2 images chevauchées)
 
 **Fichiers :**
+
 - Créer : `app/_components/DarkSection.tsx`
 
 - [ ] **Étape 1 : Créer `app/_components/DarkSection.tsx`**
 
 ```tsx
-import Image from 'next/image'
+import Image from "next/image";
 
 type Quote = {
-  text: string
-  author: string
-}
+  text: string;
+  author: string;
+};
 
 type DarkSectionProps = {
-  quotes: [Quote, Quote] // exactement 2 citations
-  images: [string, string] // exactement 2 URLs d'images
-}
+  quotes: [Quote, Quote]; // exactement 2 citations
+  images: [string, string]; // exactement 2 URLs d'images
+};
 
 export default function DarkSection({ quotes, images }: DarkSectionProps) {
   return (
     <section
       className="grid grid-cols-2 items-center gap-20 px-20 py-24 min-h-[70vh]"
-      style={{ background: 'var(--color-dark)' }}
+      style={{ background: "var(--color-dark)" }}
     >
       {/* Colonne gauche : citations */}
       <div>
         {quotes.map((quote, index) => (
           <div
             key={index}
-            className={index === 1 ? 'mt-12 pt-10 border-t border-white/10' : ''}
+            className={
+              index === 1 ? "mt-12 pt-10 border-t border-white/10" : ""
+            }
           >
             {/* Grand guillemet décoratif */}
             <div
               className="text-[72px] leading-none font-serif mb-2"
-              style={{ color: 'rgba(255,255,255,0.08)' }}
+              style={{ color: "rgba(255,255,255,0.08)" }}
               aria-hidden="true"
             >
               "
@@ -619,7 +630,7 @@ export default function DarkSection({ quotes, images }: DarkSectionProps) {
             {/* Citation */}
             <blockquote
               className="text-2xl font-light italic leading-relaxed mb-4"
-              style={{ color: 'rgba(255,255,255,0.88)' }}
+              style={{ color: "rgba(255,255,255,0.88)" }}
             >
               {quote.text}
             </blockquote>
@@ -627,7 +638,7 @@ export default function DarkSection({ quotes, images }: DarkSectionProps) {
             {/* Auteur */}
             <cite
               className="not-italic text-[11px] tracking-[0.18em] uppercase"
-              style={{ color: 'rgba(255,255,255,0.3)' }}
+              style={{ color: "rgba(255,255,255,0.3)" }}
             >
               — {quote.author}
             </cite>
@@ -660,7 +671,7 @@ export default function DarkSection({ quotes, images }: DarkSectionProps) {
         </div>
       </div>
     </section>
-  )
+  );
 }
 ```
 
@@ -682,6 +693,7 @@ git commit -m "feat(ui): add dark section with quotes and overlapping images"
 ## Task 8 : CarouselSection (CSS auto-scroll)
 
 **Fichiers :**
+
 - Créer : `app/_components/CarouselSection.tsx`
 
 > Le carousel duplique la liste d'images pour créer une boucle infinie sans JS. Le keyframe anime `-50%` (donc la moitié de la piste dupliquée). Les largeurs varient selon le ratio de chaque image (portrait vs paysage).
@@ -689,49 +701,52 @@ git commit -m "feat(ui): add dark section with quotes and overlapping images"
 - [ ] **Étape 1 : Créer `app/_components/CarouselSection.tsx`**
 
 ```tsx
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
 
 type CarouselPhoto = {
-  id: string
-  url: string
-  title: string
+  id: string;
+  url: string;
+  title: string;
   // Ratio de l'image pour calculer la largeur dans le carousel
-  aspectRatio?: 'portrait' | 'landscape' | 'square'
-}
+  aspectRatio?: "portrait" | "landscape" | "square";
+};
 
 type CarouselSectionProps = {
-  photos: CarouselPhoto[]
-}
+  photos: CarouselPhoto[];
+};
 
 // Largeurs en pixels selon le ratio
 const WIDTHS: Record<string, number> = {
   portrait: 220,
   landscape: 360,
   square: 280,
-}
+};
 
 export default function CarouselSection({ photos }: CarouselSectionProps) {
   // On duplique les photos pour la boucle infinie
-  const doubled = [...photos, ...photos]
+  const doubled = [...photos, ...photos];
 
   return (
     <section
       className="py-20 overflow-hidden"
-      style={{ background: 'var(--color-cream-alt)' }}
+      style={{ background: "var(--color-cream-alt)" }}
     >
       {/* Header */}
       <div className="flex items-end justify-between px-20 mb-10">
         <h2
           className="text-3xl font-light tracking-tight"
-          style={{ color: 'var(--color-text)' }}
+          style={{ color: "var(--color-text)" }}
         >
           Dernières images
         </h2>
         <Link
           href="/galeries"
           className="text-xs tracking-[0.12em] uppercase pb-0.5 border-b transition-opacity hover:opacity-60"
-          style={{ color: 'var(--color-accent)', borderColor: 'var(--color-accent)' }}
+          style={{
+            color: "var(--color-accent)",
+            borderColor: "var(--color-accent)",
+          }}
         >
           Toutes les galeries →
         </Link>
@@ -742,14 +757,14 @@ export default function CarouselSection({ photos }: CarouselSectionProps) {
       <div className="carousel-wrapper overflow-hidden">
         <div className="carousel-track flex gap-4">
           {doubled.map((photo, index) => {
-            const ratio = photo.aspectRatio ?? 'landscape'
-            const width = WIDTHS[ratio]
+            const ratio = photo.aspectRatio ?? "landscape";
+            const width = WIDTHS[ratio];
 
             return (
               <div
                 key={`${photo.id}-${index}`}
                 className="flex-shrink-0 rounded-xl overflow-hidden"
-                style={{ width: `${width}px`, height: '360px' }}
+                style={{ width: `${width}px`, height: "360px" }}
               >
                 <Image
                   src={photo.url}
@@ -758,15 +773,15 @@ export default function CarouselSection({ photos }: CarouselSectionProps) {
                   height={360}
                   className="w-full h-full object-cover"
                   // Les images dupliquées ne sont pas prioritaires
-                  loading={index < photos.length ? 'eager' : 'lazy'}
+                  loading={index < photos.length ? "eager" : "lazy"}
                 />
               </div>
-            )
+            );
           })}
         </div>
       </div>
     </section>
-  )
+  );
 }
 ```
 
@@ -788,6 +803,7 @@ git commit -m "feat(ui): add auto-scroll carousel with variable widths"
 ## Task 9 : Assembler `page.tsx` avec ISR
 
 **Fichiers :**
+
 - Modifier : `app/page.tsx`
 
 > Pour la v1, on utilise des images hardcodées (URLs Cloudinary ou placeholders). Les requêtes Prisma sont commentées mais présentes, prêtes à être activées quand le back-office existe.
@@ -795,37 +811,74 @@ git commit -m "feat(ui): add auto-scroll carousel with variable widths"
 - [ ] **Étape 1 : Remplacer `app/page.tsx`**
 
 ```tsx
-import Navbar from './_components/Navbar'
-import HeroSection from './_components/HeroSection'
-import AboutSection from './_components/AboutSection'
-import DarkSection from './_components/DarkSection'
-import CarouselSection from './_components/CarouselSection'
+import Navbar from "./_components/Navbar";
+import HeroSection from "./_components/HeroSection";
+import AboutSection from "./_components/AboutSection";
+import DarkSection from "./_components/DarkSection";
+import CarouselSection from "./_components/CarouselSection";
 
 // ISR : regénère la page toutes les heures
-export const revalidate = 3600
+export const revalidate = 3600;
 
 // ── Données v1 : hardcodées en attendant le back-office ──────────────────────
 // Remplacer les URLs par de vraies photos Cloudinary quand disponibles.
 // Format Cloudinary : https://res.cloudinary.com/<cloud_name>/image/upload/<public_id>
 
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1920&q=80'
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1920&q=80";
 
-const ABOUT_IMAGE = 'https://images.unsplash.com/photo-1554080353-a576cf803bda?w=1200&q=80'
+const ABOUT_IMAGE =
+  "https://images.unsplash.com/photo-1554080353-a576cf803bda?w=1200&q=80";
 
 const DARK_IMAGES: [string, string] = [
-  'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80',
-  'https://images.unsplash.com/photo-1495121553079-4c61bcce1894?w=800&q=80',
-]
+  "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80",
+  "https://images.unsplash.com/photo-1495121553079-4c61bcce1894?w=800&q=80",
+];
 
 const CAROUSEL_PHOTOS = [
-  { id: '1', url: 'https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=800&q=80', title: 'Street', aspectRatio: 'landscape' as const },
-  { id: '2', url: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80', title: 'Paysage', aspectRatio: 'portrait' as const },
-  { id: '3', url: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=700&q=80', title: 'Portrait', aspectRatio: 'square' as const },
-  { id: '4', url: 'https://images.unsplash.com/photo-1493863641943-9b68992a8d07?w=900&q=80', title: 'Auto', aspectRatio: 'landscape' as const },
-  { id: '5', url: 'https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=600&q=80', title: 'Studio', aspectRatio: 'portrait' as const },
-  { id: '6', url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80', title: 'Soirée', aspectRatio: 'landscape' as const },
-  { id: '7', url: 'https://images.unsplash.com/photo-1504703395950-b89145a5425b?w=700&q=80', title: 'Street 2', aspectRatio: 'square' as const },
-]
+  {
+    id: "1",
+    url: "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=800&q=80",
+    title: "Street",
+    aspectRatio: "landscape" as const,
+  },
+  {
+    id: "2",
+    url: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80",
+    title: "Paysage",
+    aspectRatio: "portrait" as const,
+  },
+  {
+    id: "3",
+    url: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=700&q=80",
+    title: "Portrait",
+    aspectRatio: "square" as const,
+  },
+  {
+    id: "4",
+    url: "https://images.unsplash.com/photo-1493863641943-9b68992a8d07?w=900&q=80",
+    title: "Auto",
+    aspectRatio: "landscape" as const,
+  },
+  {
+    id: "5",
+    url: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=600&q=80",
+    title: "Studio",
+    aspectRatio: "portrait" as const,
+  },
+  {
+    id: "6",
+    url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80",
+    title: "Soirée",
+    aspectRatio: "landscape" as const,
+  },
+  {
+    id: "7",
+    url: "https://images.unsplash.com/photo-1504703395950-b89145a5425b?w=700&q=80",
+    title: "Street 2",
+    aspectRatio: "square" as const,
+  },
+];
 
 // ── Requêtes Prisma (à activer quand le back-office existe) ───────────────────
 // import { prisma } from './lib/prisma'
@@ -865,12 +918,12 @@ export default function HomePage() {
       <DarkSection
         quotes={[
           {
-            text: 'La photographie, c\'est une façon de crier, de se libérer.',
-            author: 'Henri Cartier-Bresson',
+            text: "La photographie, c'est une façon de crier, de se libérer.",
+            author: "Henri Cartier-Bresson",
           },
           {
-            text: 'Vos premiers 10 000 photos sont les pires.',
-            author: 'Henri Cartier-Bresson',
+            text: "Vos premiers 10 000 photos sont les pires.",
+            author: "Henri Cartier-Bresson",
           },
         ]}
         images={DARK_IMAGES}
@@ -878,7 +931,7 @@ export default function HomePage() {
 
       <CarouselSection photos={CAROUSEL_PHOTOS} />
     </main>
-  )
+  );
 }
 ```
 
@@ -895,6 +948,7 @@ npm run dev
 ```
 
 Ouvrir http://localhost:3000 et vérifier :
+
 - [ ] La nav est visible et glassmorphism sur le hero
 - [ ] Le hero occupe 100vh avec la carte centrée
 - [ ] La section About a l'image à gauche (2/3) avec fondu
@@ -921,6 +975,7 @@ git commit -m "feat(page): assemble homepage with ISR and placeholder images"
 ## Task 10 : Mettre à jour les métadonnées dans `layout.tsx`
 
 **Fichiers :**
+
 - Modifier : `app/layout.tsx`
 
 - [ ] **Étape 1 : Modifier les métadonnées**
@@ -929,10 +984,10 @@ Dans `app/layout.tsx`, remplacer le bloc `metadata` :
 
 ```tsx
 export const metadata: Metadata = {
-  title: 'Jean Dupont — Photographe',
+  title: "Jean Dupont — Photographe",
   description:
-    'Site vitrine de Jean Dupont, photographe amateur passionné de street, paysages, portrait et salons auto.',
-}
+    "Site vitrine de Jean Dupont, photographe amateur passionné de street, paysages, portrait et salons auto.",
+};
 ```
 
 - [ ] **Étape 2 : Vérifier le build final**
@@ -962,4 +1017,3 @@ Avant de considérer ce plan terminé :
 - [ ] Le carousel défile automatiquement et se pause au hover
 - [ ] Les 2 images de la section sombre se chevauchent visuellement
 - [ ] L'image de la section About occupe bien 2/3 de la largeur avec le fondu
-

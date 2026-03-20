@@ -1,4 +1,5 @@
 import HeroSection from "./_components/HeroSection";
+import LastGalleryection from "./_components/LastGalleryection";
 import NavBar from "./_components/navBar";
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
         <NavBar />
       </div>
       <HeroSection />
+      <LastGalleryection />
     </main>
   );
 };

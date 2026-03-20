@@ -47,6 +47,7 @@ model Photo {
 model Gallery {
   id        String   @id @default(cuid())
   name      String
+  description String @default("")
   token     String   @unique @default(cuid())
   createdAt DateTime @default(now())
 
@@ -59,6 +60,7 @@ model Gallery {
 model GalleryPhoto {
   galleryId String
   gallery   Gallery @relation(fields: [galleryId], references: [id])
+  isGalleryCover Boolean @default(false) 
 
   photoId   String
   photo     Photo   @relation(fields: [photoId], references: [id])

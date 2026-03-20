@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 import prisma from "../lib/prisma";
 
 const HeroSection = async () => {
@@ -73,7 +73,7 @@ const HeroSection = async () => {
           Capturer l&apos;instant, raconter une histoire.
         </p>
 
-        {/* 4. Bouton */}
+        {/* 4. Bouton
         <Link
           href="/galleries"
           className="font-semibold tracking-wider uppercase transition-all duration-300 rounded-full text-dark bg-cream hover:bg-blue hover:text-cream 
@@ -86,7 +86,7 @@ const HeroSection = async () => {
     4k:px-24 4k:py-12 4k:text-4xl"
         >
           Explorer les galeries
-        </Link>
+        </Link> */}
         <div className="absolute bottom-4 2k:bottom-4 4k:bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
           <p className="text-cream text-xs uppercase tracking-[0.3em] font-thin 2k:text-lg 4k:text-2xl">
             Défiler
