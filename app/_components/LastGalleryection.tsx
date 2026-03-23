@@ -24,7 +24,10 @@ const LastGalleryection = async () => {
 
   if (!coverPhoto) {
     return (
-      <div className="w-full min-h-[90vh] bg-zinc-900 flex items-center justify-center text-zinc-500">
+      <div
+        data-theme="light"
+        className="w-full min-h-[90vh] bg-zinc-900 flex items-center justify-center text-zinc-500"
+      >
         <p>Aucune galerie ou image de couverture disponible.</p>
       </div>
     );
@@ -37,6 +40,7 @@ const LastGalleryection = async () => {
     >
       {/* LE CADRE DE L'IMAGE */}
       <div
+        data-theme="light"
         className="relative w-full max-w-md tablet:max-w-lg laptop:max-w-[65vw] ultrawide:max-w-[50vw] ultrawide:ml-[15vw] 4k:ml-[10vw]
                    aspect-4/5 laptop:aspect-auto laptop:h-[70vh] 
                    overflow-hidden shrink-0"

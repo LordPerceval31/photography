@@ -1,3 +1,4 @@
+import CarouselWrapper from "./_components/CarouselWrapper";
 import DarkSection from "./_components/DarkSection";
 import HeroSection from "./_components/HeroSection";
 import LastGalleryection from "./_components/LastGalleryection";
@@ -16,6 +17,7 @@ const Home = () => {
       <HeroSection />
       <LastGalleryection />
       <DarkSection />
+      <CarouselWrapper />
     </main>
   );
 };

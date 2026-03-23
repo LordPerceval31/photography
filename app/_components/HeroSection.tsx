@@ -11,7 +11,7 @@ const HeroSection = async () => {
 
   if (!coverPhoto) {
     return (
-      <div className="relative w-full h-screen bg-zinc-900">
+      <div data-theme="dark" className="relative w-full h-screen bg-zinc-900">
         <Image
           src="/abstraitDark.webp"
           alt="Image de couverture par défaut"
@@ -24,7 +24,7 @@ const HeroSection = async () => {
   }
 
   return (
-    <div className="relative w-full h-screen bg-zinc-900">
+    <div data-theme="dark" className="relative w-full h-screen bg-zinc-900">
       {/* 1. L'image de fond */}
       <Image
         src={coverPhoto.url}
