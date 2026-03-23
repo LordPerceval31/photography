@@ -26,7 +26,7 @@ const LastGalleryection = async () => {
     return (
       <div
         data-theme="light"
-        className="w-full min-h-[90vh] bg-zinc-900 flex items-center justify-center text-zinc-500"
+        className="w-full min-h-[90vh] bg-dark flex items-center justify-center text-zinc-500"
       >
         <p>Aucune galerie ou image de couverture disponible.</p>
       </div>
