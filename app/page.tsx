@@ -1,3 +1,4 @@
+import DarkSection from "./_components/DarkSection";
 import HeroSection from "./_components/HeroSection";
 import LastGalleryection from "./_components/LastGalleryection";
 import NavBar from "./_components/navBar";
@@ -14,6 +15,7 @@ const Home = () => {
       </div>
       <HeroSection />
       <LastGalleryection />
+      <DarkSection />
     </main>
   );
 };
