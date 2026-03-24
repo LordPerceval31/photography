@@ -11,13 +11,13 @@ const DarkSection = () => {
       <div className="order-2 laptop:order-1 w-full h-1/2 laptop:w-1/2 laptop:h-full flex flex-col justify-center items-center p-8 laptop:p-12 z-10">
         <div className="w-full max-w-lg 4k:max-w-4xl text-xl 2k:text-3xl ultrawide:text-4xl 4k:text-5xl text-cream">
           {/* 1. LA CITATION */}
-          <p className="italic font-medium leading-relaxed">
+          <p className="italic font-medium leading-relaxed cursor-default">
             &quot; Photographier, c&apos;est mettre sur la même ligne de mire la
             tête, l&apos;œil et le cœur. &quot;
           </p>
 
           {/* 2. L'AUTEUR */}
-          <p className="text-right text-[0.8em] text-gray-600 mt-4 4k:mt-8 font-semibold">
+          <p className="text-right text-[0.8em] text-gray-600 mt-4 4k:mt-8 font-semibold cursor-default">
             — Henri Cartier-Bresson
           </p>
         </div>

@@ -87,7 +87,7 @@ const HeroSection = async () => {
           Explorer les galeries
         </Link>
         <div className="absolute bottom-4 2k:bottom-4 4k:bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
-          <p className="text-cream text-xs uppercase tracking-[0.3em] font-thin 2k:text-lg 4k:text-2xl">
+          <p className="text-cream text-xs uppercase tracking-[0.3em] font-thin 2k:text-lg 4k:text-2xl cursor-default">
             Défiler
           </p>
 

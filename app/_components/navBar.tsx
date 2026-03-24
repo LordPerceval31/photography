@@ -47,7 +47,7 @@ const NavBar = () => {
     "w-12 tablet:w-16 laptop:w-12 desktop:w-14 2k:w-16 4k:w-24 ultrawide:w-24";
 
   const widthOpen =
-    "w-[260px] tablet:w-[420px] laptop:w-[380px] desktop:w-[460px] 2k:w-[460px] 4k:w-[760px] ultrawide:w-[760px]";
+    "w-[320px] tablet:w-[480px] laptop:w-[470px] desktop:w-[550px] 2k:w-[560px] 4k:w-[900px] ultrawide:w-[860px]";
 
   const gapClasses =
     "gap-5 tablet:gap-8 laptop:gap-8 desktop:gap-12 2k:gap-12 4k:gap-14 ultrawide:gap-14";
@@ -68,9 +68,6 @@ const NavBar = () => {
       : "shadow-[0_8px_32px_0_rgba(0,0,0,0.1)]";
 
   return (
-    // ICI : J'avais écrasé ton <nav> simple par un nav fixed. Je te le remets comme avant si c'est ce que tu gérais ailleurs,
-    // MAIS, si ta nav n'est pas "fixed" ou "sticky", elle va disparaître au scroll.
-    // Je pars du principe que c'est le layout qui gère son positionnement global.
     <nav>
       <div
         className={`relative flex items-center justify-center transition-all duration-300 ease-in-out overflow-hidden rounded-full
@@ -95,6 +92,13 @@ const NavBar = () => {
           ${gapClasses} 
           ${isOpen ? "opacity-100 scale-100" : "opacity-0 scale-150 pointer-events-none"}`}
         >
+          <Link
+            href="/"
+            onClick={() => setIsOpen(false)}
+            className={`${textClasses} ${iconHover} transition-colors`}
+          >
+            Home
+          </Link>
           <Link
             href="/about"
             onClick={() => setIsOpen(false)}
@@ -121,7 +125,6 @@ const NavBar = () => {
             onClick={() => setIsOpen(false)}
             className="flex items-center justify-center active:scale-90"
           >
-            {/* J'ai remis tes tailles responsives exactes pour l'icone X */}
             <X
               className={`${closeIconColor} transition-colors cursor-pointer w-4 h-4 tablet:w-5 tablet:h-5 laptop:w-4 laptop:h-4 desktop:w-5 desktop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8 ultrawide:w-8 ultrawide:h-8`}
               strokeWidth={2}

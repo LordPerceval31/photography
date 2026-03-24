@@ -65,13 +65,13 @@ const LastGalleryection = async () => {
       <div className="flex flex-col items-center laptop:items-start text-center laptop:text-left flex-1 max-w-xl z-10 gap-6">
         {/* Titre Manuscrit */}
         <h2
-          className={`${caveat.className} text-6xl tablet:text-7xl laptop:text-6xl desktop:text-8xl 4k:text-9xl text-dark leading-tight`}
+          className={`${caveat.className} text-6xl tablet:text-7xl laptop:text-6xl desktop:text-8xl 4k:text-9xl text-dark leading-tight cursor-default`}
         >
           {latestGallery?.name || "Nouvelle Collection"}
         </h2>
 
         {/* Description de la galerie */}
-        <p className="text-zinc-600 text-lg tablet:text-xl 2k:text-2xl 4k:text-4xl font-light">
+        <p className="text-zinc-600 text-lg tablet:text-xl 2k:text-2xl 4k:text-4xl font-light cursor-default">
           {latestGallery?.description}
         </p>
 
