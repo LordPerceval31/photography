@@ -34,7 +34,7 @@ const BioSection = async () => {
       {/* 2. LA BOÎTE DU TEXTE : Elle prend l'autre 50% de la largeur */}
       <div className="w-full laptop:w-1/2 flex justify-center laptop:justify-start laptop:pl-12 mt-12 laptop:mt-0">
         {/* Tu contrôles ici l'espacement intérieur, le texte s'adaptera sans déborder */}
-        <div className="w-full max-w-2xl 2k:max-w-4xl ultrawide:max-w-7xl text-dark">
+        <div className="w-full max-w-2xl 2k:max-w-4xl ultrawide:max-w-7xl text-dark 4k:ml-30">
           <h2
             className={`${caveat.className} text-5xl tablet:text-6xl desktop:text-7xl 2k:text-8xl ultrawide:text-8xl 4k:text-9xl font-bold mb-6`}
           >

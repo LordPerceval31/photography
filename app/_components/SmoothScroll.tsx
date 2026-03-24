@@ -2,11 +2,7 @@
 import { ReactLenis, useLenis } from "lenis/react";
 import { useEffect, useRef } from "react";
 
-export default function SmoothScroll({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   const lenis = useLenis();
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -65,4 +61,5 @@ export default function SmoothScroll({
       {children}
     </ReactLenis>
   );
-}
+};
+export default SmoothScroll;

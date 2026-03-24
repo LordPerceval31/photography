@@ -3,12 +3,25 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState("dark");
 
+  const pathname = usePathname();
+  // On stocke le pathname précédent pour le comparer pendant le rendu
+  const [prevPathname, setPrevPathname] = useState(pathname);
+
+  // Technique recommandée par React : on met à jour l'état directement pendant le rendu
+  // si on détecte que la route a changé. Cela évite le rendu en cascade d'un useEffect.
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setIsOpen(false);
+  }
+
   useEffect(() => {
+    // 1. On crée l'observateur
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -20,20 +33,22 @@ const NavBar = () => {
           }
         });
       },
-      {
-        rootMargin: "-10% 0px -90% 0px",
-      },
+      { rootMargin: "-10% 0px -90% 0px" },
     );
 
-    const sections = document.querySelectorAll("[data-theme]");
-    sections.forEach((section) => observer.observe(section));
+    // 2. On cible les sections de la NOUVELLE page
+    // Le setTimeout permet d'attendre que le DOM de Next.js soit prêt
+    const timer = setTimeout(() => {
+      const sections = document.querySelectorAll("[data-theme]");
+      sections.forEach((section) => observer.observe(section));
+    }, 100);
 
     return () => {
-      sections.forEach((section) => observer.unobserve(section));
+      clearTimeout(timer);
+      observer.disconnect(); // Nettoyage propre
     };
-  }, []);
+  }, [pathname]); // Relance l'observation à chaque changement de page
 
-  // TES CLASSES RESPONSIVES INTACTES
   const iconClasses =
     "w-7 h-7 tablet:w-10 tablet:h-10 laptop:w-7 laptop:h-7 desktop:w-8 desktop:h-8 2k:w-10 2k:h-10 4k:w-16 4k:h-16 ultrawide:w-16 ultrawide:h-16";
 

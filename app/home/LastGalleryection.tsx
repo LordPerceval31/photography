@@ -35,12 +35,12 @@ const LastGalleryection = async () => {
 
   return (
     <section
+      data-theme="light"
       className="w-full min-h-[90vh] bg-cream p-6 tablet:p-12 laptop:p-16 
                  flex flex-col laptop:flex-row items-center justify-center laptop:justify-start gap-8 laptop:gap-12"
     >
       {/* LE CADRE DE L'IMAGE */}
       <div
-        data-theme="light"
         className="relative w-full max-w-md tablet:max-w-lg laptop:max-w-[65vw] ultrawide:max-w-[50vw] ultrawide:ml-[15vw] 4k:ml-[10vw]
                    aspect-4/5 laptop:aspect-auto laptop:h-[70vh] 
                    overflow-hidden shrink-0"

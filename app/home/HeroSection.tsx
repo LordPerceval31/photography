@@ -75,7 +75,7 @@ const HeroSection = async () => {
 
         <Link
           href="/galleries"
-          className="font-semibold tracking-wider uppercase transition-all duration-300 rounded-full text-dark bg-cream hover:bg-blue hover:text-cream 
+          className="font-semibold tracking-wider uppercase transition-all duration-300 rounded-full text-dark bg-cream hover:bg-dark hover:text-cream 
     px-8 py-4 text-sm 
     tablet:mt-4 tablet:px-10 tablet:py-5 tablet:text-lg 
     laptop:px-10 laptop:py-4 laptop:text-lg

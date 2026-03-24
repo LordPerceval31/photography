@@ -29,18 +29,19 @@ model Category {
 
 model Photo {
   id          String   @id @default(cuid())
-  title       String
+  title       String?
   description String?
   url         String
   createdAt   DateTime @default(now())
   isCover     Boolean  @default(false)
   isPortrait  Boolean  @default(false)
+  isAboutPicture Boolean @default(false)
 
   userId      String
   user        User     @relation(fields: [userId], references: [id])
 
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
 
   galleries   GalleryPhoto[]
 }
