@@ -1,7 +1,7 @@
 import CarouselWrapper from "./home/CarouselWrapper";
 import DarkSection from "./home/DarkSection";
 import HeroSection from "./home/HeroSection";
-import LastGalleryWrapper from "./home/LastGalleryWrapper";
+import LastGalleryWrapper from "./home/PremiumGalleryWrapper";
 
 const Home = () => {
   return (

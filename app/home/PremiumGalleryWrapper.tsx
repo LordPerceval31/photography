@@ -1,10 +1,12 @@
 import prisma from "../lib/prisma";
 import { Item } from "../lib/types";
-import LastGallerySection from "./LastGallerySection";
+import PremiumGallerySection from "./PremiumGallerySection";
 
-const LastGalleryWrapper = async () => {
-  const latestGallery = await prisma.gallery.findFirst({
-    orderBy: { createdAt: "desc" },
+const PremiumGalleryWrapper = async () => {
+  const premiumGallery = await prisma.gallery.findFirst({
+    where: {
+      isPremium: true,
+    },
     include: {
       photos: {
         include: { photo: true },
@@ -12,9 +14,11 @@ const LastGalleryWrapper = async () => {
     },
   });
 
-  const coverPhoto = latestGallery?.photos.find((p) => p.isGalleryCover)?.photo;
+  const coverPhoto = premiumGallery?.photos.find(
+    (p) => p.isGalleryCover,
+  )?.photo;
 
-  if (!coverPhoto || !latestGallery) {
+  if (!coverPhoto || !premiumGallery) {
     return (
       <div
         data-theme="light"
@@ -25,22 +29,22 @@ const LastGalleryWrapper = async () => {
     );
   }
 
-  const items: Item[] = latestGallery.photos.map((p) => ({
+  const items: Item[] = premiumGallery.photos.map((p) => ({
     id: p.photo.id,
     img: p.photo.url,
     url: p.photo.url,
     height: 600,
-    galleryId: latestGallery.id,
+    galleryId: premiumGallery.id,
   }));
 
   return (
-    <LastGallerySection
-      galleryName={latestGallery.name}
-      galleryDescription={latestGallery.description}
+    <PremiumGallerySection
+      galleryName={premiumGallery.name}
+      galleryDescription={premiumGallery.description}
       coverPhoto={{ url: coverPhoto.url, title: coverPhoto.title }}
       items={items}
     />
   );
 };
 
-export default LastGalleryWrapper;
+export default PremiumGalleryWrapper;

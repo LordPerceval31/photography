@@ -9,19 +9,19 @@ import Lightbox from "../_components/lightbox";
 
 const caveat = Caveat({ subsets: ["latin"], display: "swap" });
 
-interface LastGallerySectionProps {
+interface PremiumGallerySectionProps {
   galleryName: string;
   galleryDescription: string;
   coverPhoto: { url: string; title: string | null };
   items: Item[];
 }
 
-const LastGallerySection = ({
+const PremiumGallerySection = ({
   galleryName,
   galleryDescription,
   coverPhoto,
   items,
-}: LastGallerySectionProps) => {
+}: PremiumGallerySectionProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
 
@@ -102,4 +102,4 @@ const LastGallerySection = ({
   );
 };
 
-export default LastGallerySection;
+export default PremiumGallerySection;
