@@ -74,7 +74,7 @@ const HeroSection = async () => {
         </p>
 
         <Link
-          href="/galleries"
+          href="/gallery"
           className="font-semibold tracking-wider uppercase transition-all duration-300 rounded-full text-dark bg-cream hover:bg-dark hover:text-cream 
     px-8 py-4 text-sm 
     tablet:mt-4 tablet:px-10 tablet:py-5 tablet:text-lg 
@@ -86,6 +86,7 @@ const HeroSection = async () => {
         >
           Explorer les galeries
         </Link>
+
         <div className="absolute bottom-4 2k:bottom-4 4k:bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
           <p className="text-cream text-xs uppercase tracking-[0.3em] font-thin 2k:text-lg 4k:text-2xl cursor-default">
             Défiler

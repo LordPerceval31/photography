@@ -52,6 +52,7 @@ model Gallery {
   description String @default("")
   token     String   @unique @default(cuid())
   createdAt DateTime @default(now())
+  isPrenium Boolean @default(false)
 
   userId    String
   user      User     @relation(fields: [userId], references: [id])

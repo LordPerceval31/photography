@@ -1,13 +1,13 @@
 import CarouselWrapper from "./home/CarouselWrapper";
 import DarkSection from "./home/DarkSection";
 import HeroSection from "./home/HeroSection";
-import LastGalleryection from "./home/LastGalleryection";
+import LastGalleryWrapper from "./home/LastGalleryWrapper";
 
 const Home = () => {
   return (
     <main className="relative w-full">
       <HeroSection />
-      <LastGalleryection />
+      <LastGalleryWrapper />
       <DarkSection />
       <CarouselWrapper />
     </main>

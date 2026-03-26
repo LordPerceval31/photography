@@ -1,36 +1,47 @@
 import prisma from "../lib/prisma";
 import CarouselSection from "./CarouselSection";
+import { Item } from "../lib/types";
+
+export type CarouselGallery = {
+  id: string;
+  coverUrl: string;
+  galleryName: string;
+  items: Item[];
+};
 
 const CarouselWrapper = async () => {
-  // 1. On interroge la table de liaison GalleryPhoto
-  // On cherche uniquement les lignes où isGalleryCover est true
-  // Et on inclut les infos de la photo (pour l'URL) et de la galerie (pour le nom)
-  const coverPhotos = await prisma.galleryPhoto.findMany({
-    where: {
-      isGalleryCover: true,
-    },
+  const galleries = await prisma.gallery.findMany({
+    orderBy: { createdAt: "desc" },
     include: {
-      photo: true,
-      gallery: true,
-    },
-    // Optionnel : on trie pour avoir les plus récentes en premier
-    orderBy: {
-      gallery: {
-        createdAt: "desc",
+      photos: {
+        include: { photo: true },
       },
     },
   });
 
-  // 2. On transforme les données brutes de Prisma pour qu'elles correspondent
-  // exactement au type 'CarouselItem' attendu par ton CarouselSection
-  const carouselItems = coverPhotos.map((item) => ({
-    id: item.photo.id,
-    url: item.photo.url,
-    galleryName: item.gallery.name,
-  }));
+  const carouselGalleries: CarouselGallery[] = galleries
+    .map((gallery) => {
+      const cover = gallery.photos.find((p) => p.isGalleryCover)?.photo;
+      if (!cover) return null;
 
-  // 3. On envoie les données formatées au composant client
-  return <CarouselSection items={carouselItems} />;
+      const items: Item[] = gallery.photos.map((p) => ({
+        id: p.photo.id,
+        img: p.photo.url,
+        url: p.photo.url,
+        height: 600,
+        galleryId: gallery.id,
+      }));
+
+      return {
+        id: gallery.id,
+        coverUrl: cover.url,
+        galleryName: gallery.name,
+        items,
+      };
+    })
+    .filter((g): g is CarouselGallery => g !== null);
+
+  return <CarouselSection galleries={carouselGalleries} />;
 };
 
 export default CarouselWrapper;

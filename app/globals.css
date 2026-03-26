@@ -44,6 +44,16 @@ html.lenis {
   }
 }
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
 .carousel-track {
   animation: carousel-scroll 30s linear infinite;
 }
