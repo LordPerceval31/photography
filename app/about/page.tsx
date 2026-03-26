@@ -2,7 +2,7 @@ import BioSection from "./BioSection";
 import PictureAboutWrapper from "./PictureAboutWrapper";
 import StorySection from "./StorySection";
 
-const About = () => {
+const AboutPage = () => {
   return (
     <main className="relative w-full bg-cream">
       <BioSection />
@@ -12,4 +12,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default AboutPage;
