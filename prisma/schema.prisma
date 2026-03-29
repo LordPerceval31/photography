@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  photos    Photo[]
+  galleries Gallery[]
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  photos    Photo[]
+}
+
+model Photo {
+  id          String   @id @default(cuid())
+  title       String?
+  description String?
+  url         String
+  createdAt   DateTime @default(now())
+  isCover     Boolean  @default(false)
+  isPortrait  Boolean  @default(false)
+  isAboutPicture Boolean @default(false)
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+
+  galleries   GalleryPhoto[]
+}
+
+model Gallery {
+  id        String   @id @default(cuid())
+  name      String
+  description String @default("")
+  token     String   @unique @default(cuid())
+  createdAt DateTime @default(now())
+  isPremium Boolean @default(false)
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  photos    GalleryPhoto[]
+}
+
+model GalleryPhoto {
+  galleryId String
+  gallery   Gallery @relation(fields: [galleryId], references: [id])
+  isGalleryCover Boolean @default(false) 
+
+  photoId   String
+  photo     Photo   @relation(fields: [photoId], references: [id])
+
+  @@id([galleryId, photoId])
+}
