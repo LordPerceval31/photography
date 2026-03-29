@@ -43,7 +43,7 @@ const Masonry = ({
     1,
   );
   const [containerRef, { width }] = useMeasure<HTMLDivElement>();
-  const [imagesReady, setImagesReady] = useState(false);
+  const [imagesReady, setImagesReady] = useState(true);
   const lenis = useLenis();
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -113,13 +113,13 @@ const Masonry = ({
     };
   }, [columns, items, width]);
 
-  useEffect(() => {
-    if (items.length > 0) {
-      preloadImages(items.map((i) => i.img)).then(() => {
-        setImagesReady(true);
-      });
-    }
-  }, [items, duration, stagger]);
+  // useEffect(() => {
+  //   if (items.length > 0) {
+  //     preloadImages(items.map((i) => i.img)).then(() => {
+  //       setImagesReady(true);
+  //     });
+  //   }
+  // }, [items, duration, stagger]);
 
   return (
     <>
