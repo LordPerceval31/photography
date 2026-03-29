@@ -1,3 +1,4 @@
+import SmoothScroll from "./_components/SmoothScroll";
 import CarouselWrapper from "./home/CarouselWrapper";
 import DarkSection from "./home/DarkSection";
 import HeroSection from "./home/HeroSection";
@@ -8,10 +9,12 @@ export const revalidate = 3600;
 const Home = () => {
   return (
     <main className="relative w-full">
-      <HeroSection />
-      <LastGalleryWrapper />
-      <DarkSection />
-      <CarouselWrapper />
+      <SmoothScroll>
+        <HeroSection />
+        <LastGalleryWrapper />
+        <DarkSection />
+        <CarouselWrapper />
+      </SmoothScroll>
     </main>
   );
 };
