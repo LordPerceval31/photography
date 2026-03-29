@@ -3,20 +3,19 @@ import { optimizeCloudinaryUrl } from "../lib/types";
 import PictureAboutSection from "./PictureAboutSection";
 
 const PictureAboutWrapper = async () => {
-  // 1. On va chercher les 3 dernières photos qui ont le flag activé
-  const photos = await prisma.photo.findMany({
-    where: {
-      isAboutPicture: true,
-    },
-    take: 3, // On s'assure de n'en prendre que 3 maximum
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  // 1. On va chercher chaque photo par son flag spécifique (gauche, milieu, droite)
+  const [photo1, photo2, photo3] = await Promise.all([
+    prisma.photo.findFirst({ where: { isAboutPicture1: true } }),
+    prisma.photo.findFirst({ where: { isAboutPicture2: true } }),
+    prisma.photo.findFirst({ where: { isAboutPicture3: true } }),
+  ]);
 
-  // 2. On formate les données pour rassurer TypeScript
+  // 2. Si une des 3 photos est manquante, on n'affiche pas la section
+  if (!photo1 || !photo2 || !photo3) return null;
+
+  // 3. On formate les données pour rassurer TypeScript
   // Si le titre est 'null', on met "Image portfolio" par défaut
-  const formattedPhotos = photos.map((photo) => ({
+  const formattedPhotos = [photo1, photo2, photo3].map((photo) => ({
     id: photo.id,
     url: optimizeCloudinaryUrl(photo.url),
     title: photo.title || "Image portfolio",
