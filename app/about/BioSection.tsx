@@ -1,6 +1,7 @@
 import Image from "next/image";
 import prisma from "../lib/prisma";
 import { caveat } from "../lib/fonts";
+import { optimizeCloudinaryUrl } from "../lib/types";
 
 const BioSection = async () => {
   const [portraitPhoto, config] = await Promise.all([
@@ -9,12 +10,18 @@ const BioSection = async () => {
   ]);
 
   // Sécurité : Si pas de photo trouvée en BDD, on utilise des valeurs de secours
-  const imageUrl = portraitPhoto?.url || "/fallback-portrait.jpg";
+  const rawImageUrl = portraitPhoto?.url || "/fallback-portrait.jpg";
+  const imageUrl = optimizeCloudinaryUrl(rawImageUrl);
+
   const imageAlt = portraitPhoto?.title || "Portrait d'Aurélien, photographe";
 
   const bioTitle = config?.bioTitle || "l'art de l'observation silencieuse";
-  const bioParagraph1 = config?.bioParagraph1 || "Passionné par la lumière naturelle et les compositions épurées, je capture l'essence de mes sujets à travers un regard sincère.";
-  const bioParagraph2 = config?.bioParagraph2 || "Mon travail se concentre sur la narration visuelle, cherchant à transformer chaque cliché en une histoire intemporelle.";
+  const bioParagraph1 =
+    config?.bioParagraph1 ||
+    "Passionné par la lumière naturelle et les compositions épurées, je capture l'essence de mes sujets à travers un regard sincère.";
+  const bioParagraph2 =
+    config?.bioParagraph2 ||
+    "Mon travail se concentre sur la narration visuelle, cherchant à transformer chaque cliché en une histoire intemporelle.";
 
   return (
     <section

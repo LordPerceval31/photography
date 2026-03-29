@@ -1,4 +1,5 @@
 import prisma from "../lib/prisma";
+import { optimizeCloudinaryUrl } from "../lib/types";
 import Masonry from "./background";
 
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -23,7 +24,7 @@ export default async function BackgroundWrapper() {
 
   const formattedItems = photosFromDb.map((photo, index) => ({
     id: photo.id.toString(),
-    img: photo.url,
+    img: optimizeCloudinaryUrl(photo.url),
     url: "#",
     height: heightPattern[index % heightPattern.length],
     // ON UTILISE TON VRAI CHAMP categoryId

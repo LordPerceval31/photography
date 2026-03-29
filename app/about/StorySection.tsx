@@ -4,8 +4,12 @@ import prisma from "../lib/prisma";
 const StorySection = async () => {
   const config = await prisma.siteConfig.findFirst();
 
-  const storyParagraph1 = config?.storyParagraph1 || "Tout a commencé avec un vieil appareil argentique trouvé dans le grenier familial. Avant même de maîtriser la technique ou de comprendre l'art de l'exposition, j'étais fasciné par le pouvoir de cette petite boîte noire : figer le temps. Mon parcours n'était pourtant pas tracé pour l'image. J'ai d'abord exploré d'autres voies avant de réaliser que les mots me manquaient souvent, et que ma seule véritable façon de raconter le monde était à travers un viseur. C'est cette urgence de retenir une émotion avant qu'elle ne s'évapore qui m'a poussé à faire de cette obsession mon métier.";
-  const storyParagraph2 = config?.storyParagraph2 || "Aujourd'hui, mon approche est intimement liée à cette quête d'authenticité. Je fuis la perfection plastique des studios aseptisés pour traquer la vérité : un éclat de rire spontané, la mélancolie d'une lumière de fin de journée, ou la force d'un regard silencieux. Chaque séance est une immersion dans l'intimité de mes sujets. Mon but n'est pas de simplement documenter une scène de manière clinique, mais d'en extraire la poésie viscérale. Je veux que dans vingt ans, en regardant ces clichés, l'odeur et le frisson de l'instant vous reviennent intacts.";
+  const storyParagraph1 =
+    config?.storyParagraph1 ||
+    "Tout a commencé avec un vieil appareil argentique trouvé dans le grenier familial. Avant même de maîtriser la technique ou de comprendre l'art de l'exposition, j'étais fasciné par le pouvoir de cette petite boîte noire : figer le temps. Mon parcours n'était pourtant pas tracé pour l'image. J'ai d'abord exploré d'autres voies avant de réaliser que les mots me manquaient souvent, et que ma seule véritable façon de raconter le monde était à travers un viseur. C'est cette urgence de retenir une émotion avant qu'elle ne s'évapore qui m'a poussé à faire de cette obsession mon métier.";
+  const storyParagraph2 =
+    config?.storyParagraph2 ||
+    "Aujourd'hui, mon approche est intimement liée à cette quête d'authenticité. Je fuis la perfection plastique des studios aseptisés pour traquer la vérité : un éclat de rire spontané, la mélancolie d'une lumière de fin de journée, ou la force d'un regard silencieux. Chaque séance est une immersion dans l'intimité de mes sujets. Mon but n'est pas de simplement documenter une scène de manière clinique, mais d'en extraire la poésie viscérale. Je veux que dans vingt ans, en regardant ces clichés, l'odeur et le frisson de l'instant vous reviennent intacts.";
 
   return (
     <section

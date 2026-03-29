@@ -1,4 +1,5 @@
 import prisma from "../lib/prisma";
+import { optimizeCloudinaryUrl } from "../lib/types";
 import PictureAboutSection from "./PictureAboutSection";
 
 const PictureAboutWrapper = async () => {
@@ -17,7 +18,7 @@ const PictureAboutWrapper = async () => {
   // Si le titre est 'null', on met "Image portfolio" par défaut
   const formattedPhotos = photos.map((photo) => ({
     id: photo.id,
-    url: photo.url,
+    url: optimizeCloudinaryUrl(photo.url),
     title: photo.title || "Image portfolio",
   }));
 

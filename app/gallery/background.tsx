@@ -6,6 +6,7 @@ import { useLenis } from "lenis/react";
 import { useMeasure, useMedia } from "../hook/hook";
 import Lightbox from "../_components/lightbox";
 import { Item } from "../lib/types";
+import Image from "next/image";
 
 const preloadImages = (urls: string[]): Promise<void[]> => {
   if (typeof window === "undefined") return Promise.resolve([]);
@@ -13,7 +14,7 @@ const preloadImages = (urls: string[]): Promise<void[]> => {
     urls.map(
       (src) =>
         new Promise<void>((resolve) => {
-          const img = new Image();
+          const img = new window.Image();
           img.src = src;
           img.onload = img.onerror = () => resolve();
         }),
@@ -161,10 +162,15 @@ const Masonry = ({
               whileHover={scaleOnHover ? { scale: hoverScale } : {}}
               onClick={() => handleOpenGallery(item)}
             >
-              <div
-                className="relative w-full h-full bg-cover bg-center rounded-[10px] shadow-lg"
-                style={{ backgroundImage: `url(${item.img})` }}
-              />
+              <div className="relative w-full h-full rounded-[10px] shadow-lg overflow-hidden">
+                <Image
+                  src={item.img}
+                  alt="Gallery image"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </div>
             </motion.div>
           ))}
       </motion.div>
