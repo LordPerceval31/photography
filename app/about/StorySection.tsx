@@ -1,6 +1,12 @@
 import { caveat } from "../lib/fonts";
+import prisma from "../lib/prisma";
 
-const StorySection = () => {
+const StorySection = async () => {
+  const config = await prisma.siteConfig.findFirst();
+
+  const storyParagraph1 = config?.storyParagraph1 || "Tout a commencé avec un vieil appareil argentique trouvé dans le grenier familial. Avant même de maîtriser la technique ou de comprendre l'art de l'exposition, j'étais fasciné par le pouvoir de cette petite boîte noire : figer le temps. Mon parcours n'était pourtant pas tracé pour l'image. J'ai d'abord exploré d'autres voies avant de réaliser que les mots me manquaient souvent, et que ma seule véritable façon de raconter le monde était à travers un viseur. C'est cette urgence de retenir une émotion avant qu'elle ne s'évapore qui m'a poussé à faire de cette obsession mon métier.";
+  const storyParagraph2 = config?.storyParagraph2 || "Aujourd'hui, mon approche est intimement liée à cette quête d'authenticité. Je fuis la perfection plastique des studios aseptisés pour traquer la vérité : un éclat de rire spontané, la mélancolie d'une lumière de fin de journée, ou la force d'un regard silencieux. Chaque séance est une immersion dans l'intimité de mes sujets. Mon but n'est pas de simplement documenter une scène de manière clinique, mais d'en extraire la poésie viscérale. Je veux que dans vingt ans, en regardant ces clichés, l'odeur et le frisson de l'instant vous reviennent intacts.";
+
   return (
     <section
       data-theme="light"
@@ -20,16 +26,7 @@ const StorySection = () => {
       <div className="w-full laptop:w-1/3 flex justify-start tablet:justify-center">
         <div className="w-full max-w-sm desktop:max-w-md 2k:max-w-lg ultrawide:max-w-2xl 4k:max-w-4xl text-justify">
           <p className="desktop:text-lg 2k:text-2xl ultrawide:text-3xl 4k:text-4xl leading-relaxed">
-            Tout a commencé avec un vieil appareil argentique trouvé dans le
-            grenier familial. Avant même de maîtriser la technique ou de
-            comprendre l&apos;art de l&apos;exposition, j&apos;étais fasciné par
-            le pouvoir de cette petite boîte noire : figer le temps. Mon
-            parcours n&apos;était pourtant pas tracé pour l&apos;image.
-            J&apos;ai d&apos;abord exploré d&apos;autres voies avant de réaliser
-            que les mots me manquaient souvent, et que ma seule véritable façon
-            de raconter le monde était à travers un viseur. C&apos;est cette
-            urgence de retenir une émotion avant qu&apos;elle ne s&apos;évapore
-            qui m&apos;a poussé à faire de cette obsession mon métier.
+            {storyParagraph1}
           </p>
         </div>
       </div>
@@ -38,16 +35,7 @@ const StorySection = () => {
       <div className="w-full laptop:w-1/3 flex justify-start tablet:justify-center 4k:mr-40">
         <div className="w-full max-w-sm desktop:max-w-md 2k:max-w-lg ultrawide:max-w-2xl 4k:max-w-4xl text-justify">
           <p className="desktop:text-lg 2k:text-2xl ultrawide:text-3xl 4k:text-4xl leading-relaxed">
-            Aujourd&apos;hui, mon approche est intimement liée à cette quête
-            d&apos;authenticité. Je fuis la perfection plastique des studios
-            aseptisés pour traquer la vérité : un éclat de rire spontané, la
-            mélancolie d&apos;une lumière de fin de journée, ou la force
-            d&apos;un regard silencieux. Chaque séance est une immersion dans
-            l&apos;intimité de mes sujets. Mon but n&apos;est pas de simplement
-            documenter une scène de manière clinique, mais d&apos;en extraire la
-            poésie viscérale. Je veux que dans vingt ans, en regardant ces
-            clichés, l&apos;odeur et le frisson de l&apos;instant vous
-            reviennent intacts.
+            {storyParagraph2}
           </p>
         </div>
       </div>

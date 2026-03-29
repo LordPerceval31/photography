@@ -3,15 +3,18 @@ import prisma from "../lib/prisma";
 import { caveat } from "../lib/fonts";
 
 const BioSection = async () => {
-  const portraitPhoto = await prisma.photo.findFirst({
-    where: {
-      isPortrait: true,
-    },
-  });
+  const [portraitPhoto, config] = await Promise.all([
+    prisma.photo.findFirst({ where: { isPortrait: true } }),
+    prisma.siteConfig.findFirst(),
+  ]);
 
   // Sécurité : Si pas de photo trouvée en BDD, on utilise des valeurs de secours
   const imageUrl = portraitPhoto?.url || "/fallback-portrait.jpg";
   const imageAlt = portraitPhoto?.title || "Portrait d'Aurélien, photographe";
+
+  const bioTitle = config?.bioTitle || "l'art de l'observation silencieuse";
+  const bioParagraph1 = config?.bioParagraph1 || "Passionné par la lumière naturelle et les compositions épurées, je capture l'essence de mes sujets à travers un regard sincère.";
+  const bioParagraph2 = config?.bioParagraph2 || "Mon travail se concentre sur la narration visuelle, cherchant à transformer chaque cliché en une histoire intemporelle.";
 
   return (
     <section
@@ -38,17 +41,11 @@ const BioSection = async () => {
           <h2
             className={`${caveat.className} text-5xl tablet:text-6xl desktop:text-7xl 2k:text-8xl ultrawide:text-8xl 4k:text-9xl font-bold mb-6`}
           >
-            l&apos;art de l&apos;observation silencieuse
+            {bioTitle}
           </h2>
           <div className="space-y-4 text-lg tablet:text-lg desktop:text-lg 2k:text-2xl ultrawide:text-3xl 4k:text-3xl leading-relaxed opacity-90">
-            <p>
-              Passionné par la lumière naturelle et les compositions épurées, je
-              capture l&apos;essence de mes sujets à travers un regard sincère.
-            </p>
-            <p>
-              Mon travail se concentre sur la narration visuelle, cherchant à
-              transformer chaque cliché en une histoire intemporelle.
-            </p>
+            <p>{bioParagraph1}</p>
+            <p>{bioParagraph2}</p>
           </div>
         </div>
       </div>

@@ -63,10 +63,38 @@ model Gallery {
 model GalleryPhoto {
   galleryId String
   gallery   Gallery @relation(fields: [galleryId], references: [id])
-  isGalleryCover Boolean @default(false) 
+  isGalleryCover Boolean @default(false)
 
   photoId   String
   photo     Photo   @relation(fields: [photoId], references: [id])
 
   @@id([galleryId, photoId])
+}
+
+model SiteConfig {
+  id              String @id @default(cuid())
+  // Hero
+  heroSubtitle    String @default("")
+  heroName        String @default("")
+  heroTagline     String @default("")
+  // Bio (page About)
+  bioTitle        String @default("")
+  bioParagraph1   String @default("")
+  bioParagraph2   String @default("")
+  // Story (page About)
+  storyParagraph1 String @default("")
+  storyParagraph2 String @default("")
+  // Dark section (homepage)
+  darkQuote       String @default("")
+  darkQuoteAuthor String @default("")
+}
+
+model InviteCode {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  email     String?
+  used      Boolean   @default(false)
+  usedAt    DateTime?
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
 }

@@ -1,6 +1,12 @@
 import Image from "next/image";
+import prisma from "../lib/prisma";
 
-const DarkSection = () => {
+const DarkSection = async () => {
+  const config = await prisma.siteConfig.findFirst();
+
+  const quote = config?.darkQuote || "Photographier, c'est mettre sur la même ligne de mire la tête, l'œil et le cœur.";
+  const quoteAuthor = config?.darkQuoteAuthor || "Henri Cartier-Bresson";
+
   return (
     // On fixe la taille de la boîte principale une bonne fois pour toutes.
     <section
@@ -12,13 +18,12 @@ const DarkSection = () => {
         <div className="w-full max-w-lg 4k:max-w-4xl text-xl 2k:text-3xl ultrawide:text-4xl 4k:text-5xl text-cream">
           {/* 1. LA CITATION */}
           <p className="italic font-medium leading-relaxed cursor-default">
-            &quot; Photographier, c&apos;est mettre sur la même ligne de mire la
-            tête, l&apos;œil et le cœur. &quot;
+            &quot; {quote} &quot;
           </p>
 
           {/* 2. L'AUTEUR */}
           <p className="text-right text-[0.8em] text-gray-600 mt-4 4k:mt-8 font-semibold cursor-default">
-            — Henri Cartier-Bresson
+            — {quoteAuthor}
           </p>
         </div>
       </div>

@@ -3,11 +3,16 @@ import Link from "next/link";
 import prisma from "../lib/prisma";
 
 const HeroSection = async () => {
-  const coverPhoto = await prisma.photo.findFirst({
-    where: {
-      isCover: true,
-    },
-  });
+  const [coverPhoto, config] = await Promise.all([
+    prisma.photo.findFirst({ where: { isCover: true } }),
+    prisma.siteConfig.findFirst(),
+  ]);
+
+  // Fallbacks si la BDD n'a pas encore de SiteConfig
+  const subtitle = config?.heroSubtitle || "visual narrative portfolio";
+  const name = config?.heroName || "DE LUCA Sylvain";
+  const tagline =
+    config?.heroTagline || "Capturer l'instant, raconter une histoire.";
 
   if (!coverPhoto) {
     return (
@@ -54,7 +59,7 @@ const HeroSection = async () => {
           className="text-lg tracking-widest uppercase text-cream font-thin cursor-default
     tablet:text-xl laptop:text-lg desktop:text-xl 2k:text-3xl ultrawide:text-4xl 4k:text-4xl"
         >
-          visual narrative portfolio
+          {subtitle}
         </h1>
 
         {/* 2. Nom */}
@@ -62,7 +67,7 @@ const HeroSection = async () => {
           className="text-cream font-bold leading-tight cursor-default
     text-6xl tablet:text-7xl laptop:text-6xl desktop:text-7xl 2k:text-8xl ultrawide:text-9xl 4k:text-10xl"
         >
-          Aurélien Roy
+          {name}
         </h2>
 
         {/* 3. Description */}
@@ -70,7 +75,7 @@ const HeroSection = async () => {
           className="text-cream font-light italic cursor-default
     text-xl tablet:text-2xl laptop:text-xl desktop:text-2xl 2k:text-3xl ultrawide:text-4xl 4k:text-5xl"
         >
-          Capturer l&apos;instant, raconter une histoire.
+          {tagline}
         </p>
 
         <Link

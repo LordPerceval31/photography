@@ -104,7 +104,7 @@ const ContactSection = () => {
         className="object-cover"
         priority
       />
-      <div className="absolute inset-0 bg-black/40 z-[5]"></div>
+      <div className="absolute inset-0 bg-black/40 z-5"></div>
 
       {/* -- Blobs décoratifs pour la profondeur glassmorphism -- */}
       <div className="absolute top-1/4 -left-20 w-72 h-72 tablet:w-96 tablet:h-96 4k:w-175 4k:h-175 rounded-full bg-blue/20 blur-[80px] 4k:blur-[160px] pointer-events-none z-10" />
