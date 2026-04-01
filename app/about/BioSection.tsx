@@ -3,6 +3,8 @@ import prisma from "../lib/prisma";
 import { caveat } from "../lib/fonts";
 import { optimizeCloudinaryUrl } from "../lib/types";
 
+export const revalidate = 0;
+
 const BioSection = async () => {
   const [portraitPhoto, config] = await Promise.all([
     prisma.photo.findFirst({ where: { isPortrait: true } }),
