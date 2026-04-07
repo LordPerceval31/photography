@@ -4,10 +4,10 @@ import prisma from "../lib/prisma";
 
 export const revalidate = 0;
 
-const HeroSection = async () => {
+const HeroSection = async ({ userId }: { userId: string }) => {
   const [coverPhoto, config] = await Promise.all([
-    prisma.photo.findFirst({ where: { isCover: true } }),
-    prisma.siteConfig.findFirst(),
+    prisma.photo.findFirst({ where: { isCover: true, userId: userId } }),
+    prisma.siteConfig.findFirst({ where: { userId: userId } }),
   ]);
 
   // Fallbacks si la BDD n'a pas encore de SiteConfig

@@ -9,8 +9,11 @@ export type CarouselGallery = {
   items: Item[];
 };
 
-const CarouselWrapper = async () => {
+const CarouselWrapper = async ({ userId }: { userId: string }) => {
   const galleries = await prisma.gallery.findMany({
+    where: {
+      userId: userId, // <-- On filtre pour ne récupérer que les galeries de ce photographe
+    },
     orderBy: { createdAt: "desc" },
     include: {
       photos: {

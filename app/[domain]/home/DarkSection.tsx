@@ -1,8 +1,10 @@
 import Image from "next/image";
 import prisma from "../lib/prisma";
 
-const DarkSection = async () => {
-  const config = await prisma.siteConfig.findFirst();
+const DarkSection = async ({ userId }: { userId: string }) => {
+  const config = await prisma.siteConfig.findFirst({
+    where: { userId: userId },
+  });
 
   const quote =
     config?.darkQuote ||
@@ -10,7 +12,6 @@ const DarkSection = async () => {
   const quoteAuthor = config?.darkQuoteAuthor || "Henri Cartier-Bresson";
 
   return (
-    // On fixe la taille de la boîte principale une bonne fois pour toutes.
     <section
       data-theme="dark"
       className="flex flex-col laptop:flex-row w-full h-screen laptop:h-[80vh] bg-black overflow-hidden"

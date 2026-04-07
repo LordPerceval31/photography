@@ -11,13 +11,17 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return shuffled;
 };
 
-export default async function BackgroundWrapper() {
+export default async function BackgroundWrapper({
+  userId,
+}: {
+  userId: string;
+}) {
   const photosFromDb = await prisma.photo.findMany({
     where: {
+      userId: userId,
       isCover: false,
       isPortrait: false,
     },
-    // ON VIRE L'INCLUDE GALLERY QUI N'EXISTE PAS DANS TON SCHEMA
   });
 
   const heightPattern = [500, 1200, 600, 1600, 400, 900, 700, 1400, 450, 1000];
@@ -27,7 +31,6 @@ export default async function BackgroundWrapper() {
     img: optimizeCloudinaryUrl(photo.url),
     url: "#",
     height: heightPattern[index % heightPattern.length],
-    // ON UTILISE TON VRAI CHAMP categoryId
     galleryId: photo.categoryId,
   }));
 

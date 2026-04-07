@@ -1,8 +1,10 @@
 import { caveat } from "../lib/fonts";
 import prisma from "../lib/prisma";
 
-const StorySection = async () => {
-  const config = await prisma.siteConfig.findFirst();
+const StorySection = async ({ userId }: { userId: string }) => {
+  const config = await prisma.siteConfig.findFirst({
+    where: { userId: userId },
+  });
 
   const storyParagraph1 =
     config?.storyParagraph1 ||

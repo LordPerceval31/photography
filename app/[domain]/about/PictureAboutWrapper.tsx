@@ -2,12 +2,18 @@ import { optimizeCloudinaryUrl } from "../lib/types";
 import PictureAboutSection from "./PictureAboutSection";
 import prisma from "../lib/prisma";
 
-const PictureAboutWrapper = async () => {
+const PictureAboutWrapper = async ({ userId }: { userId: string }) => {
   // 1. On va chercher chaque photo par son flag spécifique (gauche, milieu, droite)
   const [photo1, photo2, photo3] = await Promise.all([
-    prisma.photo.findFirst({ where: { isAboutPicture1: true } }),
-    prisma.photo.findFirst({ where: { isAboutPicture2: true } }),
-    prisma.photo.findFirst({ where: { isAboutPicture3: true } }),
+    prisma.photo.findFirst({
+      where: { isAboutPicture1: true, userId: userId },
+    }),
+    prisma.photo.findFirst({
+      where: { isAboutPicture2: true, userId: userId },
+    }),
+    prisma.photo.findFirst({
+      where: { isAboutPicture3: true, userId: userId },
+    }),
   ]);
 
   // 2. Si une des 3 photos est manquante, on n'affiche pas la section

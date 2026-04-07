@@ -5,10 +5,10 @@ import prisma from "../lib/prisma";
 
 export const revalidate = 0;
 
-const BioSection = async () => {
+const BioSection = async ({ userId }: { userId: string }) => {
   const [portraitPhoto, config] = await Promise.all([
-    prisma.photo.findFirst({ where: { isPortrait: true } }),
-    prisma.siteConfig.findFirst(),
+    prisma.photo.findFirst({ where: { isPortrait: true, userId: userId } }),
+    prisma.siteConfig.findFirst({ where: { userId: userId } }),
   ]);
 
   // Sécurité : Si pas de photo trouvée en BDD, on utilise des valeurs de secours
