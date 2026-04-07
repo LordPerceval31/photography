@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import { Item } from "../lib/types";
 import { useNavbar } from "./NavbarContext";
+import { Item } from "../lib/types";
 import GalleryCarousel, { GalleryItem } from "../gallery/GalleryCarousel";
 
 interface LightboxProps {

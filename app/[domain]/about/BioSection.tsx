@@ -1,7 +1,7 @@
 import Image from "next/image";
-import prisma from "../lib/prisma";
-import { caveat } from "../lib/fonts";
 import { optimizeCloudinaryUrl } from "../lib/types";
+import { caveat } from "../lib/fonts";
+import prisma from "../lib/prisma";
 
 export const revalidate = 0;
 

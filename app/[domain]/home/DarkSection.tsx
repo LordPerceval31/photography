@@ -4,7 +4,9 @@ import prisma from "../lib/prisma";
 const DarkSection = async () => {
   const config = await prisma.siteConfig.findFirst();
 
-  const quote = config?.darkQuote || "Photographier, c'est mettre sur la même ligne de mire la tête, l'œil et le cœur.";
+  const quote =
+    config?.darkQuote ||
+    "Photographier, c'est mettre sur la même ligne de mire la tête, l'œil et le cœur.";
   const quoteAuthor = config?.darkQuoteAuthor || "Henri Cartier-Bresson";
 
   return (

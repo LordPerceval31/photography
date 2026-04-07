@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client"
   output   = "../app/generated/prisma"
@@ -7,6 +8,8 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// ─── Auth ──────────────────────────────────────────────────────────────────
 
 model User {
   id            String    @id @default(cuid())
@@ -19,14 +22,19 @@ model User {
   tempCode      String?
   tempCodeExpiry DateTime?
 
+  subdomain        String?   @unique // ex: "jean"
+  customDomain     String?   @unique // ex: "www.jean-photo.fr"
+
   cloudinaryName   String?
   cloudinaryKey    String?
   cloudinarySecret String?
 
+  tarifs Tarif[]
   accounts  Account[]
   sessions  Session[]
   photos    Photo[]
   galleries Gallery[]
+  siteConfig SiteConfig?
 }
 
 // Modèles requis par NextAuth v5 / PrismaAdapter
@@ -46,6 +54,19 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Tarif {
+  id            String   @id @default(cuid())
+  title         String
+  description   String
+  price         String   // "150 €" ou "Sur devis"
+  photoUrl      String?
+  photoPublicId String?  // pour supprimer de Cloudinary si le tarif est supprimé
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {
@@ -70,7 +91,6 @@ model Category {
 model Photo {
   id             String   @id @default(cuid())
   title          String?
-  description    String?
   url            String
   publicId       String?  @unique // identifiant Cloudinary (optionnel pour les photos existantes)
   isCover        Boolean  @default(false)
@@ -98,6 +118,7 @@ model Gallery {
   isPrivate   Boolean  @default(false) // ajout back-office
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
+  expiresAt   DateTime?
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
@@ -136,6 +157,9 @@ model SiteConfig {
   // Section sombre (page d'accueil)
   darkQuote       String @default("")
   darkQuoteAuthor String @default("")
+
+  userId          String @unique 
+  user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model InviteCode {

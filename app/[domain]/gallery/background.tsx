@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLenis } from "lenis/react";
 import { useMeasure, useMedia } from "../hook/hook";
-import Lightbox from "../_components/lightbox";
-import { Item } from "../lib/types";
 import Image from "next/image";
+import { Item } from "../lib/types";
+import Lightbox from "../_components/lightbox";
 
 const preloadImages = (urls: string[]): Promise<void[]> => {
   if (typeof window === "undefined") return Promise.resolve([]);
