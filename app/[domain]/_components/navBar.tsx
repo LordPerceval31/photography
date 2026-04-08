@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useNavbar } from "./NavbarContext";
+import posthog from "posthog-js";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -104,31 +105,31 @@ const NavBar = () => {
           >
             <Link
               href="/"
-              onClick={() => setIsOpen(false)}
+              onClick={() => { setIsOpen(false); posthog.capture("nav_link_clicked", { destination: "home" }); }}
               className={`${textClasses} ${iconHover} transition-colors`}
             >
               Home
             </Link>
             <Link
               href="/about"
-              onClick={() => setIsOpen(false)}
+              onClick={() => { setIsOpen(false); posthog.capture("nav_link_clicked", { destination: "about" }); }}
               className={`${textClasses} ${iconHover} transition-colors`}
             >
               About
             </Link>
             <Link
               href="/gallery"
-              onClick={() => setIsOpen(false)}
+              onClick={() => { setIsOpen(false); posthog.capture("nav_link_clicked", { destination: "gallery" }); }}
               className={`${textClasses} ${iconHover} transition-colors`}
             >
               Gallery
             </Link>
             <Link
-              href="/contact"
-              onClick={() => setIsOpen(false)}
+              href="/services"
+              onClick={() => { setIsOpen(false); posthog.capture("nav_link_clicked", { destination: "services" }); }}
               className={`${textClasses} ${iconHover} transition-colors`}
             >
-              Contact
+              Services
             </Link>
 
             <button

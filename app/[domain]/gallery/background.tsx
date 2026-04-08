@@ -7,6 +7,7 @@ import { useMeasure, useMedia } from "../hook/hook";
 import Image from "next/image";
 import { Item } from "../lib/types";
 import Lightbox from "../_components/lightbox";
+import posthog from "posthog-js";
 
 const preloadImages = (urls: string[]): Promise<void[]> => {
   if (typeof window === "undefined") return Promise.resolve([]);
@@ -60,6 +61,11 @@ const Masonry = ({
       setSelectedIndex(
         filtered.findIndex((item) => item.id === clickedItem.id),
       );
+      posthog.capture("photo_opened_in_lightbox", {
+        photo_id: clickedItem.id,
+        gallery_id: clickedItem.galleryId,
+        gallery_photo_count: filtered.length,
+      });
     },
     [items],
   );

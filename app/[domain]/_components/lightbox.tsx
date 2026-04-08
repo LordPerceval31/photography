@@ -6,6 +6,7 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavbar } from "./NavbarContext";
 import { Item } from "../lib/types";
 import GalleryCarousel, { GalleryItem } from "../gallery/GalleryCarousel";
+import posthog from "posthog-js";
 
 interface LightboxProps {
   items: Item[];
@@ -72,6 +73,25 @@ const Lightbox = ({
 }: LightboxProps) => {
   const { hideNavbar, showNavbar } = useNavbar();
 
+  const handleClose = (method: "button" | "keyboard" = "button") => {
+    posthog.capture("lightbox_closed", {
+      photo_index: selectedIndex,
+      total_photos: items.length,
+      method,
+    });
+    onClose();
+  };
+
+  const handleNavigate = (dir: number, method: "arrow" | "swipe") => {
+    posthog.capture("lightbox_navigated", {
+      direction: dir === 1 ? "next" : "previous",
+      method,
+      new_index: selectedIndex + dir,
+      total_photos: items.length,
+    });
+    onPaginate(dir);
+  };
+
   useEffect(() => {
     hideNavbar();
     return () => showNavbar();
@@ -79,10 +99,18 @@ const Lightbox = ({
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" && selectedIndex < items.length - 1)
+      if (e.key === "ArrowRight" && selectedIndex < items.length - 1) {
+        posthog.capture("lightbox_navigated", { direction: "next", method: "keyboard", new_index: selectedIndex + 1, total_photos: items.length });
         onPaginate(1);
-      if (e.key === "ArrowLeft" && selectedIndex > 0) onPaginate(-1);
-      if (e.key === "Escape") onClose();
+      }
+      if (e.key === "ArrowLeft" && selectedIndex > 0) {
+        posthog.capture("lightbox_navigated", { direction: "previous", method: "keyboard", new_index: selectedIndex - 1, total_photos: items.length });
+        onPaginate(-1);
+      }
+      if (e.key === "Escape") {
+        posthog.capture("lightbox_closed", { photo_index: selectedIndex, total_photos: items.length, method: "keyboard" });
+        onClose();
+      }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -97,7 +125,7 @@ const Lightbox = ({
     >
       {/* BOUTON FERMER */}
       <button
-        onClick={onClose}
+        onClick={handleClose}
         className="absolute top-6 right-6 tablet:top-10 tablet:right-10 text-white/70 hover:text-white z-50 p-2 bg-black/20 rounded-full backdrop-blur-md"
       >
         <X size={28} />
@@ -128,12 +156,12 @@ const Lightbox = ({
                 swipe < -swipeConfidenceThreshold &&
                 selectedIndex < items.length - 1
               ) {
-                onPaginate(1);
+                handleNavigate(1, "swipe");
               } else if (
                 swipe > swipeConfidenceThreshold &&
                 selectedIndex > 0
               ) {
-                onPaginate(-1);
+                handleNavigate(-1, "swipe");
               }
             }}
           />
@@ -146,7 +174,7 @@ const Lightbox = ({
           className="absolute z-50 p-3 text-white/50 hover:text-white bg-black/10 rounded-full backdrop-blur-md
       left-6 bottom-8
       laptop:left-10 laptop:bottom-auto laptop:top-1/2 laptop:-translate-y-1/2"
-          onClick={() => onPaginate(-1)}
+          onClick={() => handleNavigate(-1, "arrow")}
         >
           <ChevronLeft size={32} />
         </button>
@@ -157,7 +185,7 @@ const Lightbox = ({
           className="absolute z-50 p-3 text-white/50 hover:text-white bg-black/10 rounded-full backdrop-blur-md
       right-6 bottom-8
       laptop:right-10 laptop:bottom-auto laptop:top-1/2 laptop:-translate-y-1/2"
-          onClick={() => onPaginate(1)}
+          onClick={() => handleNavigate(1, "arrow")}
         >
           <ChevronRight size={32} />
         </button>

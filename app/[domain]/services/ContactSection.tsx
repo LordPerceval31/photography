@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
-import Image from "next/image";
+import posthog from "posthog-js";
 
 type FormFields = {
   nom: string;
@@ -13,7 +13,7 @@ type FormFields = {
 
 type FormErrors = Partial<FormFields>;
 
-const ContactSection = () => {
+const ContactSection = ({ hasNoCards = false }: { hasNoCards?: boolean }) => {
   const [fields, setFields] = useState<FormFields>({
     nom: "",
     email: "",
@@ -73,6 +73,9 @@ const ContactSection = () => {
 
       setFields({ nom: "", email: "", telephone: "", message: "" });
       setFormState("success");
+      posthog.capture("contact_form_submitted", {
+        has_phone: !!fields.telephone.trim(),
+      });
 
       setCooldown(true);
       setTimeout(() => {
@@ -82,6 +85,8 @@ const ContactSection = () => {
     } catch (error) {
       console.error("Erreur EmailJS :", error);
       setFormState("error");
+      posthog.captureException(error);
+      posthog.capture("contact_form_failed");
       setTimeout(() => setFormState("idle"), 5000);
     }
   };
@@ -94,33 +99,20 @@ const ContactSection = () => {
 
   return (
     <section
-      data-theme="dark"
-      className="relative flex items-center justify-center h-screen bg-cream px-6 tablet:px-16 py-24 overflow-hidden"
+      className={`relative flex items-center justify-center w-full px-6 tablet:px-16 z-10 laptop:min-h-screen ${
+        hasNoCards ? "min-h-screen py-24 laptop:py-0" : "pb-24 laptop:pb-0"
+      }`}
     >
-      <Image
-        src="/contactImage.webp"
-        alt="image de contact par default"
-        fill
-        className="object-cover"
-        priority
-      />
-      <div className="absolute inset-0 bg-black/40 z-5"></div>
-
-      {/* -- Blobs décoratifs pour la profondeur glassmorphism -- */}
-      <div className="absolute top-1/4 -left-20 w-72 h-72 tablet:w-96 tablet:h-96 4k:w-175 4k:h-175 rounded-full bg-blue/20 blur-[80px] 4k:blur-[160px] pointer-events-none z-10" />
-      <div className="absolute bottom-1/4 -right-20 w-72 h-72 tablet:w-96 tablet:h-96 4k:w-175 4k:h-175 rounded-full bg-blue/15 blur-[100px] 4k:blur-[180px] pointer-events-none z-10" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 4k:w-90 4k:h-90 rounded-full bg-cream/5 blur-[60px] 4k:blur-[130px] pointer-events-none z-10" />
-
-      {/* -- Carte formulaire -- */}
+      {/* -- Carte formulaire : h-[60vh] sur desktop pour le rendre plus compact -- */}
       <div
-        className={`${glassCard} relative z-20 w-full max-w-lg tablet:max-w-xl laptop:max-w-2xl 2k:max-w-3xl 4k:max-w-6xl rounded-2xl p-8 tablet:p-12 2k:p-16 4k:p-24`}
+        className={`${glassCard} relative z-20 w-full max-w-lg tablet:max-w-xl laptop:max-w-none laptop:w-[80vh] laptop:h-[80vh] desktop:w-[60vh] desktop:h-[60vh] rounded-2xl p-8 tablet:p-12 laptop:p-[5vh] desktop:p-[3.5vh] flex flex-col`}
       >
         {/* Titre */}
-        <div className="mb-10 2k:mb-14 4k:mb-30">
-          <p className="text-xs uppercase tracking-[0.3em] text-blue font-medium mb-2 2k:text-base 4k:text-3xl">
+        <div className="mb-10 tablet:mb-12 laptop:mb-[2vh] laptop:h-[10vh] desktop:mb-[1.5vh] desktop:h-[7.5vh]">
+          <p className="text-xs tablet:text-sm laptop:text-[1.5vh] desktop:text-[1.1vh] uppercase tracking-[0.3em] text-blue font-medium mb-2 laptop:mb-[1vh] desktop:mb-[0.75vh]">
             Un projet ?
           </p>
-          <h2 className="text-3xl tablet:text-4xl 2k:text-5xl 4k:text-8xl font-bold text-cream leading-tight">
+          <h2 className="text-3xl tablet:text-4xl laptop:text-[4vh] desktop:text-[3vh] font-bold text-cream leading-tight">
             Travaillons ensemble
           </h2>
         </div>
@@ -128,7 +120,7 @@ const ContactSection = () => {
         <form
           onSubmit={handleSubmit}
           noValidate
-          className="flex flex-col gap-6 2k:gap-8 4k:gap-16"
+          className="flex flex-col gap-6 tablet:gap-8 laptop:gap-[2vh] desktop:gap-[1.5vh] grow laptop:justify-between"
         >
           <FloatingField
             id="nom"
@@ -179,10 +171,10 @@ const ContactSection = () => {
             disabled={
               formState === "submitting" || formState === "success" || cooldown
             }
-            className="group relative mt-2 w-full py-4 2k:py-5 4k:py-12 text-sm 2k:text-base 4k:text-3xl uppercase tracking-[0.25em] font-semibold text-cream bg-dark rounded-xl 4k:rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_8px_32px_0_rgba(44,44,44,0.25)] disabled:cursor-not-allowed"
+            className="group relative mt-2 laptop:mt-0 w-full py-4 tablet:py-5 laptop:py-0 laptop:h-[8vh] desktop:h-[6vh] text-sm tablet:text-base laptop:text-[1.8vh] desktop:text-[1.3vh] uppercase tracking-[0.25em] font-semibold text-cream bg-dark rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_8px_32px_0_rgba(44,44,44,0.25)] disabled:cursor-not-allowed"
           >
             <span className="absolute inset-0 bg-blue translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out" />
-            <span className="relative flex items-center justify-center gap-3">
+            <span className="relative flex items-center justify-center gap-3 laptop:gap-[1vh] desktop:gap-[0.75vh]">
               {formState === "idle" && (
                 <>
                   Envoyer le message{" "}
@@ -192,8 +184,8 @@ const ContactSection = () => {
                 </>
               )}
               {formState === "submitting" && "Envoi en cours..."}
-              {formState === "success" && "✦ Message envoyé avec succès"}
-              {formState === "error" && "Échec de l'envoi — réessayez"}
+              {formState === "success" && "✦ Message envoyé"}
+              {formState === "error" && "Échec — réessayez"}
             </span>
           </button>
         </form>
@@ -224,7 +216,7 @@ const FloatingField = ({
   onChange,
   glassInput,
 }: FieldProps) => (
-  <div className="relative">
+  <div className="relative laptop:h-[7vh] desktop:h-[5vh]">
     <input
       id={id}
       name={name}
@@ -233,8 +225,10 @@ const FloatingField = ({
       value={value}
       onChange={onChange}
       className={`
-        peer w-full px-4 pt-6 pb-2 2k:px-5 2k:pt-7 2k:pb-3 4k:px-12 4k:pt-14 4k:pb-6
-        rounded-xl text-cream text-xl 2k:text-xl 4k:text-5xl
+        peer w-full h-full px-4 pt-6 pb-2 tablet:px-5 tablet:pt-7 tablet:pb-3
+        laptop:px-[2vh] laptop:pt-[3vh] laptop:pb-[1vh]
+        desktop:px-[1.5vh] desktop:pt-[2.2vh] desktop:pb-[0.8vh]
+        rounded-xl text-cream text-xl laptop:text-[2vh] desktop:text-[1.5vh]
         outline-none transition-all duration-200
         focus:border-blue focus:shadow-[0_0_0_1px_#558b8b]
         ${glassInput}
@@ -243,20 +237,31 @@ const FloatingField = ({
     />
     <label
       htmlFor={id}
-      className="
+      className={`
         floating-label
-        absolute left-4 2k:left-5 4k:left-10 top-4 2k:top-5 4k:top-9
-        text-cream/50 text-xl 2k:text-xl 4k:text-4xl
+        absolute left-4 top-4 tablet:left-5 tablet:top-5
+        laptop:left-[2vh] laptop:top-[2.3vh]
+        desktop:left-[1.5vh] desktop:top-[1.7vh]
+        text-cream/50 text-xl laptop:text-[2vh] desktop:text-[1.5vh]
         transition-all duration-200 pointer-events-none
-        peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm 4k:peer-placeholder-shown:text-3xl peer-placeholder-shown:text-cream/50
+        peer-placeholder-shown:top-[2.1vh] peer-placeholder-shown:text-sm
+        tablet:peer-placeholder-shown:top-[1.9vh] tablet:peer-placeholder-shown:text-[1.2vh]
+        laptop:peer-placeholder-shown:top-[2vh] laptop:peer-placeholder-shown:text-[2vh]
+        desktop:peer-placeholder-shown:top-[1.4vh] desktop:peer-placeholder-shown:text-[1.5vh]
         peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-blue
+        laptop:peer-focus:top-[0.8vh] laptop:peer-focus:text-[1.2vh]
+        desktop:peer-focus:top-[0.6vh] desktop:peer-focus:text-[0.9vh]
         peer-not-placeholder-shown:top-1.5 peer-not-placeholder-shown:text-[10px] peer-not-placeholder-shown:text-cream/60
-      "
+        laptop:peer-not-placeholder-shown:top-[0.8vh] laptop:peer-not-placeholder-shown:text-[1.2vh]
+        desktop:peer-not-placeholder-shown:top-[0.6vh] desktop:peer-not-placeholder-shown:text-[0.9vh]
+      `}
     >
       {label}
     </label>
     {error && (
-      <p className="mt-1 ml-1 text-xs 4k:text-xl text-red-400">{error}</p>
+      <p className="absolute -bottom-5 laptop:-bottom-[2vh] desktop:-bottom-[1.5vh] left-1 laptop:left-[1vh] desktop:left-[0.8vh] text-xs laptop:text-[1.2vh] desktop:text-[0.9vh] text-red-400">
+        {error}
+      </p>
     )}
   </div>
 );
@@ -281,17 +286,18 @@ const FloatingTextarea = ({
   onChange,
   glassInput,
 }: TextareaProps) => (
-  <div className="relative">
+  <div className="relative laptop:h-[15vh] desktop:h-[11vh]">
     <textarea
       id={id}
       name={name}
       placeholder=" "
       value={value}
       onChange={onChange}
-      rows={5}
       className={`
-        peer w-full px-4 pt-6 pb-2 2k:px-5 2k:pt-7 2k:pb-3 4k:px-8 4k:pt-10 4k:pb-4
-        rounded-xl text-cream text-xl 2k:text-xl 4k:text-4xl
+        peer w-full h-full px-4 pt-6 pb-2 tablet:px-5 tablet:pt-7 tablet:pb-3
+        laptop:px-[2vh] laptop:pt-[3vh] laptop:pb-[1vh]
+        desktop:px-[1.5vh] desktop:pt-[2.2vh] desktop:pb-[0.8vh]
+        rounded-xl text-cream text-xl laptop:text-[2vh] desktop:text-[1.5vh]
         outline-none transition-all duration-200 resize-none
         focus:border-blue focus:shadow-[0_0_0_1px_#558b8b]
         ${glassInput}
@@ -300,20 +306,30 @@ const FloatingTextarea = ({
     />
     <label
       htmlFor={id}
-      className="
+      className={`
         floating-label
-        absolute left-4 2k:left-5 4k:left-8 top-4 2k:top-5 4k:top-6
-        text-cream/50 text-xl 2k:text-xl 4k:text-2xl
+        absolute left-4 top-4 tablet:left-5 tablet:top-5
+        laptop:left-[2vh] laptop:top-[2.3vh]
+        desktop:left-[1.5vh] desktop:top-[1.7vh]
+        text-cream/50 text-xl laptop:text-[2vh] desktop:text-[1.5vh]
         transition-all duration-200 pointer-events-none
-        peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm 4k:peer-placeholder-shown:text-3xl peer-placeholder-shown:text-cream/50
+        peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm
+        laptop:peer-placeholder-shown:top-[2.3vh] laptop:peer-placeholder-shown:text-[2vh]
+        desktop:peer-placeholder-shown:top-[1.7vh] desktop:peer-placeholder-shown:text-[1.5vh]
         peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-blue
+        laptop:peer-focus:top-[0.8vh] laptop:peer-focus:text-[1.2vh]
+        desktop:peer-focus:top-[0.6vh] desktop:peer-focus:text-[0.9vh]
         peer-not-placeholder-shown:top-1.5 peer-not-placeholder-shown:text-[10px] peer-not-placeholder-shown:text-cream/60
-      "
+        laptop:peer-not-placeholder-shown:top-[0.8vh] laptop:peer-not-placeholder-shown:text-[1.2vh]
+        desktop:peer-not-placeholder-shown:top-[0.6vh] desktop:peer-not-placeholder-shown:text-[0.9vh]
+      `}
     >
       {label}
     </label>
     {error && (
-      <p className="mt-1 ml-1 text-xs 4k:text-xl text-red-400">{error}</p>
+      <p className="absolute -bottom-5 laptop:-bottom-[2vh] desktop:-bottom-[1.5vh] left-1 laptop:left-[1vh] desktop:left-[0.8vh] text-xs laptop:text-[1.2vh] desktop:text-[0.9vh] text-red-400">
+        {error}
+      </p>
     )}
   </div>
 );

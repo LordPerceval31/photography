@@ -6,6 +6,14 @@ export interface Item {
   galleryId: string | null;
 }
 
+export type Service = {
+  id: string;
+  title: string;
+  description: string;
+  price: string;
+  photoUrl: string | null;
+};
+
 export function optimizeCloudinaryUrl(url: string): string {
   if (!url || !url.includes("cloudinary.com")) return url;
   if (url.includes("f_auto") || url.includes("q_auto")) return url;

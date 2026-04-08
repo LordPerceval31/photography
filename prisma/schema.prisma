@@ -29,7 +29,7 @@ model User {
   cloudinaryKey    String?
   cloudinarySecret String?
 
-  tarifs Tarif[]
+  tarifs Service[]
   accounts  Account[]
   sessions  Session[]
   photos    Photo[]
@@ -56,7 +56,7 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Tarif {
+model Service {
   id            String   @id @default(cuid())
   title         String
   description   String

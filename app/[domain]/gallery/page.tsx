@@ -1,8 +1,11 @@
+import type { Metadata } from "next";
 import BackgroundWrapper from "./BackgroundWrapper";
 import { notFound } from "next/navigation";
 import prisma from "../lib/prisma";
 
 export const revalidate = 3600;
+
+export const metadata: Metadata = { title: "Galeries" };
 
 const GalleryPage = async ({
   params,

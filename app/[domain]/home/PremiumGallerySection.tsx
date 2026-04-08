@@ -6,6 +6,7 @@ import { Caveat } from "next/font/google";
 import { AnimatePresence } from "framer-motion";
 import { Item } from "../lib/types";
 import Lightbox from "../_components/lightbox";
+import posthog from "posthog-js";
 
 const caveat = Caveat({ subsets: ["latin"], display: "swap" });
 
@@ -25,7 +26,13 @@ const PremiumGallerySection = ({
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
 
-  const handleOpen = useCallback(() => setSelectedIndex(0), []);
+  const handleOpen = useCallback(() => {
+    setSelectedIndex(0);
+    posthog.capture("premium_gallery_opened", {
+      gallery_name: galleryName,
+      photo_count: items.length,
+    });
+  }, [galleryName, items.length]);
   const handleClose = useCallback(() => setSelectedIndex(null), []);
 
   const paginate = useCallback(

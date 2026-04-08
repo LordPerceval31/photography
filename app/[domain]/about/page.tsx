@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import BioSection from "./BioSection";
 import PictureAboutWrapper from "./PictureAboutWrapper";
 import StorySection from "./StorySection";
@@ -5,6 +6,8 @@ import prisma from "../lib/prisma";
 import { notFound } from "next/navigation";
 
 export const revalidate = 3600;
+
+export const metadata: Metadata = { title: "À propos" };
 
 const AboutPage = async ({
   params,
