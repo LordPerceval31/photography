@@ -79,9 +79,9 @@ const ContactSection = ({
         emailjsServiceId,
         emailjsTemplateId,
         {
-          nom: fields.nom,
-          email: fields.email,
-          telephone: fields.telephone,
+          from_name: fields.nom,
+          from_email: fields.email,
+          from_phone: fields.telephone,
           message: fields.message,
         },
         emailjsPublicKey,
