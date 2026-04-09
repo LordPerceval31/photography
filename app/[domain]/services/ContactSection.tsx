@@ -13,7 +13,19 @@ type FormFields = {
 
 type FormErrors = Partial<FormFields>;
 
-const ContactSection = ({ hasNoCards = false }: { hasNoCards?: boolean }) => {
+type ContactSectionProps = {
+  hasNoCards?: boolean;
+  emailjsServiceId: string | null;
+  emailjsTemplateId: string | null;
+  emailjsPublicKey: string | null;
+};
+
+const ContactSection = ({
+  hasNoCards = false,
+  emailjsServiceId,
+  emailjsTemplateId,
+  emailjsPublicKey,
+}: ContactSectionProps) => {
   const [fields, setFields] = useState<FormFields>({
     nom: "",
     email: "",
@@ -55,20 +67,24 @@ const ContactSection = ({ hasNoCards = false }: { hasNoCards?: boolean }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate() || cooldown) return;
+    if (!emailjsServiceId || !emailjsTemplateId || !emailjsPublicKey) {
+      setFormState("error");
+      return;
+    }
 
     setFormState("submitting");
 
     try {
       await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        emailjsServiceId,
+        emailjsTemplateId,
         {
           nom: fields.nom,
           email: fields.email,
           telephone: fields.telephone,
           message: fields.message,
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
+        emailjsPublicKey,
       );
 
       setFields({ nom: "", email: "", telephone: "", message: "" });

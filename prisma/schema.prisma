@@ -28,7 +28,11 @@ model User {
   cloudinaryKey    String?
   cloudinarySecret String?
 
-  services  Service[]
+  emailjsServiceId  String?
+  emailjsTemplateId String?
+  emailjsPublicKey  String?
+
+  services Service[]
   accounts  Account[]
   sessions  Session[]
   photos    Photo[]

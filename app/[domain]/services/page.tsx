@@ -51,7 +51,12 @@ const ServicePage = async ({
       <div className="relative z-10 w-full flex flex-col">
         <ServicesSection services={services} />
         {/* 👇 On prévient la section contact si elle est toute seule 👇 */}
-        <ContactSection hasNoCards={services.length === 0} />
+        <ContactSection
+          hasNoCards={services.length === 0}
+          emailjsServiceId={user.emailjsServiceId}
+          emailjsTemplateId={user.emailjsTemplateId}
+          emailjsPublicKey={user.emailjsPublicKey}
+        />
       </div>
     </main>
   );
