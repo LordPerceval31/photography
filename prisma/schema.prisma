@@ -29,7 +29,7 @@ model User {
   cloudinaryKey    String?
   cloudinarySecret String?
 
-  tarifs Service[]
+  services  Service[]
   accounts  Account[]
   sessions  Session[]
   photos    Photo[]
@@ -62,7 +62,7 @@ model Service {
   description   String
   price         String   // "150 €" ou "Sur devis"
   photoUrl      String?
-  photoPublicId String?  // pour supprimer de Cloudinary si le tarif est supprimé
+  photoPublicId String?  // pour supprimer de Cloudinary si le service est supprimé
   order         Int      @default(0)
   createdAt     DateTime @default(now())
   userId        String
