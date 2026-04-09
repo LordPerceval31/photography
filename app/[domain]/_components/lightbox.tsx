@@ -125,7 +125,7 @@ const Lightbox = ({
     >
       {/* BOUTON FERMER */}
       <button
-        onClick={handleClose}
+        onClick={() => handleClose("button")}
         className="absolute top-6 right-6 tablet:top-10 tablet:right-10 text-white/70 hover:text-white z-50 p-2 bg-black/20 rounded-full backdrop-blur-md"
       >
         <X size={28} />
