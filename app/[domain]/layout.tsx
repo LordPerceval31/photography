@@ -1,19 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import NavBar from "./_components/navBar";
-import { NavbarProvider } from "./_components/NavbarContext";
-import PostHogDomainTracker from "./_components/PostHogDomainTracker";
-import prisma from "./lib/prisma";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-});
+import "../globals.css";
+import prisma from "../lib/prisma";
+import { NavbarProvider } from "../_components/NavbarContext";
+import PostHogDomainTracker from "../_components/PostHogDomainTracker";
+import NavBar from "../_components/navBar";
 
 // --- SEO dynamique par photographe ---
 export async function generateMetadata({
@@ -68,7 +58,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function RootLayout({
+export default async function DomainLayout({
   children,
   params,
 }: Readonly<{
@@ -78,17 +68,11 @@ export default async function RootLayout({
   const { domain } = await params;
 
   return (
-    <html lang="fr" className="h-full antialiased">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-full flex flex-col`}
-      >
-        <NavbarProvider>
-          {/* Enregistre le domaine du photographe dans toutes les analytics */}
-          <PostHogDomainTracker domain={domain} />
-          <NavBar />
-          {children}
-        </NavbarProvider>
-      </body>
-    </html>
+    <NavbarProvider>
+      {/* Enregistre le domaine du photographe dans toutes les analytics */}
+      <PostHogDomainTracker domain={domain} />
+      <NavBar />
+      {children}
+    </NavbarProvider>
   );
 }

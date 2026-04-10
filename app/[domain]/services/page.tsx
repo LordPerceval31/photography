@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import prisma from "../lib/prisma";
+import prisma from "../../lib/prisma";
 import ContactSection from "./ContactSection";
 import ServicesSection from "./ServicesSection";
 

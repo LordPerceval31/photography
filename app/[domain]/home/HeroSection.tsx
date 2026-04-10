@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import prisma from "../lib/prisma";
+import prisma from "../../lib/prisma";
 
 export const revalidate = 0;
 

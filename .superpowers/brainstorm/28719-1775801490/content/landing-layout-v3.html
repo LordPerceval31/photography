@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Photolio — Landing v3 · CTAs clarifiés</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a0a; font-family: system-ui, sans-serif; color: #ededed; font-size: 14px; line-height: 1.5; }
+  .page { max-width: 860px; margin: 0 auto; padding: 24px 16px 60px; }
+  h1 { font-size: 20px; color: #f5f5f0; margin-bottom: 4px; }
+  .meta { color: #888; font-size: 12px; margin-bottom: 28px; }
+
+  .sb { margin-bottom: 14px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(245,245,240,0.12); }
+  .sl {
+    display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+    background: rgba(245,245,240,0.04); border-bottom: 1px solid rgba(245,245,240,0.08);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #888;
+  }
+  .sl .dot { width: 8px; height: 8px; border-radius: 50%; background: #558b8b; flex-shrink: 0; }
+  .sl .tag { background: rgba(85,139,139,0.18); color: #558b8b; border-radius: 4px; padding: 1px 7px; font-size: 10px; font-weight: 700; }
+  .sb-body { padding: 16px; }
+  .note { font-size: 11px; color: #555; margin-top: 10px; font-style: italic; }
+
+  /* CTA LEGEND */
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .legend-green { background: rgba(85,139,139,0.15); border: 1px solid rgba(85,139,139,0.4); color: #558b8b; }
+  .legend-white { background: rgba(245,245,240,0.06); border: 1px solid rgba(245,245,240,0.2); color: #aaa; }
+  .legend-amber { background: rgba(255,180,50,0.1); border: 1px solid rgba(255,180,50,0.3); color: #f5b942; }
+  .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  /* NAVBAR */
+  .wf-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px; background: rgba(245,245,240,0.03);
+    border: 1px solid rgba(245,245,240,0.1); border-radius: 8px;
+  }
+  .wf-logo { font-weight: 800; color: #f5f5f0; font-size: 15px; }
+  .wf-nav-links { display: flex; gap: 16px; }
+  .wf-nav-link { color: #888; font-size: 12px; }
+  .btn-gs {
+    padding: 7px 16px; background: #558b8b; border-radius: 6px;
+    font-size: 12px; font-weight: 700; color: #f5f5f0;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-gs .arrow { opacity: 0.8; }
+  .destination {
+    display: inline-block; margin-left: 6px; padding: 1px 8px;
+    background: rgba(85,139,139,0.2); border: 1px solid rgba(85,139,139,0.4);
+    border-radius: 4px; font-size: 10px; color: #558b8b; font-family: monospace;
+  }
+
+  /* HERO */
+  .wf-hero {
+    text-align: center; padding: 40px 20px 32px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(85,139,139,0.12) 0%, transparent 65%);
+    border: 1px solid rgba(245,245,240,0.08); border-radius: 8px;
+  }
+  .wf-badge { display: inline-block; padding: 3px 12px; background: rgba(85,139,139,0.15); border: 1px solid rgba(85,139,139,0.35); border-radius: 20px; font-size: 11px; color: #558b8b; margin-bottom: 14px; }
+  .wf-title { font-size: 32px; font-weight: 800; color: #f5f5f0; letter-spacing: -1px; line-height: 1.1; margin-bottom: 10px; }
+  .wf-title span { color: #558b8b; }
+  .wf-sub { color: #aaa; font-size: 14px; margin-bottom: 24px; max-width: 420px; margin-left: auto; margin-right: auto; }
+
+  .cta-group { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .btn-primary { padding: 13px 28px; background: #558b8b; border-radius: 8px; color: #f5f5f0; font-weight: 700; font-size: 14px; display: inline-block; }
+  .btn-secondary { padding: 13px 24px; background: rgba(245,245,240,0.06); border: 1px solid rgba(245,245,240,0.2); border-radius: 8px; color: #ccc; font-size: 14px; display: inline-block; }
+
+  .cta-label {
+    display: inline-block; margin-top: 4px;
+    padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700;
+  }
+  .cta-label.green { background: rgba(85,139,139,0.2); color: #558b8b; }
+  .cta-label.white { background: rgba(245,245,240,0.08); color: #888; }
+
+  .cta-explain { display: flex; justify-content: center; gap: 20px; margin-top: 12px; }
+  .cta-explain-item { text-align: center; }
+
+  /* FEATURES */
+  .wf-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .wf-fc { padding: 16px; background: rgba(245,245,240,0.03); border: 1px solid rgba(245,245,240,0.1); border-radius: 8px; }
+  .wf-fi { width: 32px; height: 32px; background: rgba(85,139,139,0.15); border: 1px solid rgba(85,139,139,0.25); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; font-size: 14px; }
+  .wf-ft { font-size: 12px; font-weight: 700; color: #f5f5f0; margin-bottom: 4px; }
+  .wf-fd { font-size: 11px; color: #888; line-height: 1.4; }
+
+  /* GALLERY */
+  .wf-gp { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .wf-gi { aspect-ratio: 4/3; border-radius: 6px; background: rgba(245,245,240,0.04); border: 1px solid rgba(245,245,240,0.08); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #444; }
+  .wf-gi.tall { aspect-ratio: 3/4; grid-row: span 2; }
+
+  /* PRICING */
+  .wf-pricing-wrap { display: flex; justify-content: center; padding: 20px 0; }
+  .wf-pc {
+    width: 340px; padding: 28px;
+    background: rgba(245,245,240,0.04); border: 1px solid rgba(85,139,139,0.35);
+    border-radius: 12px; text-align: center; position: relative;
+  }
+  .wf-pb { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #558b8b; color: #f5f5f0; padding: 2px 14px; border-radius: 20px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+  .wf-pname { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; margin-top: 4px; }
+  .wf-pold { text-decoration: line-through; color: #666; font-size: 13px; }
+  .wf-pnew { font-size: 48px; font-weight: 800; color: #f5f5f0; letter-spacing: -2px; line-height: 1; margin: 4px 0; }
+  .wf-pnew sup { font-size: 20px; vertical-align: top; margin-top: 12px; }
+  .wf-ponce { font-size: 11px; color: #558b8b; margin-bottom: 16px; }
+  .wf-pl { text-align: left; margin-bottom: 20px; }
+  .wf-pi { font-size: 11px; color: #aaa; padding: 5px 0; border-bottom: 1px solid rgba(245,245,240,0.05); display: flex; gap: 8px; align-items: center; }
+  .wf-pi::before { content: '✓'; color: #558b8b; font-weight: 700; }
+
+  /* CONTACT */
+  .wf-form { display: grid; gap: 10px; padding: 20px; background: rgba(245,245,240,0.02); border: 1px solid rgba(245,245,240,0.08); border-radius: 8px; }
+  .wf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .wf-input { padding: 10px 14px; background: rgba(245,245,240,0.04); border: 1px solid rgba(245,245,240,0.12); border-radius: 6px; color: #888; font-size: 12px; }
+  .wf-ta { padding: 10px 14px; background: rgba(245,245,240,0.04); border: 1px solid rgba(245,245,240,0.12); border-radius: 6px; color: #888; font-size: 12px; height: 80px; width: 100%; display: block; }
+
+  /* FOOTER */
+  .wf-footer { padding: 16px 20px; border-top: 1px solid rgba(245,245,240,0.08); display: flex; justify-content: space-between; align-items: center; }
+
+  .sec-title { text-align: center; margin-bottom: 16px; }
+  .sec-title h3 { font-size: 18px; font-weight: 700; color: #f5f5f0; margin-bottom: 4px; }
+  .sec-title p { font-size: 12px; color: #777; }
+
+  .flow-arrow { text-align: center; font-size: 11px; color: #558b8b; padding: 4px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>Photolio — Landing v3 <span style="font-size:13px;color:#558b8b;font-weight:400;">CTAs clarifiés</span></h1>
+  <p class="meta">Chaque bouton a UN rôle précis</p>
+
+  <div class="legend">
+    <div class="legend-item legend-green"><span class="legend-dot" style="background:#558b8b"></span> → /login (utilisateurs inscrits)</div>
+    <div class="legend-item legend-white"><span class="legend-dot" style="background:#aaa"></span> → scroll ancre page</div>
+    <div class="legend-item legend-amber"><span class="legend-dot" style="background:#f5b942"></span> → scroll vers #contact (prospects)</div>
+  </div>
+
+  <!-- 1. NAVBAR -->
+  <div class="sb">
+    <div class="sl"><span class="dot"></span> 1 — Navbar sticky</div>
+    <div class="sb-body">
+      <div class="wf-nav">
+        <span style="font-weight:800;color:#f5f5f0;font-size:15px;">Photolio</span>
+        <div class="wf-nav-links">
+          <span class="wf-nav-link">Fonctionnalités</span>
+          <span class="wf-nav-link">Tarif</span>
+          <span class="wf-nav-link">Contact</span>
+        </div>
+        <span class="btn-gs">Get Started <span class="arrow">→</span></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+        <span style="font-size:11px;color:#666;">"Get Started" dans la navbar</span>
+        <span class="destination">/login</span>
+        <span style="font-size:11px;color:#666;">— pour les utilisateurs déjà créés par toi</span>
+      </div>
+      <p class="note">Glassmorphism sticky. Liens = ancres de page. UN seul bouton d'action.</p>
+    </div>
+  </div>
+
+  <!-- 2. HERO -->
+  <div class="sb">
+    <div class="sl"><span class="dot"></span> 2 — Hero</div>
+    <div class="sb-body">
+      <div class="wf-hero">
+        <div class="wf-badge">✦ La plateforme des photographes</div>
+        <div class="wf-title">Votre site. Vos galeries.<br><span>Vos clients.</span></div>
+        <div class="wf-sub">Créez votre site vitrine, envoyez des galeries privées à vos clients et gérez votre activité photo — en un seul endroit.</div>
+        <div class="cta-group">
+          <div style="text-align:center;">
+            <div class="btn-primary">Get Started →</div>
+            <div style="margin-top:5px;"><span class="cta-label green">→ /login</span></div>
+          </div>
+          <div style="text-align:center;">
+            <div class="btn-secondary">Découvrir ↓</div>
+            <div style="margin-top:5px;"><span class="cta-label white">scroll #fonctionnalités</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="note">"Get Started" = accès direct /login pour les inscrits. "Découvrir" = scroll doux vers les features pour les prospects.</p>
+    </div>
+  </div>
+
+  <!-- 3. FEATURES -->
+  <div class="sb">
+    <div class="sl"><span class="dot"></span> 3 — Fonctionnalités</div>
+    <div class="sb-body">
+      <div class="sec-title">
+        <h3>Tout ce dont vous avez besoin</h3>
+        <p>Un outil pensé pour les photographes, pas pour les comptables.</p>
+      </div>
+      <div class="wf-features">
+        <div class="wf-fc">
+          <div class="wf-fi">🖼</div>
+          <div class="wf-ft">Galeries privées client</div>
+          <div class="wf-fd">Un lien sécurisé. Vos clients voient et téléchargent leurs photos en ZIP — sans compte.</div>
+        </div>
+        <div class="wf-fc">
+          <div class="wf-fi">🌐</div>
+          <div class="wf-ft">Site vitrine évolutif</div>
+          <div class="wf-fd">Sous-domaine Photolio ou domaine custom. Textes, galeries, services gérés depuis le back-office.</div>
+        </div>
+        <div class="wf-fc">
+          <div class="wf-fi">⚡</div>
+          <div class="wf-ft">Paiement unique</div>
+          <div class="wf-fd">89 € une seule fois. Pas d'abonnement. Toutes les mises à jour incluses à vie.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. GALLERY DEMO -->
+  <div class="sb">
+    <div class="sl"><span class="dot"></span> 4 — Démo galerie client</div>
+    <div class="sb-body">
+      <div class="sec-title">
+        <h3>Partagez vos photos, pas vos mots de passe</h3>
+        <p>Un lien, une galerie privée. Vos clients téléchargent, vous gardez le contrôle.</p>
+      </div>
+      <div class="wf-gp">
+        <div class="wf-gi">🏙</div>
+        <div class="wf-gi tall">🌆</div>
+        <div class="wf-gi">🌅</div>
+        <div class="wf-gi">📷</div>
+        <div class="wf-gi">🎭</div>
+        <div class="wf-gi">🚗</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. PRICING -->
+  <div class="sb">
+    <div class="sl"><span class="dot"></span> 5 — Tarif</div>
+    <div class="sb-body">
+      <div class="sec-title">
+        <h3>Un seul tarif. Pour toujours.</h3>
+        <p>Pas d'abonnement, pas de palier. Un paiement, un accès à vie.</p>
+      </div>
+      <div class="wf-pricing-wrap">
+        <div class="wf-pc">
+          <div class="wf-pb">🔥 Offre de lancement</div>
+          <div class="wf-pname">Accès complet</div>
+          <div class="wf-pold">149 €</div>
+          <div class="wf-pnew"><sup>€</sup>89</div>
+          <div class="wf-ponce">paiement unique · accès à vie</div>
+          <div class="wf-pl">
+            <div class="wf-pi">Site vitrine personnalisé</div>
+            <div class="wf-pi">Galeries privées illimitées</div>
+            <div class="wf-pi">Domaine custom ou sous-domaine</div>
+            <div class="wf-pi">Back-office photos &amp; galeries</div>
+            <div class="wf-pi">Mises à jour incluses à vie</div>
+          </div>
+          <div style="background:rgba(255,180,50,0.08);border:1px solid rgba(255,180,50,0.25);border-radius:8px;padding:12px;text-align:center;">
+            <div style="font-weight:700;color:#f5f5f0;font-size:13px;margin-bottom:3px;">Intéressé ? Contactez-moi</div>
+            <div style="font-size:10px;color:#f5b942;">↓ scroll vers le formulaire de contact</div>
+          </div>
+        </div>
+      </div>
+      <p class="note">Le bouton du tarif scrolle vers #contact. Le prospect remplit le formulaire, tu crées le compte manuellement.</p>
+    </div>
+  </div>
+
+  <!-- 6. CONTACT -->
+  <div class="sb">
+    <div class="sl"><span class="dot"></span> 6 — Contact</div>
+    <div class="sb-body">
+      <div class="sec-title">
+        <h3>Intéressé ? Prenons contact.</h3>
+        <p>Envoyez-moi un message — je reviens vers vous sous 24h.</p>
+      </div>
+      <div class="wf-form">
+        <div class="wf-row">
+          <div class="wf-input">Prénom / Nom</div>
+          <div class="wf-input">Email</div>
+        </div>
+        <div class="wf-input">Sujet</div>
+        <div class="wf-ta"></div>
+        <div class="btn-primary" style="text-align:center;padding:12px;border-radius:8px;">Envoyer le message</div>
+      </div>
+      <p class="note">Server Action + Resend. Rate-limit. Labels flottants glassmorphism comme sur le site vitrine.</p>
+    </div>
+  </div>
+
+  <!-- 7. FOOTER -->
+  <div class="sb">
+    <div class="sl"><span class="dot"></span> 7 — Footer</div>
+    <div class="sb-body">
+      <div class="wf-footer">
+        <span style="font-weight:800;color:#f5f5f0;font-size:14px;">Photolio</span>
+        <div>
+          <span style="color:#555;font-size:11px;margin-left:16px;">CGU</span>
+          <span style="color:#555;font-size:11px;margin-left:16px;">Confidentialité</span>
+        </div>
+        <span style="font-size:11px;color:#444;">© 2026 Photolio</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

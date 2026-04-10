@@ -5,7 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavbar } from "./NavbarContext";
 import { Item } from "../lib/types";
-import GalleryCarousel, { GalleryItem } from "../gallery/GalleryCarousel";
+import GalleryCarousel, {
+  GalleryItem,
+} from "../[domain]/gallery/GalleryCarousel";
 import posthog from "posthog-js";
 
 interface LightboxProps {
@@ -100,15 +102,29 @@ const Lightbox = ({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" && selectedIndex < items.length - 1) {
-        posthog.capture("lightbox_navigated", { direction: "next", method: "keyboard", new_index: selectedIndex + 1, total_photos: items.length });
+        posthog.capture("lightbox_navigated", {
+          direction: "next",
+          method: "keyboard",
+          new_index: selectedIndex + 1,
+          total_photos: items.length,
+        });
         onPaginate(1);
       }
       if (e.key === "ArrowLeft" && selectedIndex > 0) {
-        posthog.capture("lightbox_navigated", { direction: "previous", method: "keyboard", new_index: selectedIndex - 1, total_photos: items.length });
+        posthog.capture("lightbox_navigated", {
+          direction: "previous",
+          method: "keyboard",
+          new_index: selectedIndex - 1,
+          total_photos: items.length,
+        });
         onPaginate(-1);
       }
       if (e.key === "Escape") {
-        posthog.capture("lightbox_closed", { photo_index: selectedIndex, total_photos: items.length, method: "keyboard" });
+        posthog.capture("lightbox_closed", {
+          photo_index: selectedIndex,
+          total_photos: items.length,
+          method: "keyboard",
+        });
         onClose();
       }
     };

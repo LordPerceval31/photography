@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photolio — Landing immersive</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #080808;
+  font-family: 'Helvetica Neue', system-ui, sans-serif;
+  color: #f0f0ee;
+  overflow-x: hidden;
+}
+
+/* ─── FLOATING HEADER ─── */
+.header {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - 48px);
+  max-width: 1100px;
+  padding: 12px 20px;
+  background: rgba(8,8,8,0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 100px;
+  z-index: 100;
+}
+.logo {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #f0f0ee;
+}
+.btn-gs {
+  padding: 8px 20px;
+  background: #f0f0ee;
+  color: #080808;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 80px;
+  text-align: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(8,8,8,0.2) 0%, rgba(8,8,8,0.0) 30%, rgba(8,8,8,0.7) 75%, rgba(8,8,8,1) 100%),
+    url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1600&q=80') center/cover no-repeat;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,240,238,0.5);
+  margin-bottom: 18px;
+}
+.hero-title {
+  font-size: clamp(48px, 7vw, 88px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  color: #f0f0ee;
+  margin-bottom: 20px;
+}
+.hero-title em {
+  font-style: normal;
+  color: #558b8b;
+}
+.hero-sub {
+  font-size: 16px;
+  color: rgba(240,240,238,0.55);
+  max-width: 480px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+.hero-cta {
+  display: inline-block;
+  padding: 15px 36px;
+  background: #558b8b;
+  color: #f0f0ee;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+/* ─── SECTION GÉNÉRIQUE ─── */
+.section {
+  padding: 100px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #558b8b;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  color: #f0f0ee;
+  margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 16px;
+  color: rgba(240,240,238,0.45);
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+/* ─── FEATURES : BENTO GRID ─── */
+.bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 12px;
+  margin-top: 56px;
+}
+.bento-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.bento-card.wide { grid-column: span 2; }
+.bento-card.tall { grid-row: span 2; }
+
+.bento-number {
+  font-size: 72px;
+  font-weight: 800;
+  letter-spacing: -4px;
+  color: rgba(85,139,139,0.15);
+  line-height: 1;
+  margin-bottom: 40px;
+}
+.bento-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #f0f0ee;
+  margin-bottom: 8px;
+}
+.bento-desc {
+  font-size: 14px;
+  color: rgba(240,240,238,0.45);
+  line-height: 1.6;
+}
+
+/* Bento card 1 : galerie preview */
+.mini-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 28px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.mini-photo {
+  aspect-ratio: 1;
+  background: rgba(255,255,255,0.05);
+  overflow: hidden;
+}
+.mini-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+}
+
+/* Bento card 2 : lien partage */
+.share-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(85,139,139,0.1);
+  border: 1px solid rgba(85,139,139,0.25);
+  border-radius: 10px;
+  font-size: 12px;
+  color: #558b8b;
+  font-family: monospace;
+  margin-bottom: 28px;
+}
+.share-link::before { content: '🔗'; }
+
+/* Bento card 3 : site vitrine */
+.site-preview {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 24px;
+  background: #111;
+}
+.site-preview-bar {
+  background: #1a1a1a;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.dot-r { width: 6px; height: 6px; border-radius: 50%; background: #ff5f56; }
+.dot-y { width: 6px; height: 6px; border-radius: 50%; background: #febc2e; }
+.dot-g { width: 6px; height: 6px; border-radius: 50%; background: #27c840; }
+.site-preview-content {
+  height: 120px;
+  background: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=70') center/cover;
+  opacity: 0.7;
+}
+
+/* Bento card 4 : prix */
+.price-display {
+  text-align: center;
+  padding: 20px 0;
+}
+.price-old { font-size: 16px; text-decoration: line-through; color: rgba(240,240,238,0.25); }
+.price-new { font-size: 64px; font-weight: 800; letter-spacing: -3px; color: #f0f0ee; line-height: 1; }
+.price-new sup { font-size: 24px; vertical-align: top; margin-top: 16px; }
+.price-once { font-size: 12px; color: #558b8b; margin-top: 4px; letter-spacing: 0.05em; }
+
+/* ─── GALERIE PLEINE LARGEUR ─── */
+.gallery-full {
+  width: 100%;
+  padding: 0 0 120px;
+}
+.gallery-header {
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  padding: 0 24px;
+}
+.masonry {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 200px 200px;
+  gap: 6px;
+  padding: 0 6px;
+}
+.masonry-photo {
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.masonry-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.75;
+  transition: opacity 0.3s;
+}
+.masonry-photo.span2 { grid-row: span 2; }
+.masonry-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 12px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ─── PRICING ─── */
+.pricing-section {
+  padding: 80px 24px 100px;
+  text-align: center;
+}
+.pricing-card {
+  display: inline-block;
+  width: 100%;
+  max-width: 440px;
+  padding: 48px;
+  background: rgba(85,139,139,0.06);
+  border: 1px solid rgba(85,139,139,0.2);
+  border-radius: 24px;
+  margin-top: 48px;
+  text-align: left;
+  position: relative;
+}
+.pricing-badge {
+  position: absolute;
+  top: -13px;
+  left: 48px;
+  background: #558b8b;
+  color: #f0f0ee;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 14px;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+}
+.pricing-price-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 20px 0 6px;
+}
+.pricing-old { font-size: 18px; text-decoration: line-through; color: rgba(240,240,238,0.25); margin-bottom: 4px; }
+.pricing-new { font-size: 64px; font-weight: 800; letter-spacing: -3px; line-height: 1; color: #f0f0ee; }
+.pricing-once { font-size: 13px; color: #558b8b; margin-bottom: 32px; }
+.pricing-list { list-style: none; margin-bottom: 36px; }
+.pricing-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 14px;
+  color: rgba(240,240,238,0.7);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pricing-list li::before { content: '✓'; color: #558b8b; font-weight: 700; }
+.btn-pricing {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: #558b8b;
+  color: #f0f0ee;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ─── CONTACT ─── */
+.contact-section {
+  padding: 80px 24px 120px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+.contact-form {
+  margin-top: 48px;
+  display: grid;
+  gap: 12px;
+  text-align: left;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-input {
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  color: rgba(240,240,238,0.4);
+  font-size: 14px;
+  width: 100%;
+}
+.form-textarea {
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  color: rgba(240,240,238,0.4);
+  font-size: 14px;
+  width: 100%;
+  height: 120px;
+  resize: none;
+}
+.btn-contact {
+  padding: 16px;
+  background: #f0f0ee;
+  color: #080808;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  padding: 32px 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.footer-logo { font-weight: 800; font-size: 14px; }
+.footer-right { font-size: 12px; color: rgba(240,240,238,0.25); }
+
+/* ─── SEPARATOR ─── */
+.sep {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.07), transparent);
+  margin: 0 auto;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER FLOTTANT -->
+<div class="header">
+  <span class="logo">Photolio</span>
+  <span class="btn-gs">Get Started →</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">La plateforme des photographes</div>
+    <div class="hero-title">Votre œuvre.<br><em>Votre outil.</em></div>
+    <div class="hero-sub">Un site vitrine, des galeries privées pour vos clients, un back-office complet. Tout ça, pour une fois.</div>
+    <span class="hero-cta">Get Started — 89 €</span>
+  </div>
+</div>
+
+<!-- FEATURES : BENTO -->
+<div class="section">
+  <div class="section-label">Ce que vous obtenez</div>
+  <div class="section-title">Conçu pour<br>ceux qui shootent.</div>
+  <div class="section-sub">Pas pour ceux qui codent, pas pour ceux qui comptent.</div>
+
+  <div class="bento">
+
+    <!-- Card A : galeries privées -->
+    <div class="bento-card wide">
+      <div class="mini-gallery">
+        <div class="mini-photo"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=200&q=70" alt=""></div>
+        <div class="mini-photo"><img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=200&q=70" alt=""></div>
+        <div class="mini-photo"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&q=70" alt=""></div>
+      </div>
+      <div class="share-link">photolio.fr/g/mariage-dupont-2026</div>
+      <div class="bento-title">Galeries privées client</div>
+      <div class="bento-desc">Un lien unique, sécurisé. Vos clients voient leurs photos et téléchargent en ZIP — sans créer de compte.</div>
+    </div>
+
+    <!-- Card B : prix -->
+    <div class="bento-card">
+      <div class="price-display">
+        <div class="price-old">149 €</div>
+        <div class="price-new"><sup>€</sup>89</div>
+        <div class="price-once">PAIEMENT UNIQUE · À VIE</div>
+      </div>
+      <div class="bento-title">Zéro abonnement</div>
+      <div class="bento-desc">Payez une fois. Toutes les mises à jour incluses.</div>
+    </div>
+
+    <!-- Card C : site vitrine -->
+    <div class="bento-card">
+      <div class="site-preview">
+        <div class="site-preview-bar">
+          <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+          <span style="margin-left:8px;font-size:10px;color:#444;font-family:monospace;">jean.photolio.fr</span>
+        </div>
+        <div class="site-preview-content"></div>
+      </div>
+      <div class="bento-title">Site vitrine évolutif</div>
+      <div class="bento-desc">Sous-domaine ou domaine custom. Design qui évolue avec vous.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- GALERIE IMMERSIVE -->
+<div class="gallery-full">
+  <div class="gallery-header">
+    <div class="section-label">Exemple de galerie client</div>
+    <div class="section-title">Un lien.<br>Ils téléchargent.</div>
+    <div class="section-sub">Vos clients reçoivent un lien privé. Ils voient, ils choisissent, ils téléchargent en ZIP. Vous gardez le contrôle.</div>
+  </div>
+  <div class="masonry">
+    <div class="masonry-photo span2">
+      <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=75" alt="">
+      <div class="masonry-caption">Street</div>
+    </div>
+    <div class="masonry-photo">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=75" alt="">
+      <div class="masonry-caption">Portrait</div>
+    </div>
+    <div class="masonry-photo">
+      <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&q=75" alt="">
+      <div class="masonry-caption">Paysage</div>
+    </div>
+    <div class="masonry-photo">
+      <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&q=75" alt="">
+    </div>
+    <div class="masonry-photo">
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=75" alt="">
+      <div class="masonry-caption">Montagne</div>
+    </div>
+    <div class="masonry-photo">
+      <img src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?w=400&q=75" alt="">
+    </div>
+    <div class="masonry-photo">
+      <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=400&q=75" alt="">
+      <div class="masonry-caption">Studio</div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- PRICING -->
+<div class="pricing-section">
+  <div class="section-label">Tarif</div>
+  <div class="section-title">Un prix.<br>Pour toujours.</div>
+  <div class="section-sub">Pas de piège. Pas d'abonnement. Payez une fois, utilisez à vie.</div>
+  <div style="display:flex;justify-content:center;">
+    <div class="pricing-card">
+      <div class="pricing-badge">Offre de lancement</div>
+      <div style="font-size:12px;color:rgba(240,240,238,0.4);text-transform:uppercase;letter-spacing:0.1em;">Accès complet</div>
+      <div class="pricing-old">149 €</div>
+      <div class="pricing-new">89<sup style="font-size:24px;vertical-align:top;margin-top:16px;">€</sup></div>
+      <div class="pricing-once">paiement unique · accès à vie</div>
+      <ul class="pricing-list">
+        <li>Site vitrine personnalisé</li>
+        <li>Galeries privées client illimitées</li>
+        <li>Domaine custom ou sous-domaine</li>
+        <li>Back-office photos &amp; galeries</li>
+        <li>Toutes les mises à jour incluses</li>
+      </ul>
+      <div class="btn-pricing">Contacter pour accéder ↓</div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- CONTACT -->
+<div class="contact-section">
+  <div class="section-label">Contact</div>
+  <div class="section-title">Intéressé ?</div>
+  <div class="section-sub">Envoyez un message. Je reviens sous 24h et crée votre accès.</div>
+  <div class="contact-form">
+    <div class="form-row">
+      <div class="form-input">Prénom / Nom</div>
+      <div class="form-input">Email</div>
+    </div>
+    <div class="form-input">Sujet</div>
+    <div class="form-textarea"></div>
+    <div class="btn-contact">Envoyer →</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span class="footer-logo">Photolio</span>
+  <span class="footer-right">© 2026 · CGU · Confidentialité</span>
+</div>
+
+</body>
+</html>

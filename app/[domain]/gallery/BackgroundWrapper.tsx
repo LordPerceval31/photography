@@ -1,6 +1,6 @@
-import prisma from "../lib/prisma";
-import { optimizeCloudinaryUrl } from "../lib/types";
-import Masonry from "./background";
+import prisma from "../../lib/prisma";
+import { optimizeCloudinaryUrl } from "../../lib/types";
+import MasonryClient from "./MasonryClient";
 
 const shuffleArray = <T,>(array: T[]): T[] => {
   const shuffled = [...array];
@@ -38,7 +38,7 @@ export default async function BackgroundWrapper({
 
   return (
     <div className="relative w-full z-0 px-4 py-8 md:px-12 md:py-12">
-      <Masonry items={shuffledItems} />
+      <MasonryClient items={shuffledItems} />
     </div>
   );
 }

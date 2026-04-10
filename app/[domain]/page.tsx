@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
-import SmoothScroll from "./_components/SmoothScroll";
 import HeroSection from "./home/HeroSection";
 import PremiumGalleryWrapper from "./home/PremiumGalleryWrapper";
 import DarkSection from "./home/DarkSection";
 import CarouselWrapper from "./home/CarouselWrapper";
-import { prisma } from "../[domain]/lib/prisma";
+import { prisma } from "../lib/prisma";
+import SmoothScroll from "../_components/SmoothScroll";
 
 export const revalidate = 3600;
 

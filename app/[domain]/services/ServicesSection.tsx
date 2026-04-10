@@ -1,5 +1,5 @@
-import PolaroidCard from "../_components/PolaroïdeCard";
-import { Service } from "../lib/types";
+import PolaroidCard from "@/app/_components/PolaroïdeCard";
+import { Service } from "../../lib/types";
 
 const ServicesSection = ({ services }: { services: Service[] }) => {
   if (services.length === 0) return null;

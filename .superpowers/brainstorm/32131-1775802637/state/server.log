@@ -1,0 +1,3 @@
+{"type":"server-started","port":54390,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:54390","screen_dir":"/Users/sylvain/Documents/photographe/.superpowers/brainstorm/32131-1775802637/content","state_dir":"/Users/sylvain/Documents/photographe/.superpowers/brainstorm/32131-1775802637/state"}
+{"type":"screen-added","file":"/Users/sylvain/Documents/photographe/.superpowers/brainstorm/32131-1775802637/content/landing-v4-immersive.html"}
+{"type":"server-stopped","reason":"owner process exited"}

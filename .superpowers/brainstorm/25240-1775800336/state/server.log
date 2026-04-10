@@ -1,0 +1,3 @@
+{"type":"server-started","port":51571,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:51571","screen_dir":"/Users/sylvain/Documents/photographe/.superpowers/brainstorm/25240-1775800336/content","state_dir":"/Users/sylvain/Documents/photographe/.superpowers/brainstorm/25240-1775800336/state"}
+{"type":"screen-added","file":"/Users/sylvain/Documents/photographe/.superpowers/brainstorm/25240-1775800336/content/landing-layout.html"}
+{"type":"server-stopped","reason":"owner process exited"}

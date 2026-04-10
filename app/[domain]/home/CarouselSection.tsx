@@ -5,9 +5,9 @@ import { useState, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { Item } from "../lib/types";
+import { Item } from "../../lib/types";
 import { CarouselGallery } from "./CarouselWrapper";
-import Lightbox from "../_components/lightbox";
+import Lightbox from "@/app/_components/lightbox";
 
 const CarouselSection = ({ galleries }: { galleries: CarouselGallery[] }) => {
   const [emblaRef] = useEmblaCarousel({ loop: true, dragFree: true }, [

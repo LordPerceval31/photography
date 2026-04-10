@@ -1,6 +1,6 @@
-import { optimizeCloudinaryUrl } from "../lib/types";
+import { optimizeCloudinaryUrl } from "../../lib/types";
 import PictureAboutSection from "./PictureAboutSection";
-import prisma from "../lib/prisma";
+import prisma from "../../lib/prisma";
 
 const PictureAboutWrapper = async ({ userId }: { userId: string }) => {
   // 1. On va chercher chaque photo par son flag spécifique (gauche, milieu, droite)

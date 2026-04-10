@@ -1,5 +1,5 @@
-import { caveat } from "../lib/fonts";
-import prisma from "../lib/prisma";
+import { caveat } from "../../lib/fonts";
+import prisma from "../../lib/prisma";
 
 const StorySection = async ({ userId }: { userId: string }) => {
   const config = await prisma.siteConfig.findFirst({
