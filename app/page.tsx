@@ -116,10 +116,6 @@ export default function LandingPage() {
           </div>
 
           <div className="relative z-10 w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-600 mx-auto flex flex-col items-start text-left 4k:translate-y-24 4k:-translate-x-70 transition-transform duration-500">
-            <p className="text-[11px] 2k:text-[14px] 4k:text-xl font-medium tracking-[0.25em] uppercase text-cream/50 mb-4 laptop:mb-6 desktop:mb-8 2k:mb-10 4k:mb-16 cursor-default">
-              La plateforme sur-mesure
-            </p>
-
             {/* AJOUT SEO : Le VRAI H1 pour Google et les liseuses d'écran */}
             <h1 className="sr-only">
               Photolio : Le logiciel SaaS et créateur de sites vitrines pour
@@ -155,10 +151,6 @@ export default function LandingPage() {
         {/* ── BENTO GRID ── */}
         <section className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-700 mx-auto px-4 py-20 laptop:py-32 desktop:py-40 2k:py-56 4k:py-80">
           <div className="mb-10 laptop:mb-16 desktop:mb-20 2k:mb-24 4k:mb-40 text-center tablet:text-left">
-            <p className="text-[10px] laptop:text-xs desktop:text-sm 2k:text-base 4k:text-2xl font-semibold tracking-[0.18em] uppercase text-blue mb-3 desktop:mb-4 2k:mb-6 4k:mb-12 cursor-default">
-              L&apos;Essentiel
-            </p>
-
             {/* AJOUT SEO : Le H2 invisible */}
             <h2 className="sr-only">
               Galeries privées et portfolios sans commission
@@ -267,30 +259,57 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ── GALERIE INFINIE ── */}
-        <section className="py-20 laptop:py-32 desktop:py-40 2k:py-56 4k:py-96 w-full overflow-hidden pointer-events-none select-none">
-          <div className="w-full tablet:w-[80%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 4k:max-w-600 mx-auto px-4 mb-10 2k:mb-24 4k:mb-48 text-center tablet:text-left">
-            <h2 className="text-3xl tablet:text-5xl laptop:text-6xl 2k:text-8xl 4k:text-[12rem] font-extrabold tracking-tight text-cream cursor-default">
-              Expérience fluide.
+        {/* ── DÉMO EN DIRECT ── */}
+        <section className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-700 mx-auto px-4 py-20 laptop:py-32 desktop:py-40 2k:py-56 4k:py-80">
+          <div className="mb-10 laptop:mb-16 desktop:mb-20 2k:mb-24 4k:mb-40 text-center tablet:text-left">
+            <h2 className="text-3xl tablet:text-5xl laptop:text-6xl desktop:text-7xl 2k:text-8xl 4k:text-[11rem] font-extrabold tracking-tight text-cream mb-4 leading-tight cursor-default">
+              Le résultat final.
             </h2>
           </div>
-          <div className="carousel-wrapper relative w-full flex">
-            <div className="carousel-track flex w-max gap-4 laptop:gap-8 4k:gap-20 px-2">
-              {[...GALLERY_PHOTOS, ...GALLERY_PHOTOS].map((photo, i) => (
-                <div
-                  key={i}
-                  className="relative w-45 tablet:w-56 laptop:w-70 desktop:w-90 2k:w-120 4k:w-220 aspect-3/4 rounded-2xl laptop:rounded-4xl 4k:rounded-[100px] overflow-hidden shrink-0 bg-white/5"
-                >
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt}
-                    fill
-                    sizes="600px"
-                    className="object-cover opacity-70"
-                  />
-                </div>
-              ))}
+
+          <div className="glass-card rounded-3xl 2k:rounded-[40px] 4k:rounded-[80px] p-6 tablet:p-10 laptop:p-14 desktop:p-20 flex flex-col laptop:flex-row items-center gap-10 laptop:gap-16">
+            <div className="w-full laptop:w-1/2 flex flex-col items-start text-left">
+              <h3 className="text-2xl laptop:text-3xl desktop:text-4xl 2k:text-5xl 4k:text-7xl font-bold tracking-tight text-cream mb-4 cursor-default">
+                Portfolio &quot;Cuisine &amp; Art de vivre&quot;
+              </h3>
+              <p className="text-sm laptop:text-base desktop:text-lg 2k:text-xl 4k:text-4xl text-cream/60 leading-relaxed mb-8 laptop:mb-12 cursor-default">
+                Ne vous contentez pas de promesses. Visitez un exemple concret
+                de site vitrine généré avec Photolio. Explorez les galeries,
+                testez la fluidité de navigation et imaginez vos propres photos
+                à la place.
+              </p>
+
+              <a
+                href="https://demo-cuisine.photolio.fr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group px-8 py-4 laptop:px-10 desktop:px-12 bg-blue text-cream rounded-full text-sm desktop:text-base 2k:text-xl 4k:text-4xl font-bold tracking-tight hover:opacity-90 transition-all flex items-center gap-3 w-full tablet:w-auto justify-center"
+              >
+                Explorer la démo
+                <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
+                  ↗
+                </span>
+              </a>
             </div>
+
+            <a
+              href="https://demo-cuisine.photolio.fr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full laptop:w-1/2 relative aspect-video rounded-2xl 2k:rounded-3xl overflow-hidden border border-white/10 shadow-2xl group cursor-pointer"
+            >
+              <Image
+                src="/kitchen.webp"
+                alt="Aperçu du site de démonstration"
+                fill
+                className="object-cover transition-transform duration-700 opacity-80 group-hover:opacity-100"
+              />
+              <div className="absolute inset-0 bg-blue/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="bg-dark/80 backdrop-blur-md text-cream px-6 py-3 rounded-full text-sm font-semibold border border-white/10 shadow-lg">
+                  Ouvrir le site complet
+                </span>
+              </div>
+            </a>
           </div>
         </section>
 
@@ -299,11 +318,11 @@ export default function LandingPage() {
           id="contact"
           className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 4k:max-w-700 mx-auto px-4 py-24 laptop:py-32 desktop:py-40 2k:py-56 4k:py-96"
         >
-          <div className="text-center mb-10 laptop:mb-16 desktop:mb-24 4k:mb-48">
+          <div className="text-center laptop:text-left mb-10 laptop:mb-16 desktop:mb-24 4k:mb-48">
             <h2 className="text-3xl tablet:text-4xl laptop:text-5xl 2k:text-7xl 4k:text-[10rem] font-extrabold tracking-tight text-cream mb-4 4k:mb-16 cursor-default">
               Demander un accès
             </h2>
-            <p className="text-sm laptop:text-base 2k:text-2xl 4k:text-5xl text-cream/60 max-w-lg laptop:max-w-2xl 4k:max-w-7xl mx-auto cursor-default">
+            <p className="text-sm laptop:text-base 2k:text-2xl 4k:text-5xl text-cream/60 max-w-lg laptop:max-w-2xl 4k:max-w-7xl mx-auto laptop:mx-0 cursor-default">
               Parlez-moi de votre activité, je crée votre espace sous 24h.
             </p>
           </div>
