@@ -58,9 +58,9 @@ export async function sendContactEmail(
       process.env.EMAILJS_SERVICE_ID!,
       process.env.EMAILJS_TEMPLATE_ID!,
       {
-        user_name: name,
-        user_email: email,
-        user_phone: phone || "Non renseigné",
+        from_name: name,
+        from_email: email,
+        from_phone: phone || "Non renseigné",
         message: message,
       },
       {
