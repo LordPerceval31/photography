@@ -20,7 +20,7 @@ export default async function DashboardLayout({
       {/* 1. LE FOND : Totalement indépendant et fixe */}
       <div className="fixed inset-0 -z-10">
         <Image
-          src="/Background_dashboard.webp"
+          src="/background_dashboard.webp"
           alt="image de fond"
           fill
           sizes="100vw"
