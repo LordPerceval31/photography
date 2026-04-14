@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import prisma from "@/app/lib/prisma";
 import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
 import { PhotoSlot } from "@/app/_components/PhotoSlot";
+import { AddToGallerySlot } from "@/app/_components/AddToGallerySlot";
 
 const AddPhotoPage = async () => {
   const session = await auth();
@@ -41,6 +42,12 @@ const AddPhotoPage = async () => {
       </div>
     );
   }
+
+  const galleries = await prisma.gallery.findMany({
+    where: { userId: session.user.id },
+    select: { id: true, name: true },
+    orderBy: { createdAt: "desc" },
+  });
 
   const photos = await prisma.photo.findMany({
     where: { userId: session.user.id },
@@ -94,7 +101,7 @@ const AddPhotoPage = async () => {
       </div>
 
       {/* CONTENEUR CENTRAL */}
-      <div className="flex flex-col items-center justify-center w-full h-full gap-8 tablet:gap-12 laptop:gap-3 desktop:gap-4 2k:gap-8 4k:gap-10 pb-8 overflow-y-auto no-scrollbar cursor-default">
+      <div className="flex flex-col items-center justify-start w-full h-full gap-8 tablet:gap-12 laptop:gap-3 desktop:gap-4 2k:gap-8 4k:gap-10 pb-8 overflow-y-auto no-scrollbar cursor-default">
         {/* 1. LIGNE COVER (16:9) */}
         <div className="flex flex-col laptop:flex-row items-center justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
           <p className="text-center laptop:text-left italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl ultrawide:text-2xl 4k:text-4xl leading-relaxed">
@@ -162,6 +169,19 @@ const AddPhotoPage = async () => {
                 currentUrl={about3Url}
               />
             </div>
+          </div>
+        </div>
+
+        {/* 4. AJOUTER UNE PHOTO À UNE GALERIE */}
+        <div className="flex flex-col laptop:flex-row items-center justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%] border-t border-cream/10 pt-8 gap-6">
+          <p className="text-center laptop:text-left italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl ultrawide:text-2xl 4k:text-4xl leading-relaxed">
+            Ajouter une photo à une galerie.
+          </p>
+          <div className="flex flex-col items-center gap-1 w-[70vw] tablet:w-[50vw] laptop:w-55 desktop:w-87.5 2k:w-100 ultrawide:w-100 4k:w-175">
+            <p className="text-[8px] tablet:text-[10px] desktop:text-[10px] 2k:text-lg 4k:text-3xl uppercase tracking-widest text-cream/30">
+              Galerie
+            </p>
+            <AddToGallerySlot galleries={galleries} />
           </div>
         </div>
       </div>

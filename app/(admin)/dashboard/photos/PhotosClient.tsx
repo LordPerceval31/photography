@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -14,13 +14,17 @@ import {
   ChevronDown,
   ArrowRight,
   Loader2,
+  ImagePlus,
+  X,
 } from "lucide-react";
 import {
+  addPhotoToGallery,
   copyPhotos,
   deletePhotos,
   movePhotos,
   renamePhoto,
 } from "../../actions/photos";
+import { getUploadSignature } from "../../actions/getUploadSignature";
 import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
 
 interface Photo {
@@ -68,6 +72,17 @@ const PhotosClient = ({
   const [isTargetGalleryOpen, setIsTargetGalleryOpen] = useState(false);
 
   const [isPending, setIsPending] = useState(false);
+
+  // Panneau "Ajouter une photo à une galerie"
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [addGalleryId, setAddGalleryId] = useState("");
+  const [addTitle, setAddTitle] = useState("");
+  const [addFile, setAddFile] = useState<File | null>(null);
+  const [addPreview, setAddPreview] = useState<string | null>(null);
+  const [isAddGalleryOpen, setIsAddGalleryOpen] = useState(false);
+  const [isAddPending, setIsAddPending] = useState(false);
+  const [addError, setAddError] = useState("");
+  const addInputRef = useRef<HTMLInputElement>(null);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -251,6 +266,65 @@ const PhotosClient = ({
     if (!targetGalleryId) return "Destination...";
     const found = galleries.find((g) => g.id === targetGalleryId);
     return found ? found.name : "Destination...";
+  };
+
+  const handleAddFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    if (!file) return;
+    setAddFile(file);
+    setAddPreview(URL.createObjectURL(file));
+    e.target.value = "";
+  };
+
+  const handleAddPhoto = async () => {
+    if (!addFile || !addGalleryId) return;
+    setIsAddPending(true);
+    setAddError("");
+    try {
+      const sig = await getUploadSignature();
+      if (sig.error || !sig.signature) {
+        setAddError(sig.error ?? "Impossible de signer l'upload.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", addFile);
+      formData.append("api_key", sig.apiKey!);
+      formData.append("timestamp", String(sig.timestamp));
+      formData.append("signature", sig.signature);
+      formData.append("folder", "photographe");
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${sig.cloudName}/image/upload`,
+        { method: "POST", body: formData },
+      );
+      if (!res.ok) throw new Error("Échec de l'upload vers Cloudinary.");
+
+      const json = await res.json();
+      const result = await addPhotoToGallery(
+        addGalleryId,
+        json.secure_url,
+        json.public_id,
+        addTitle,
+      );
+
+      if (result.error) {
+        setAddError(result.error);
+        return;
+      }
+
+      // Réinitialisation du panneau
+      setAddFile(null);
+      setAddPreview(null);
+      setAddTitle("");
+      setAddGalleryId("");
+      setIsAddOpen(false);
+      router.refresh();
+    } catch (err: unknown) {
+      setAddError(err instanceof Error ? err.message : "Une erreur est survenue.");
+    } finally {
+      setIsAddPending(false);
+    }
   };
 
   const handleActionClick = (action: ActionType) => {
@@ -617,6 +691,114 @@ const PhotosClient = ({
             </div>
           )}
         </div>
+      </div>
+
+      {/* PANNEAU AJOUT PHOTO À UNE GALERIE */}
+      <div className="w-[90%] self-center">
+        <button
+          type="button"
+          onClick={() => { setIsAddOpen((v) => !v); setAddError(""); }}
+          className="flex items-center gap-2 text-cream/60 hover:text-cream transition-colors text-[10px] uppercase tracking-widest font-medium"
+        >
+          <ImagePlus className="w-4 h-4" />
+          Ajouter une photo à une galerie
+          <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isAddOpen ? "rotate-180" : ""}`} />
+        </button>
+
+        {isAddOpen && (
+          <div className="mt-4 p-4 rounded-xl glass-premium flex flex-col gap-4 animate-in slide-in-from-top-1 fade-in duration-200">
+            {/* Sélection du fichier */}
+            <input
+              ref={addInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleAddFileChange}
+            />
+
+            <div className="flex flex-col tablet:flex-row gap-4 items-start">
+              {/* Aperçu / zone de clic */}
+              <button
+                type="button"
+                onClick={() => addInputRef.current?.click()}
+                className="shrink-0 w-24 h-24 rounded-lg border border-dashed border-cream/20 hover:border-cream/40 transition-colors overflow-hidden flex items-center justify-center text-cream/30 hover:text-cream/60"
+              >
+                {addPreview ? (
+                  <img src={addPreview} alt="aperçu" className="w-full h-full object-cover" />
+                ) : (
+                  <ImagePlus className="w-6 h-6" />
+                )}
+              </button>
+
+              <div className="flex flex-col gap-3 flex-1 w-full">
+                {/* Titre (optionnel) */}
+                <input
+                  type="text"
+                  placeholder="Titre (optionnel)"
+                  value={addTitle}
+                  onChange={(e) => setAddTitle(e.target.value)}
+                  className="w-full bg-transparent border-b border-cream/10 focus:border-blue outline-none text-cream/80 placeholder:text-cream/20 py-1 text-xs transition-colors"
+                />
+
+                {/* Sélection de la galerie */}
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddGalleryOpen((v) => !v)}
+                    className={`w-full flex items-center justify-between glass-input text-cream/80 text-xs p-3 outline-none transition-all duration-300 ${isAddGalleryOpen ? "rounded-t-lg rounded-b-none" : "rounded-lg"}`}
+                  >
+                    <span className="truncate">
+                      {addGalleryId
+                        ? (galleries.find((g) => g.id === addGalleryId)?.name ?? "Galerie...")
+                        : "Choisir une galerie..."}
+                    </span>
+                    <ChevronDown className={`w-3 h-3 transition-transform duration-300 shrink-0 ${isAddGalleryOpen ? "rotate-180 text-cream" : "text-cream/50"}`} />
+                  </button>
+
+                  {isAddGalleryOpen && (
+                    <div className="absolute z-50 top-full left-0 w-full glass-card rounded-t-none rounded-b-lg max-h-40 overflow-y-auto no-scrollbar">
+                      {galleries.map((gal) => (
+                        <button
+                          key={gal.id}
+                          type="button"
+                          className="w-full text-left p-3 text-xs text-cream/80 hover:text-cream hover:bg-black/40 truncate transition-colors"
+                          onClick={() => { setAddGalleryId(gal.id); setIsAddGalleryOpen(false); }}
+                        >
+                          {gal.name}
+                        </button>
+                      ))}
+                      {galleries.length === 0 && (
+                        <p className="p-3 text-xs text-cream/30">Aucune galerie disponible.</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {addError && (
+              <p className="text-red-400 text-xs">{addError}</p>
+            )}
+
+            <div className="flex gap-2 justify-end">
+              <button
+                type="button"
+                onClick={() => { setIsAddOpen(false); setAddFile(null); setAddPreview(null); setAddTitle(""); setAddGalleryId(""); setAddError(""); }}
+                className="flex items-center gap-1 glass-card text-cream/50 hover:text-cream px-3 py-2 rounded-lg text-[10px] uppercase tracking-widest transition-colors"
+              >
+                <X className="w-3 h-3" /> Annuler
+              </button>
+              <button
+                type="button"
+                disabled={!addFile || !addGalleryId || isAddPending}
+                onClick={handleAddPhoto}
+                className="flex items-center gap-1 glass-card text-blue px-4 py-2 rounded-lg text-[10px] uppercase tracking-widest font-semibold disabled:opacity-30 transition-colors"
+              >
+                {isAddPending ? <Loader2 className="w-3 h-3 animate-spin" /> : "Ajouter"}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* GRILLE MASONRY */}

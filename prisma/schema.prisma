@@ -160,6 +160,9 @@ model SiteConfig {
   // Section sombre (page d'accueil)
   darkQuote       String @default("")
   darkQuoteAuthor String @default("")
+  // SEO
+  seoTitle        String? @default("") 
+  seoDescription  String? @default("")
 
   userId          String @unique 
   user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)

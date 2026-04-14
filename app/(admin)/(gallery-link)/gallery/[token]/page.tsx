@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { validateGalleryCode } from "@/app/(admin)/actions/validateGalleryCode";
 import { FloatingInput } from "@/app/_components/FloatingInput";
 
 export default function GalleryAccessPage() {
@@ -12,8 +11,7 @@ export default function GalleryAccessPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (isLoading) return;
     if (!code.trim()) {
       setError("Veuillez saisir votre code d'accès.");
@@ -23,21 +21,49 @@ export default function GalleryAccessPage() {
     setIsLoading(true);
 
     try {
-      const result = await validateGalleryCode(token, code);
+      // 1. Validation du code
+      const validationRes = await fetch(`/api/validate-gallery/${token}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
 
-      if ("error" in result) {
+      if (!validationRes.ok) {
+        const data = (await validationRes.json().catch(() => ({}))) as {
+          error?: string;
+        };
         setError(
-          result.error || "Une erreur est survenue lors de la vérification.",
+          data.error || "Une erreur est survenue lors de la vérification.",
         );
         setIsLoading(false);
         return;
       }
 
-      // Code valide → déclenche le téléchargement ZIP
-      window.location.href = `/api/download-gallery/${token}`;
-      // isLoading reste true pendant la navigation (intentionnel)
-    } catch {
-      setError("Une erreur est survenue. Réessayez.");
+      // 2. Récupération de l'URL Cloudinary
+      const res = await fetch(`/api/download-gallery/${token}`);
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "Impossible de créer le téléchargement.");
+        setIsLoading(false);
+        return;
+      }
+
+      const responseData = await res.json();
+
+      if (!responseData.url) {
+        setError("L'URL générée est invalide.");
+        setIsLoading(false);
+        return;
+      }
+
+      // 3. Téléchargement direct (ne quitte pas la page car c'est un ZIP)
+      window.location.assign(responseData.url);
+
+      setIsLoading(false);
+      setCode("");
+    } catch (e) {
+      console.error("Erreur:", e);
+      setError("Une erreur inattendue est survenue.");
       setIsLoading(false);
     }
   };
@@ -53,11 +79,7 @@ export default function GalleryAccessPage() {
         </p>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        noValidate
-        className="flex flex-col gap-5 tablet:gap-6 2k:gap-8 4k:gap-16"
-      >
+      <div className="flex flex-col gap-5 tablet:gap-6 2k:gap-8 4k:gap-16">
         <FloatingInput
           id="code"
           name="code"
@@ -67,6 +89,12 @@ export default function GalleryAccessPage() {
           onChange={(e) => {
             setCode(e.target.value.toUpperCase());
             setError("");
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleSubmit();
+            }
           }}
           autoComplete="off"
           autoFocus
@@ -79,25 +107,17 @@ export default function GalleryAccessPage() {
         )}
 
         <button
-          type="submit"
+          type="button"
+          onClick={handleSubmit}
           disabled={isLoading}
           className="group relative mt-2 w-full py-4 tablet:py-5 2k:py-6 4k:py-14 text-xs tablet:text-sm 2k:text-lg 4k:text-4xl uppercase tracking-[0.25em] font-semibold text-cream bg-dark rounded-xl 4k:rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] disabled:cursor-not-allowed disabled:opacity-70"
         >
           <span className="absolute inset-0 bg-blue translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out" />
-          <span className="relative flex items-center justify-center gap-3 z-10">
-            {isLoading ? (
-              "Vérification..."
-            ) : (
-              <>
-                Télécharger mes photos
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
-                  →
-                </span>
-              </>
-            )}
+          <span className="relative z-10">
+            {isLoading ? "Vérification..." : "Télécharger mes photos"}
           </span>
         </button>
-      </form>
+      </div>
     </>
   );
 }

@@ -54,7 +54,7 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
 
       {/* TITRE */}
       <div className="w-[80vw] laptop:w-full">
-        <h1 className="text-xl desktop:text-3xl 2k:text-5xl 4k:text-7xl font-bold text-cream">
+        <h1 className="text-xl desktop:text-3xl 2k:text-5xl 4k:text-7xl font-bold text-cream cursor-default">
           Mon tableau de bord
         </h1>
       </div>
@@ -112,7 +112,7 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
 
       {/* SECTION 2 : PHOTOS RÉCENTES */}
       <div className="flex flex-col w-[80vw] laptop:w-full gap-4 laptop:gap-2 desktop:gap-4 2k:gap-6 4k:gap-10">
-        <h3 className="text-xs desktop:text-sm 2k:text-base 4k:text-2xl font-medium text-cream/70 uppercase tracking-[0.2em]">
+        <h3 className="text-xs desktop:text-sm 2k:text-base 4k:text-2xl font-medium text-cream/70 uppercase tracking-[0.2em] cursor-default">
           Dernières photos ajoutées
         </h3>
         <div className="grid grid-cols-2 laptop:flex laptop:flex-row gap-4 desktop:gap-6 2k:gap-8 4k:gap-12">
@@ -144,14 +144,14 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
 
       {/* SECTION 3 : GALERIES RÉCENTES */}
       <div className="flex flex-col w-[80vw] laptop:w-full gap-3 4k:gap-10 mb-12 laptop:mb-0">
-        <h3 className="text-xs desktop:text-sm 2k:text-base 4k:text-2xl font-medium text-cream/70 uppercase tracking-[0.2em]">
+        <h3 className="text-xs desktop:text-sm 2k:text-base 4k:text-2xl font-medium text-cream/70 uppercase tracking-[0.2em] cursor-default">
           Dernières galeries
         </h3>
         <div className="flex flex-col gap-3 4k:gap-8 w-full laptop:max-w-sm desktop:max-w-xl 2k:max-w-2xl 4k:max-w-4xl">
           {recentGalleries.map((gallery) => (
             <div
               key={gallery.id}
-              className="flex items-center p-4 laptop:p-2 desktop:p-4 2k:p-4 4k:p-8 glass-card rounded-xl border border-cream/20"
+              className="flex items-center p-4 laptop:p-2 desktop:p-4 2k:p-4 4k:p-8 glass-card rounded-xl border border-cream/20 cursor-default"
             >
               <span className="text-sm desktop:text-lg 2k:text-xl 4k:text-4xl font-medium text-cream truncate">
                 {gallery.name}

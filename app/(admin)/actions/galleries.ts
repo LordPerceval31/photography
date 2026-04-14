@@ -26,15 +26,17 @@ export async function deleteGallery(galleryId: string) {
 
     const photoIdsInGallery = gallery.photos.map((p) => p.photoId);
 
-    // Trouve les photos liées à cette galerie uniquement → les seules supprimables de Cloudinary
-    const photosExclusive = await prisma.photo.findMany({
-      where: {
-        id: { in: photoIdsInGallery },
-        userId: session.user.id,
-        galleries: { every: { galleryId } },
-      },
-      select: { id: true, publicId: true },
+    // Trouve les photos liées UNIQUEMENT à cette galerie (pas partagées avec d'autres)
+    // On compte le nombre de galeries pour chaque photo — si c'est 1, elle est exclusive
+    const photosWithCount = await prisma.photo.findMany({
+      where: { id: { in: photoIdsInGallery }, userId: session.user.id },
+      select: { id: true, publicId: true, _count: { select: { galleries: true } } },
     });
+    const photosExclusive = photosWithCount.filter((p) => p._count.galleries === 1);
+
+    console.log("[deleteGallery] photos dans la galerie:", photoIdsInGallery.length);
+    console.log("[deleteGallery] photos exclusives à supprimer:", photosExclusive.length);
+    console.log("[deleteGallery] publicIds:", photosExclusive.map((p) => p.publicId));
 
     await deleteCloudinaryPhotos(photosExclusive);
 

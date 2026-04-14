@@ -115,8 +115,10 @@ const ContactSection = ({
 
   return (
     <section
-      className={`relative flex items-center justify-center w-full px-6 tablet:px-16 z-10 laptop:min-h-screen ${
-        hasNoCards ? "min-h-screen py-24 laptop:py-0" : "pb-24 laptop:pb-0"
+      className={`relative flex items-center justify-center w-full px-6 tablet:px-16 z-10 ${
+        hasNoCards
+          ? "min-h-screen py-24 laptop:min-h-screen laptop:py-0"
+          : "pb-16 laptop:pb-24"
       }`}
     >
       {/* -- Carte formulaire : h-[60vh] sur desktop pour le rendre plus compact -- */}

@@ -104,7 +104,11 @@ export default function GalleriesClient({
   const handleDelete = () => {
     if (!selectedId) return;
     startTransition(async () => {
-      await deleteGallery(selectedId);
+      const result = await deleteGallery(selectedId);
+      if (result.error) {
+        alert(result.error); // temporaire pour voir les erreurs
+        return;
+      }
       setGalleries((prev) => prev.filter((g) => g.id !== selectedId));
       clearSelection();
     });

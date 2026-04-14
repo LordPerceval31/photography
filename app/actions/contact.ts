@@ -2,14 +2,13 @@
 
 import { z } from "zod";
 import { headers } from "next/headers";
-import { resend } from "@/app/lib/resend";
+import emailjs from "@emailjs/nodejs";
 import { contactRateLimit } from "@/app/lib/ratelimit";
 
-// Schéma de validation du formulaire
 const contactSchema = z.object({
   name: z.string().min(2, "Le nom doit faire au moins 2 caractères.").max(100),
   email: z.string().email("Email invalide."),
-  subject: z.string().min(2, "Le sujet est requis.").max(200),
+  phone: z.string().max(20).optional().or(z.literal("")), // Optionnel
   message: z
     .string()
     .min(10, "Le message doit faire au moins 10 caractères.")
@@ -23,16 +22,14 @@ export type ContactFormState = {
 
 export async function sendContactEmail(
   _prevState: ContactFormState,
-  formData: FormData
+  formData: FormData,
 ): Promise<ContactFormState> {
-  // 1. Récupérer l'IP pour le rate limit
   const headersList = await headers();
   const ip =
     headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     headersList.get("x-real-ip") ??
     "anonymous";
 
-  // 2. Vérifier le rate limit
   const { success: allowed } = await contactRateLimit.limit(ip);
   if (!allowed) {
     return {
@@ -41,11 +38,10 @@ export async function sendContactEmail(
     };
   }
 
-  // 3. Valider les données
   const raw = {
     name: formData.get("name"),
     email: formData.get("email"),
-    subject: formData.get("subject"),
+    phone: formData.get("phone"),
     message: formData.get("message"),
   };
 
@@ -55,29 +51,27 @@ export async function sendContactEmail(
     return { success: false, error: firstError };
   }
 
-  const { name, email, subject, message } = parsed.data;
+  const { name, email, phone, message } = parsed.data;
 
-  // 4. Envoyer l'email via Resend
-  const { error } = await resend.emails.send({
-    from: "Photolio Contact <onboarding@resend.dev>",
-    to: process.env.CONTACT_EMAIL!,
-    replyTo: email,
-    subject: `[Photolio] ${subject}`,
-    html: `
-      <div style="font-family: sans-serif; color: #2c2c2c; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #558b8b;">Nouveau message depuis photolio.fr</h2>
-        <p><strong>De :</strong> ${name} (${email})</p>
-        <p><strong>Sujet :</strong> ${subject}</p>
-        <hr style="border: none; border-top: 1px solid #eee; margin: 16px 0;" />
-        <p style="white-space: pre-wrap;">${message}</p>
-      </div>
-    `,
-  });
+  try {
+    await emailjs.send(
+      process.env.EMAILJS_SERVICE_ID!,
+      process.env.EMAILJS_TEMPLATE_ID!,
+      {
+        user_name: name,
+        user_email: email,
+        user_phone: phone || "Non renseigné",
+        message: message,
+      },
+      {
+        publicKey: process.env.EMAILJS_PUBLIC_KEY!,
+        privateKey: process.env.EMAILJS_PRIVATE_KEY!,
+      },
+    );
 
-  if (error) {
-    console.error("Resend error:", error);
+    return { success: true };
+  } catch (error) {
+    console.error("EmailJS error:", error);
     return { success: false, error: "Erreur lors de l'envoi. Réessayez." };
   }
-
-  return { success: true };
 }

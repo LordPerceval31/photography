@@ -3,19 +3,17 @@ import { v2 as cloudinary } from "cloudinary";
 import prisma from "@/app/lib/prisma";
 import { decrypt } from "@/app/lib/crypto";
 
-const GET = async (
+export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ token: string }> },
-) => {
+) {
   try {
     const { token } = await params;
 
-    // 1. Récupérer la galerie, les photos ET l'utilisateur (pour ses clés Cloudinary)
     const gallery = await prisma.gallery.findUnique({
       where: { token },
       select: {
         name: true,
-        // On récupère les identifiants de l'utilisateur propriétaire de la galerie
         user: {
           select: {
             cloudinaryName: true,
@@ -38,29 +36,23 @@ const GET = async (
 
     const cloudinaryConfig = gallery.user;
 
-    // 2. Vérifier que l'utilisateur a bien configuré ses identifiants
     if (
       !cloudinaryConfig?.cloudinaryName ||
       !cloudinaryConfig?.cloudinaryKey ||
       !cloudinaryConfig?.cloudinarySecret
     ) {
       return NextResponse.json(
-        {
-          error:
-            "La configuration Cloudinary est manquante pour cette galerie.",
-        },
+        { error: "Configuration Cloudinary manquante." },
         { status: 500 },
       );
     }
 
-    // 3. Configurer Cloudinary dynamiquement avec les clés de la base de données
     cloudinary.config({
       cloud_name: cloudinaryConfig.cloudinaryName,
       api_key: decrypt(cloudinaryConfig.cloudinaryKey),
       api_secret: decrypt(cloudinaryConfig.cloudinarySecret),
     });
 
-    // 4. Récupérer les publicIds
     const publicIds = gallery.photos
       .map((p) => {
         if (p.photo.publicId) return p.photo.publicId;
@@ -73,28 +65,29 @@ const GET = async (
 
     if (publicIds.length === 0) {
       return NextResponse.json(
-        { error: "Aucune photo dans cette galerie" },
+        { error: "Aucune photo trouvée." },
         { status: 404 },
       );
     }
 
-    // 5. Cloudinary génère un ZIP signé côté serveur et retourne l'URL
+    const gallerySlug = gallery.name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+
+    // On génère l'URL signée
     const zipUrl = cloudinary.utils.download_zip_url({
       public_ids: publicIds,
       resource_type: "image",
+      target_public_id: gallerySlug,
     });
 
-    // 6. Rediriger l'utilisateur vers le fichier ZIP
-    return NextResponse.redirect(zipUrl);
+    // IMPORTANT : On renvoie l'URL au client au lieu de télécharger le fichier ici
+    return NextResponse.json({ url: zipUrl });
   } catch (error) {
-    console.error("Erreur téléchargement ZIP:", error);
-    return NextResponse.json(
-      {
-        error: "Une erreur est survenue lors de la création du téléchargement.",
-      },
-      { status: 500 },
-    );
+    console.error("Erreur ZIP:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-};
-
-export { GET };
+}

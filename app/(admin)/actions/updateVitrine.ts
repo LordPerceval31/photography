@@ -15,6 +15,8 @@ export type VitrineData = {
   storyParagraph2: string;
   darkQuote: string;
   darkQuoteAuthor: string;
+  seoTitle: string;
+  seoDescription: string;
 };
 
 export async function updateVitrineTexts(data: VitrineData) {

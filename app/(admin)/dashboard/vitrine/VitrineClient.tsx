@@ -189,6 +189,30 @@ const VitrineClient = ({ initialData }: Props) => {
                 />
               </div>
             </div>
+
+            {/* Section SEO */}
+            <div
+              className={`flex flex-col ${sectionSpacing} border-t border-cream/10 ${separatorPadding}`}
+            >
+              <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
+                Référencement (SEO) : Ces textes n&apos;apparaissent pas sur le
+                site, mais sont affichés par Google et lors du partage de votre
+                lien.
+              </p>
+              <div className="flex flex-col gap-4 w-full">
+                <FloatingInput
+                  name="seoTitle"
+                  label="Titre SEO (ex: Jeanne Doe | Photographe)"
+                  defaultValue={initialData?.seoTitle ?? ""}
+                />
+                <FloatingTextarea
+                  name="seoDescription"
+                  label="Description courte pour les moteurs de recherche"
+                  rows={3}
+                  defaultValue={initialData?.seoDescription ?? ""}
+                />
+              </div>
+            </div>
           </div>
         </div>
 

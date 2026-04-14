@@ -9,6 +9,43 @@ import { auth } from "@/auth";
 import { v2 as cloudinary } from "cloudinary";
 import { revalidatePath } from "next/cache";
 
+// 0. AJOUTER UNE PHOTO À UNE GALERIE EXISTANTE
+export async function addPhotoToGallery(
+  galleryId: string,
+  url: string,
+  publicId: string,
+  title: string,
+) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Non autorisé" };
+
+  try {
+    const gallery = await prisma.gallery.findUnique({
+      where: { id: galleryId, userId: session.user.id },
+    });
+    if (!gallery) return { error: "Galerie introuvable" };
+
+    const photo = await prisma.photo.create({
+      data: {
+        url,
+        publicId,
+        title: title.trim() || null,
+        userId: session.user.id,
+      },
+    });
+
+    await prisma.galleryPhoto.create({
+      data: { galleryId, photoId: photo.id },
+    });
+
+    revalidatePath("/dashboard/photos");
+    return { success: true };
+  } catch (err: unknown) {
+    console.error("[photos:addPhotoToGallery]", { galleryId, error: err });
+    return { error: "Erreur lors de l'ajout de la photo." };
+  }
+}
+
 // 1. RENOMMER UNE PHOTO
 export async function renamePhoto(photoId: string, newTitle: string) {
   const session = await auth();
