@@ -6,6 +6,8 @@ import { ArrowLeft } from "lucide-react";
 import ServicesClient from "./ServicesClient";
 import prisma from "@/app/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Services",
 };

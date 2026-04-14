@@ -5,6 +5,8 @@ import VitrineClient from "./VitrineClient";
 import prisma from "@/app/lib/prisma";
 import { VitrineData } from "../../actions/updateVitrine";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Vitrine",
 };

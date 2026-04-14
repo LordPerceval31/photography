@@ -7,6 +7,8 @@ import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
 import { PhotoSlot } from "@/app/_components/PhotoSlot";
 import { AddToGallerySlot } from "@/app/_components/AddToGallerySlot";
 
+export const dynamic = "force-dynamic";
+
 const AddPhotoPage = async () => {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");

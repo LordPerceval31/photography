@@ -4,6 +4,8 @@ import Link from "next/link";
 import GalleryClient from "./GalleryClient";
 import prisma from "@/app/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function GalleryPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
