@@ -90,7 +90,7 @@ export default function LandingPage() {
       <main className="bg-background text-foreground min-h-screen overflow-x-hidden selection:bg-blue selection:text-white">
         {/* ── HEADER ── */}
         <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between w-[calc(100%-32px)] tablet:w-[70%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-600 px-4 py-3 2k:px-6 2k:py-4 4k:px-10 4k:py-8 glass-premium rounded-full transition-all duration-300">
-          <span className="font-extrabold text-[15px] 2k:text-[18px] 4k:text-2xl tracking-tight text-cream">
+          <span className="font-extrabold text-[15px] 2k:text-[18px] 4k:text-2xl tracking-tight text-cream cursor-default">
             Photolio.fr
           </span>
           <Link
@@ -116,7 +116,7 @@ export default function LandingPage() {
           </div>
 
           <div className="relative z-10 w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-600 mx-auto flex flex-col items-start text-left 4k:translate-y-24 4k:-translate-x-70 transition-transform duration-500">
-            <p className="text-[11px] 2k:text-[14px] 4k:text-xl font-medium tracking-[0.25em] uppercase text-cream/50 mb-4 laptop:mb-6 desktop:mb-8 2k:mb-10 4k:mb-16">
+            <p className="text-[11px] 2k:text-[14px] 4k:text-xl font-medium tracking-[0.25em] uppercase text-cream/50 mb-4 laptop:mb-6 desktop:mb-8 2k:mb-10 4k:mb-16 cursor-default">
               La plateforme sur-mesure
             </p>
 
@@ -129,16 +129,16 @@ export default function LandingPage() {
             {/* Le texte visuel passe en <p> et est caché aux liseuses avec aria-hidden */}
             <p
               aria-hidden="true"
-              className="text-4xl tablet:text-5xl laptop:text-[3.5rem] desktop:text-[4.5rem] 2k:text-[6rem] ultrawide:text-[8rem] 4k:text-[12rem] font-bold leading-[1.15] 2k:leading-[1.1] text-cream mb-6 laptop:mb-8 desktop:mb-10 2k:mb-12 4k:mb-20"
+              className="text-4xl tablet:text-5xl laptop:text-[3.5rem] desktop:text-[4.5rem] 2k:text-[6rem] ultrawide:text-[8rem] 4k:text-[12rem] font-bold leading-[1.15] 2k:leading-[1.1] text-cream mb-6 laptop:mb-8 desktop:mb-10 2k:mb-12 4k:mb-20 cursor-default"
             >
               Votre œuvre.
               <br />
-              <span className="text-blue font-medium italic pr-2">
+              <span className="text-blue font-medium italic pr-2 cursor-default">
                 Votre outil.
               </span>
             </p>
 
-            <p className="text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-5xl text-cream/60 max-w-md laptop:max-w-lg desktop:max-w-2xl 2k:max-w-3xl 4k:max-w-6xl mb-10 laptop:mb-12 desktop:mb-16 2k:mb-20 4k:mb-32 leading-relaxed">
+            <p className="text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-5xl text-cream/60 max-w-md laptop:max-w-lg desktop:max-w-2xl 2k:max-w-3xl 4k:max-w-6xl mb-10 laptop:mb-12 desktop:mb-16 2k:mb-20 4k:mb-32 leading-relaxed  cursor-default">
               Votre site vitrine. Vos galeries privées. Un espace pensé pour
               sublimer vos images, sans aucune friction technique.
             </p>
@@ -155,7 +155,7 @@ export default function LandingPage() {
         {/* ── BENTO GRID ── */}
         <section className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-700 mx-auto px-4 py-20 laptop:py-32 desktop:py-40 2k:py-56 4k:py-80">
           <div className="mb-10 laptop:mb-16 desktop:mb-20 2k:mb-24 4k:mb-40 text-center tablet:text-left">
-            <p className="text-[10px] laptop:text-xs desktop:text-sm 2k:text-base 4k:text-2xl font-semibold tracking-[0.18em] uppercase text-blue mb-3 desktop:mb-4 2k:mb-6 4k:mb-12">
+            <p className="text-[10px] laptop:text-xs desktop:text-sm 2k:text-base 4k:text-2xl font-semibold tracking-[0.18em] uppercase text-blue mb-3 desktop:mb-4 2k:mb-6 4k:mb-12 cursor-default">
               L&apos;Essentiel
             </p>
 
@@ -167,7 +167,7 @@ export default function LandingPage() {
             {/* LE DESIGN : Le titre visuel */}
             <p
               aria-hidden="true"
-              className="text-3xl tablet:text-5xl laptop:text-6xl desktop:text-7xl 2k:text-8xl 4k:text-[11rem] font-extrabold tracking-tight text-cream mb-4 leading-tight"
+              className="text-3xl tablet:text-5xl laptop:text-6xl desktop:text-7xl 2k:text-8xl 4k:text-[11rem] font-extrabold tracking-tight text-cream mb-4 leading-tight cursor-default"
             >
               Conçu pour l&apos;image.
             </p>
@@ -176,10 +176,10 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 tablet:grid-cols-2 gap-4 laptop:gap-8 desktop:gap-12 2k:gap-16 4k:gap-24">
             <div className="glass-card rounded-3xl 2k:rounded-[40px] 4k:rounded-[80px] p-6 tablet:p-8 laptop:p-12 desktop:p-16 2k:p-20 4k:p-32 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl laptop:text-2xl desktop:text-3xl 2k:text-4xl 4k:text-7xl font-bold tracking-tight text-cream mb-2 desktop:mb-4 2k:mb-6 4k:mb-12">
+                <h3 className="text-xl laptop:text-2xl desktop:text-3xl 2k:text-4xl 4k:text-7xl font-bold tracking-tight text-cream mb-2 desktop:mb-4 2k:mb-6 4k:mb-12 cursor-default">
                   Galeries Client
                 </h3>
-                <p className="text-sm laptop:text-base desktop:text-lg 2k:text-xl 4k:text-4xl text-cream/60 leading-relaxed">
+                <p className="text-sm laptop:text-base desktop:text-lg 2k:text-xl 4k:text-4xl text-cream/60 leading-relaxed cursor-default">
                   Un lien sécurisé. Vos clients téléchargent leurs photos en un
                   clic, sans créer de compte.
                 </p>
@@ -224,38 +224,40 @@ export default function LandingPage() {
 
               <div className="flex items-center gap-2 px-4 py-3 laptop:py-4 desktop:py-5 bg-blue/10 border border-blue/20 rounded-xl text-xs laptop:text-sm text-blue font-mono truncate">
                 <span>🔗</span>
-                <span className="truncate">photolio.fr/g/mariage...</span>
+                <span className="truncate cursor-default">
+                  photolio.fr/g/mariage...
+                </span>
               </div>
             </div>
 
             <div className="relative glass-card rounded-3xl 2k:rounded-[40px] 4k:rounded-[80px] p-6 tablet:p-8 laptop:p-12 desktop:p-16 2k:p-20 4k:p-32 flex flex-col border border-blue/20 bg-blue/5">
-              <span className="absolute -top-3.5 4k:-top-6 left-8 4k:left-32 bg-blue text-cream text-[11px] 2k:text-base 4k:text-3xl font-bold px-4 py-1 4k:px-12 4k:py-4 rounded-full tracking-wider">
+              <span className="absolute -top-3.5 4k:-top-6 left-8 4k:left-32 bg-blue text-cream text-[11px] 2k:text-base 4k:text-3xl font-bold px-4 py-1 4k:px-12 4k:py-4 rounded-full tracking-wider cursor-default">
                 Offre de lancement
               </span>
 
               <div className="flex flex-col mt-4">
                 {/* PRIX BARRÉ AJOUTÉ ICI */}
-                <span className="text-xl laptop:text-2xl desktop:text-3xl 2k:text-5xl 4k:text-[6rem] font-bold text-cream/40 line-through -mb-2 laptop:mb-3 2k:mb-6 4k:mb-12 ml-1">
+                <span className="text-xl laptop:text-2xl desktop:text-3xl 2k:text-5xl 4k:text-[6rem] font-bold text-cream/40 line-through -mb-2 laptop:mb-3 2k:mb-6 4k:mb-12 ml-1 cursor-default">
                   149 €
                 </span>
                 <div className="flex items-start">
-                  <p className="text-[64px] laptop:text-[88px] desktop:text-[120px] 2k:text-[160px] 4k:text-[280px] font-extrabold tracking-tight leading-none text-cream">
+                  <p className="text-[64px] laptop:text-[88px] desktop:text-[120px] 2k:text-[160px] 4k:text-[280px] font-extrabold tracking-tight leading-none text-cream cursor-default">
                     89
                   </p>
-                  <span className="text-2xl desktop:text-4xl 2k:text-6xl 4k:text-[10rem] font-bold text-cream mt-2 ml-1">
+                  <span className="text-2xl desktop:text-4xl 2k:text-6xl 4k:text-[10rem] font-bold text-cream mt-2 ml-1 cursor-default">
                     €
                   </span>
                 </div>
               </div>
 
-              <p className="text-[12px] 2k:text-xl 4k:text-4xl text-blue tracking-wide mt-2 mb-8">
+              <p className="text-[12px] 2k:text-xl 4k:text-4xl text-blue tracking-wide mt-2 mb-8 cursor-default">
                 paiement unique · accès à vie
               </p>
               <ul className="space-y-0 w-full mt-auto">
                 {PRICING_FEATURES.map((feature, index) => (
                   <li
                     key={index}
-                    className="flex items-center gap-3 py-3 laptop:py-4 border-b border-cream/5 text-sm laptop:text-base 2k:text-xl 4k:text-5xl text-cream/70 last:border-b-0"
+                    className="flex items-center gap-3 py-3 laptop:py-4 border-b border-cream/5 text-sm laptop:text-base 2k:text-xl 4k:text-5xl text-cream/70 last:border-b-0 cursor-default"
                   >
                     <span className="text-blue font-bold">✓</span> {feature}
                   </li>
@@ -268,7 +270,7 @@ export default function LandingPage() {
         {/* ── GALERIE INFINIE ── */}
         <section className="py-20 laptop:py-32 desktop:py-40 2k:py-56 4k:py-96 w-full overflow-hidden pointer-events-none select-none">
           <div className="w-full tablet:w-[80%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 4k:max-w-600 mx-auto px-4 mb-10 2k:mb-24 4k:mb-48 text-center tablet:text-left">
-            <h2 className="text-3xl tablet:text-5xl laptop:text-6xl 2k:text-8xl 4k:text-[12rem] font-extrabold tracking-tight text-cream">
+            <h2 className="text-3xl tablet:text-5xl laptop:text-6xl 2k:text-8xl 4k:text-[12rem] font-extrabold tracking-tight text-cream cursor-default">
               Expérience fluide.
             </h2>
           </div>
@@ -298,10 +300,10 @@ export default function LandingPage() {
           className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 4k:max-w-700 mx-auto px-4 py-24 laptop:py-32 desktop:py-40 2k:py-56 4k:py-96"
         >
           <div className="text-center mb-10 laptop:mb-16 desktop:mb-24 4k:mb-48">
-            <h2 className="text-3xl tablet:text-4xl laptop:text-5xl 2k:text-7xl 4k:text-[10rem] font-extrabold tracking-tight text-cream mb-4 4k:mb-16">
+            <h2 className="text-3xl tablet:text-4xl laptop:text-5xl 2k:text-7xl 4k:text-[10rem] font-extrabold tracking-tight text-cream mb-4 4k:mb-16 cursor-default">
               Demander un accès
             </h2>
-            <p className="text-sm laptop:text-base 2k:text-2xl 4k:text-5xl text-cream/60 max-w-lg laptop:max-w-2xl 4k:max-w-7xl mx-auto">
+            <p className="text-sm laptop:text-base 2k:text-2xl 4k:text-5xl text-cream/60 max-w-lg laptop:max-w-2xl 4k:max-w-7xl mx-auto cursor-default">
               Parlez-moi de votre activité, je crée votre espace sous 24h.
             </p>
           </div>
@@ -343,7 +345,7 @@ export default function LandingPage() {
             <button
               type="submit"
               disabled={isPending}
-              className="tablet:w-fit tablet:ml-auto tablet:px-12 w-full py-4 bg-blue text-cream rounded-xl text-sm font-bold tracking-tight hover:opacity-90 transition-opacity disabled:opacity-50"
+              className="tablet:w-fit tablet:ml-auto tablet:px-12 w-full py-4 bg-blue text-cream rounded-xl text-sm font-bold tracking-tight hover:opacity-90 transition-opacity disabled:opacity-50 cursor-pointer"
             >
               {isPending ? "Envoi..." : "Envoyer ma demande"}
             </button>
@@ -362,10 +364,12 @@ export default function LandingPage() {
         {/* ── FOOTER ── */}
         <footer className="w-full tablet:w-[85%] max-w-5xl mx-auto border-t border-cream/10 px-4 py-8 flex flex-col tablet:flex-row items-center justify-between gap-4 text-xs text-cream/40">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-cream/80">Photolio.fr</span>
-            <span>© 2026</span>
+            <span className="font-bold text-cream/80 cursor-default">
+              Photolio.fr
+            </span>
+            <span className="cursor-default">© 2026</span>
           </div>
-          <span>
+          <span className="cursor-default">
             Site réalisé par{" "}
             <a
               href="https://levynixstudio.netlify.app/"
