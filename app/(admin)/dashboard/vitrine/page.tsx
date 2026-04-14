@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import VitrineClient from "./VitrineClient";
+import prisma from "@/app/lib/prisma";
+import { VitrineData } from "../../actions/updateVitrine";
 
 export const metadata: Metadata = {
   title: "Vitrine",
 };
-import { redirect } from "next/navigation";
-import VitrineClient from "./VitrineClient";
-import prisma from "@/app/lib/prisma";
 
 export default async function VitrinePage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  // Charge la config existante (null si l'utilisateur n'a jamais sauvegardé)
   const config = await prisma.siteConfig.findUnique({
     where: { userId: session.user.id },
     select: {
@@ -26,8 +26,18 @@ export default async function VitrinePage() {
       storyParagraph2: true,
       darkQuote: true,
       darkQuoteAuthor: true,
+      seoTitle: true,
+      seoDescription: true,
     },
   });
 
-  return <VitrineClient initialData={config} />;
+  const formattedConfig: VitrineData | null = config
+    ? {
+        ...config,
+        seoTitle: config.seoTitle ?? "",
+        seoDescription: config.seoDescription ?? "",
+      }
+    : null;
+
+  return <VitrineClient initialData={formattedConfig} />;
 }
