@@ -21,6 +21,14 @@ export default async function BackgroundWrapper({
       userId: userId,
       isCover: false,
       isPortrait: false,
+      isAboutPicture1: false,
+      isAboutPicture2: false,
+      isAboutPicture3: false,
+    },
+    include: {
+      galleries: {
+        select: { galleryId: true },
+      },
     },
   });
 
@@ -31,7 +39,7 @@ export default async function BackgroundWrapper({
     img: optimizeCloudinaryUrl(photo.url),
     url: "#",
     height: heightPattern[index % heightPattern.length],
-    galleryId: photo.categoryId,
+    galleryId: photo.galleries[0]?.galleryId || "sans-galerie",
   }));
 
   const shuffledItems = shuffleArray(formattedItems);

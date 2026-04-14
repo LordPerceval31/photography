@@ -58,10 +58,14 @@ export default async function PhotosPage() {
 
   // 2. Récupération des photos avec la BONNE relation de ton schema ("galleries")
   const rawPhotos = await prisma.photo.findMany({
-    where: { userId },
+    where: {
+      userId: userId,
+      galleries: {
+        some: {},
+      },
+    },
     include: {
       galleries: {
-        // LE FIX EST ICI : c'est "galleries", pas "galleryPhotos"
         select: { galleryId: true },
       },
     },
