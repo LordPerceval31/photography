@@ -84,8 +84,7 @@ export async function GET(
       target_public_id: gallerySlug,
     });
 
-    // IMPORTANT : On renvoie l'URL au client au lieu de télécharger le fichier ici
-    return NextResponse.json({ url: zipUrl });
+    return NextResponse.redirect(zipUrl);
   } catch (error) {
     console.error("Erreur ZIP:", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });

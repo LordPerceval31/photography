@@ -51,7 +51,6 @@ export default function GalleryAccessPage() {
       }
 
       console.log("✅ [VALIDATION OK] Début download");
-      // 2. Redirige vers la route qui génère et redirige vers le ZIP Cloudinary
       window.location.assign(`/api/download-gallery/${token}`);
 
       setIsLoading(false);
