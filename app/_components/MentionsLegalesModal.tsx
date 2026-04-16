@@ -42,7 +42,7 @@ const MentionsLegalesModal = ({ open, onClose }: Props) => {
         </button>
 
         <h2 className="text-3xl font-bold text-cream mb-10">
-          Mentions légales, Confidentialité & CGU
+          Mentions légales, Confidentialité, CGU & CGV
         </h2>
 
         <div className="space-y-8 text-base 2k:text-lg 4k:text-3xl text-cream/60 leading-relaxed">
@@ -186,15 +186,15 @@ const MentionsLegalesModal = ({ open, onClose }: Props) => {
               <br />
               <br />
               <strong>En tant que Responsable de traitement :</strong> Pour les
-              données strictement nécessaires à la création, la facturation et
-              la gestion du compte du Photographe (nom, prénom, adresse email).
+              données strictement nécessaires à la création et à la gestion du
+              compte du Photographe (nom, prénom, adresse email).
               <br />
               <strong>En tant que Sous-traitant :</strong> Pour toutes les
               photographies (pouvant contenir des données biométriques ou des
               visages) et données afférentes téléversées par le Photographe dans
               ses galeries. Le Photographe demeure l&apos;unique Responsable de
               traitement vis-à-vis de ses propres clients et garantit avoir
-              recueilli les consentements nécessaires (droit à l&apos;image).
+              recueilli le consentement nécessaire (droit à l&apos;image).
             </p>
           </section>
 
@@ -368,8 +368,8 @@ const MentionsLegalesModal = ({ open, onClose }: Props) => {
               cas d&apos;indisponibilité du service, de pannes des prestataires
               tiers, ou de perte de données indépendantes de sa volonté.
               Photolio ne pourra en aucun cas être tenu responsable des dommages
-              indirects, pertes de chiffre d&apos;affaires ou pertes
-              d&apos;exploitation subis par le Photographe.
+              indirects, pertes d&apos;exploitation ou préjudices subis par le
+              Photographe.
             </p>
           </section>
 
@@ -388,6 +388,59 @@ const MentionsLegalesModal = ({ open, onClose }: Props) => {
               contrat, Photolio procédera à la désactivation des accès et à la
               suppression des fichiers stockés. Il incombe exclusivement au
               Photographe de sauvegarder ses propres fichiers originaux.
+            </p>
+          </section>
+
+          {/* --- PARTIE 4 : CGV --- */}
+          <div className="mt-12 mb-6 border-b border-cream/20 pb-2">
+            <span className="uppercase tracking-widest text-xs font-bold text-cream/40">
+              Partie 4 : Conditions Générales de Vente (CGV)
+            </span>
+          </div>
+
+          <section>
+            <h3 className="font-semibold text-cream mb-2">
+              16. Modalités d&apos;achat et Prix
+            </h3>
+            <p>
+              L&apos;accès au service Photolio est facturé sous la forme
+              d&apos;un achat unique. Le paiement s&apos;effectue en une seule
+              fois, au tarif en vigueur affiché sur le site au moment de la
+              commande (indiqué en euros, toutes taxes comprises).
+            </p>
+          </section>
+
+          <section>
+            <h3 className="font-semibold text-cream mb-2">
+              17. Absence de droit de rétractation
+            </h3>
+            <p>
+              Conformément aux dispositions de l&apos;article L221-28 13° du
+              Code de la consommation, le droit de rétractation ne peut être
+              exercé pour les contrats de fourniture d&apos;un contenu numérique
+              non fourni sur un support matériel dont l&apos;exécution a
+              commencé après accord préalable exprès du consommateur et
+              renoncement exprès à son droit de rétractation.
+              <br />
+              En procédant à l&apos;achat, le Photographe accepte que
+              l&apos;accès à la plateforme soit immédiat et renonce expressément
+              à son délai de rétractation de 14 jours. Aucun remboursement ne
+              pourra être exigé après validation du paiement.
+            </p>
+          </section>
+
+          <section>
+            <h3 className="font-semibold text-cream mb-2">
+              18. Durée de l&apos;accès et suppression de compte
+            </h3>
+            <p>
+              L&apos;achat unique donne accès au service sans limite de durée
+              prédéfinie, sous réserve du maintien en activité de
+              l&apos;application Photolio. Le Photographe peut à tout moment
+              demander la clôture et la suppression de son compte en contactant
+              le support. Cette suppression entraîne l&apos;effacement définitif
+              de l&apos;ensemble de ses données, sans qu&apos;aucun
+              remboursement de l&apos;achat initial ne puisse être réclamé.
             </p>
           </section>
         </div>

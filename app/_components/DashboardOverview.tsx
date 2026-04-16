@@ -1,4 +1,4 @@
-import Image from "next/image"; // On en a toujours besoin pour les miniatures des photos
+import Image from "next/image";
 import { Settings, LogOut } from "lucide-react";
 import Link from "next/link";
 import prisma from "../lib/prisma";
@@ -23,7 +23,6 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
   });
 
   return (
-    // PLUS DE FOND, PLUS DE VERRE. Juste un conteneur flexible qui va "slider".
     <div className="w-full flex flex-col items-center laptop:items-start gap-10 laptop:gap-4 desktop:gap-8 2k:gap-12 4k:gap-20">
       {/* --- BOUTON PARAMÈTRES --- */}
       <Link
@@ -60,13 +59,13 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
       </div>
 
       {/* SECTION 1 : ACTIONS RAPIDES */}
-      <div className="flex flex-row w-[80vw] laptop:w-full gap-4 laptop:gap-6 desktop:gap-10 2k:gap-16 4k:gap-20">
+      <div className="grid grid-cols-2 tablet:flex tablet:flex-row w-[80vw] tablet:w-[80%] gap-4 tablet:gap-6 desktop:gap-10 2k:gap-16 4k:gap-20">
         <Link
           href="/dashboard/photo"
-          className="group flex-1 laptop:flex-none laptop:h-[18vh] desktop:h-[18vh] 4k:h-[18vh] aspect-square flex flex-col items-center justify-center glass-card rounded-xl border border-cream/20 hover:bg-white/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:scale-95 active:shadow-md cursor-pointer"
+          className="group w-full laptop:w-auto laptop:flex-none laptop:h-[18vh] desktop:h-[18vh] 4k:h-[18vh] aspect-square flex flex-col items-center justify-center glass-card rounded-xl border border-cream/20 hover:bg-white/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:scale-95 active:shadow-md cursor-pointer"
         >
-          <h2 className="text-sm laptop:text-sm desktop:text-xl 2k:text-3xl 4k:text-5xl font-bold text-cream tracking-[0.2em]">
-            PHOTO
+          <h2 className=" text-sm laptop:text-sm desktop:text-xl 2k:text-3xl 4k:text-5xl font-bold text-cream tracking-[0.2em]">
+            PHOTOS
           </h2>
           <span className="mt-2 desktop:mt-4 2k:mt-6 4k:mt-10 px-3 py-1 laptop:px-4 desktop:px-6 2k:px-8 4k:px-12 desktop:py-2 2k:py-3 4k:py-5 border border-cream/30 rounded-full text-cream/70 text-[10px] desktop:text-xs 2k:text-sm 4k:text-xl uppercase tracking-widest group-hover:text-cream transition-all">
             + Ajouter
@@ -75,9 +74,9 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
 
         <Link
           href="/dashboard/gallery"
-          className="group flex-1 laptop:flex-none laptop:h-[18vh] desktop:h-[18vh] 4k:h-[18vh] aspect-square flex flex-col items-center justify-center glass-card rounded-xl border border-cream/20 hover:bg-white/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:scale-95 active:shadow-md cursor-pointer"
+          className="group w-full laptop:w-auto laptop:flex-none laptop:h-[18vh] desktop:h-[18vh] 4k:h-[18vh] aspect-square flex flex-col items-center justify-center glass-card rounded-xl border border-cream/20 hover:bg-white/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:scale-95 active:shadow-md cursor-pointer"
         >
-          <h2 className="text-sm laptop:text-sm desktop:text-xl 2k:text-3xl 4k:text-5xl font-bold text-cream tracking-[0.2em]">
+          <h2 className=" text-sm laptop:text-sm desktop:text-xl 2k:text-3xl 4k:text-5xl font-bold text-cream tracking-[0.2em]">
             GALLERY
           </h2>
           <span className="mt-2 desktop:mt-4 2k:mt-6 4k:mt-10 px-3 py-1 laptop:px-4 desktop:px-6 2k:px-8 4k:px-12 desktop:py-2 2k:py-3 4k:py-5 border border-cream/30 rounded-full text-cream/70 text-[10px] desktop:text-xs 2k:text-sm 4k:text-xl uppercase tracking-widest group-hover:text-cream transition-all">
@@ -87,7 +86,7 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
 
         <Link
           href="/dashboard/vitrine"
-          className="group flex-1 laptop:flex-none laptop:h-[18vh] desktop:h-[18vh] 4k:h-[18vh] aspect-square flex flex-col items-center justify-center glass-card rounded-xl border border-cream/20 hover:bg-white/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:scale-95 active:shadow-md cursor-pointer"
+          className="group w-full laptop:w-auto laptop:flex-none laptop:h-[18vh] desktop:h-[18vh] 4k:h-[18vh] aspect-square flex flex-col items-center justify-center glass-card rounded-xl border border-cream/20 hover:bg-white/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:scale-95 active:shadow-md cursor-pointer"
         >
           <h2 className="text-sm laptop:text-sm desktop:text-xl 2k:text-3xl 4k:text-5xl font-bold text-cream tracking-[0.2em]">
             TEXTES
@@ -99,7 +98,7 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
 
         <Link
           href="/dashboard/services"
-          className="group flex-1 laptop:flex-none laptop:h-[18vh] desktop:h-[18vh] 4k:h-[18vh] aspect-square flex flex-col items-center justify-center glass-card rounded-xl border border-cream/20 hover:bg-white/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:scale-95 active:shadow-md cursor-pointer"
+          className="group w-full laptop:w-auto laptop:flex-none laptop:h-[18vh] desktop:h-[18vh] 4k:h-[18vh] aspect-square flex flex-col items-center justify-center glass-card rounded-xl border border-cream/20 hover:bg-white/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:scale-95 active:shadow-md cursor-pointer"
         >
           <h2 className="text-sm laptop:text-sm desktop:text-xl 2k:text-3xl 4k:text-5xl font-bold text-cream tracking-[0.2em]">
             SERVICES

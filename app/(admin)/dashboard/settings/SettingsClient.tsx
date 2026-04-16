@@ -452,6 +452,19 @@ const SettingsClient = ({ user }: { user: User }) => {
           </form>
         </div>
       </div>
+
+      {/* Lien support */}
+      <div className="mt-12 pt-8 border-t border-cream/10 flex justify-center">
+        <a
+          href="/support"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-cream/40 hover:text-cream transition-colors text-[10px] tablet:text-xs 2k:text-sm uppercase tracking-widest"
+        >
+          <ExternalLink className="w-3 h-3" />
+          Contacter le support
+        </a>
+      </div>
     </div>
   );
 };
