@@ -3,7 +3,7 @@ import { resend } from "./resend";
 export const sendRecoveryEmail = async (email: string, code: string) => {
   try {
     const { data, error } = await resend.emails.send({
-      from: "Photographe Admin <noreply@send.photolio.fr>",
+      from: "Photographe Admin <noreply@photolio.fr>",
       to: email,
       subject: "Ton code de sécurité",
       html: `
@@ -47,7 +47,7 @@ export const sendGalleryInviteEmail = async (
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "Photographe Admin <noreply@send.photolio.fr>",
+      from: "Photographe Admin <noreply@photolio.fr>",
       to: email,
       subject: "Vos photos sont disponibles",
       html: `
@@ -92,7 +92,7 @@ export const sendGalleryShareEmail = async (
   galleryName: string,
 ) => {
   const { error } = await resend.emails.send({
-    from: "Photographe Admin <noreply@send.photolio.fr>",
+    from: "Photographe Admin <noreply@photolio.fr>",
     to: email,
     subject: `Des photos partagées avec vous — ${galleryName}`,
     html: `
