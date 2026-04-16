@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import {
   Check,
   Pencil,
+  Star,
   Trash2,
   Share2,
   Loader2,
@@ -12,6 +13,7 @@ import {
 } from "lucide-react";
 import {
   deleteGallery,
+  setFeaturedGallery,
   shareGallery,
   updateGallery,
 } from "../../actions/galleries";
@@ -24,6 +26,7 @@ type Gallery = {
   name: string;
   description: string;
   token: string;
+  isPremium: boolean;
   coverUrl: string | null;
 };
 
@@ -98,6 +101,15 @@ export default function GalleriesClient({
         ),
       );
       clearSelection();
+    });
+  };
+
+  const handleSetFeatured = (galleryId: string) => {
+    startTransition(async () => {
+      await setFeaturedGallery(galleryId);
+      setGalleries((prev) =>
+        prev.map((g) => ({ ...g, isPremium: g.id === galleryId })),
+      );
     });
   };
 
@@ -320,13 +332,28 @@ export default function GalleriesClient({
             >
               {/* IMAGE 16/9 */}
               <div
-                className={`w-full aspect-video overflow-hidden rounded-xl bg-dark/20 border transition-all duration-200 ${isSelected ? "border-cream/50 ring-2 ring-cream/20" : "border-cream/5"}`}
+                className={`relative w-full aspect-video overflow-hidden rounded-xl bg-dark/20 border transition-all duration-200 ${isSelected ? "border-cream/50 ring-2 ring-cream/20" : "border-cream/5"}`}
               >
                 {isSelected && (
                   <div className="absolute top-2 left-2 z-10 w-6 h-6 bg-cream flex items-center justify-center rounded-sm">
                     <Check className="w-4 h-4 text-dark" />
                   </div>
                 )}
+
+                {/* Étoile mise en avant — haut droite */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation(); // ne pas sélectionner la galerie
+                    if (!gallery.isPremium) handleSetFeatured(gallery.id);
+                  }}
+                  className={`absolute top-2 right-2 z-10 transition-colors ${gallery.isPremium ? "cursor-default text-yellow-400" : "text-cream/40 hover:text-yellow-400"}`}
+                >
+                  <Star
+                    className="w-5 h-5"
+                    fill={gallery.isPremium ? "currentColor" : "none"}
+                  />
+                </button>
                 {gallery.coverUrl ? (
                   <img
                     src={optimizeCloudinaryUrl(gallery.coverUrl, 600)}

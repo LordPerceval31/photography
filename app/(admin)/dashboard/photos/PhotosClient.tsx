@@ -171,9 +171,16 @@ const PhotosClient = ({
     if (!targetGalleryId || selectedIds.length === 0) return;
     setIsPending(true);
     try {
-      await copyPhotos(selectedIds, targetGalleryId);
+      const result = await copyPhotos(selectedIds, targetGalleryId);
+      if (result.error) {
+        console.error(result.error);
+        return;
+      }
+      // Ajoute les nouvelles copies directement dans le state local
+      if (result.photos?.length) {
+        setLocalPhotos((prev) => [...result.photos!, ...prev]);
+      }
       clearSelection();
-      router.refresh();
     } catch (error) {
       console.error(error);
     } finally {
@@ -281,7 +288,8 @@ const PhotosClient = ({
     setIsAddPending(true);
     setAddError("");
     try {
-      const sig = await getUploadSignature();
+      const nameForSlug = addTitle.trim() || addFile.name.replace(/\.[^.]+$/, "");
+      const sig = await getUploadSignature(nameForSlug);
       if (sig.error || !sig.signature) {
         setAddError(sig.error ?? "Impossible de signer l'upload.");
         return;
@@ -292,7 +300,7 @@ const PhotosClient = ({
       formData.append("api_key", sig.apiKey!);
       formData.append("timestamp", String(sig.timestamp));
       formData.append("signature", sig.signature);
-      formData.append("folder", "photographe");
+      formData.append("public_id", sig.publicId!);
 
       const res = await fetch(
         `https://api.cloudinary.com/v1_1/${sig.cloudName}/image/upload`,
@@ -321,7 +329,9 @@ const PhotosClient = ({
       setIsAddOpen(false);
       router.refresh();
     } catch (err: unknown) {
-      setAddError(err instanceof Error ? err.message : "Une erreur est survenue.");
+      setAddError(
+        err instanceof Error ? err.message : "Une erreur est survenue.",
+      );
     } finally {
       setIsAddPending(false);
     }
@@ -594,10 +604,10 @@ const PhotosClient = ({
                 <div className="flex flex-col gap-3 w-full laptop:w-[55%] laptop:ml-auto">
                   <div className="flex items-center gap-2 w-full">
                     <div className="flex-1 glass-card rounded-lg px-3 py-2 flex justify-between items-center opacity-70 gap-2">
-                      <span className="text-[8px] uppercase tracking-widest text-cream/40 shrink-0">
+                      <span className="text-[10px] laptop:text-xs 2k:text-lg 4k:text-xl uppercase tracking-widest text-cream/40 shrink-0">
                         Source
                       </span>
-                      <span className="text-[10px] text-cream truncate text-right">
+                      <span className="text-[12px] laptop:text-sm 2k:text-lg 4k:text-2xl text-cream truncate text-right">
                         {sourceGalleryName}
                       </span>
                     </div>
@@ -611,7 +621,7 @@ const PhotosClient = ({
                         onClick={() =>
                           setIsTargetGalleryOpen(!isTargetGalleryOpen)
                         }
-                        className={`w-full flex items-center justify-between glass-input text-cream/80 text-[10px] p-3 outline-none transition-all duration-300 disabled:opacity-50 ${
+                        className={`w-full flex items-center justify-between glass-input text-cream/80 text-[12px] laptop:text-sm 2k:text-lg 4k:text-2xl p-3 outline-none transition-all duration-300 disabled:opacity-50 ${
                           isTargetGalleryOpen
                             ? "rounded-t-lg rounded-b-none"
                             : "rounded-lg"
@@ -631,7 +641,7 @@ const PhotosClient = ({
                             <button
                               key={gal.id}
                               type="button"
-                              className="w-full text-left p-3 text-[10px] text-cream/80 hover:text-cream truncate transition-colors"
+                              className="w-full text-left p-3 text-[12px] laptop:text-sm 2k:text-lg 4k:text-2xl text-cream/80 hover:text-cream truncate transition-colors"
                               onClick={() => {
                                 setTargetGalleryId(gal.id);
                                 setIsTargetGalleryOpen(false);
@@ -648,7 +658,7 @@ const PhotosClient = ({
                   <button
                     disabled={isPending || !targetGalleryId}
                     onClick={activeAction === "move" ? handleMove : handleCopy}
-                    className="flex justify-center items-center w-full glass-card text-blue px-4 py-3 rounded-lg text-xs font-semibold uppercase tracking-widest disabled:opacity-30 transition-colors"
+                    className="flex justify-center items-center w-full glass-card text-blue px-4 py-3 rounded-lg text-xs laptop:text-sm 2k:text-lg 4k:text-2xl font-semibold uppercase tracking-widest disabled:opacity-30 transition-colors"
                   >
                     {isPending ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -697,12 +707,17 @@ const PhotosClient = ({
       <div className="w-[90%] self-center">
         <button
           type="button"
-          onClick={() => { setIsAddOpen((v) => !v); setAddError(""); }}
+          onClick={() => {
+            setIsAddOpen((v) => !v);
+            setAddError("");
+          }}
           className="flex items-center gap-2 text-cream/60 hover:text-cream transition-colors text-[10px] uppercase tracking-widest font-medium"
         >
           <ImagePlus className="w-4 h-4" />
           Ajouter une photo à une galerie
-          <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isAddOpen ? "rotate-180" : ""}`} />
+          <ChevronDown
+            className={`w-3 h-3 transition-transform duration-300 ${isAddOpen ? "rotate-180" : ""}`}
+          />
         </button>
 
         {isAddOpen && (
@@ -724,7 +739,11 @@ const PhotosClient = ({
                 className="shrink-0 w-24 h-24 rounded-lg border border-dashed border-cream/20 hover:border-cream/40 transition-colors overflow-hidden flex items-center justify-center text-cream/30 hover:text-cream/60"
               >
                 {addPreview ? (
-                  <img src={addPreview} alt="aperçu" className="w-full h-full object-cover" />
+                  <img
+                    src={addPreview}
+                    alt="aperçu"
+                    className="w-full h-full object-cover"
+                  />
                 ) : (
                   <ImagePlus className="w-6 h-6" />
                 )}
@@ -749,10 +768,13 @@ const PhotosClient = ({
                   >
                     <span className="truncate">
                       {addGalleryId
-                        ? (galleries.find((g) => g.id === addGalleryId)?.name ?? "Galerie...")
+                        ? (galleries.find((g) => g.id === addGalleryId)?.name ??
+                          "Galerie...")
                         : "Choisir une galerie..."}
                     </span>
-                    <ChevronDown className={`w-3 h-3 transition-transform duration-300 shrink-0 ${isAddGalleryOpen ? "rotate-180 text-cream" : "text-cream/50"}`} />
+                    <ChevronDown
+                      className={`w-3 h-3 transition-transform duration-300 shrink-0 ${isAddGalleryOpen ? "rotate-180 text-cream" : "text-cream/50"}`}
+                    />
                   </button>
 
                   {isAddGalleryOpen && (
@@ -762,13 +784,18 @@ const PhotosClient = ({
                           key={gal.id}
                           type="button"
                           className="w-full text-left p-3 text-xs text-cream/80 hover:text-cream hover:bg-black/40 truncate transition-colors"
-                          onClick={() => { setAddGalleryId(gal.id); setIsAddGalleryOpen(false); }}
+                          onClick={() => {
+                            setAddGalleryId(gal.id);
+                            setIsAddGalleryOpen(false);
+                          }}
                         >
                           {gal.name}
                         </button>
                       ))}
                       {galleries.length === 0 && (
-                        <p className="p-3 text-xs text-cream/30">Aucune galerie disponible.</p>
+                        <p className="p-3 text-xs text-cream/30">
+                          Aucune galerie disponible.
+                        </p>
                       )}
                     </div>
                   )}
@@ -776,14 +803,19 @@ const PhotosClient = ({
               </div>
             </div>
 
-            {addError && (
-              <p className="text-red-400 text-xs">{addError}</p>
-            )}
+            {addError && <p className="text-red-400 text-xs">{addError}</p>}
 
             <div className="flex gap-2 justify-end">
               <button
                 type="button"
-                onClick={() => { setIsAddOpen(false); setAddFile(null); setAddPreview(null); setAddTitle(""); setAddGalleryId(""); setAddError(""); }}
+                onClick={() => {
+                  setIsAddOpen(false);
+                  setAddFile(null);
+                  setAddPreview(null);
+                  setAddTitle("");
+                  setAddGalleryId("");
+                  setAddError("");
+                }}
                 className="flex items-center gap-1 glass-card text-cream/50 hover:text-cream px-3 py-2 rounded-lg text-[10px] uppercase tracking-widest transition-colors"
               >
                 <X className="w-3 h-3" /> Annuler
@@ -794,7 +826,11 @@ const PhotosClient = ({
                 onClick={handleAddPhoto}
                 className="flex items-center gap-1 glass-card text-blue px-4 py-2 rounded-lg text-[10px] uppercase tracking-widest font-semibold disabled:opacity-30 transition-colors"
               >
-                {isAddPending ? <Loader2 className="w-3 h-3 animate-spin" /> : "Ajouter"}
+                {isAddPending ? (
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                ) : (
+                  "Ajouter"
+                )}
               </button>
             </div>
           </div>

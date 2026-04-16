@@ -7,18 +7,26 @@ import { FloatingInput } from "@/app/_components/FloatingInput";
 export default function GalleryAccessPage() {
   const { token } = useParams<{ token: string }>();
 
+  console.log("🟢 [RENDER] GalleryAccessPage rendu, token =", token);
+
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
-    if (isLoading) return;
+    console.log("🔵 [CLICK] handleSubmit appelé, code =", code, "isLoading =", isLoading);
+    if (isLoading) {
+      console.log("⏸️ [SKIP] isLoading=true, on sort");
+      return;
+    }
     if (!code.trim()) {
+      console.log("⚠️ [VIDE] Code vide, on sort");
       setError("Veuillez saisir votre code d'accès.");
       return;
     }
     setError("");
     setIsLoading(true);
+    console.log("🚀 [FETCH] Début validation, token =", token);
 
     try {
       // 1. Validation du code
@@ -28,10 +36,13 @@ export default function GalleryAccessPage() {
         body: JSON.stringify({ code }),
       });
 
+      console.log("📡 [VALIDATION] status =", validationRes.status, validationRes.ok ? "OK" : "ERREUR");
+
       if (!validationRes.ok) {
         const data = (await validationRes.json().catch(() => ({}))) as {
           error?: string;
         };
+        console.log("❌ [VALIDATION FAILED] data =", data);
         setError(
           data.error || "Une erreur est survenue lors de la vérification.",
         );
@@ -39,30 +50,37 @@ export default function GalleryAccessPage() {
         return;
       }
 
+      console.log("✅ [VALIDATION OK] Début download");
       // 2. Récupération de l'URL Cloudinary
       const res = await fetch(`/api/download-gallery/${token}`);
+      console.log("📡 [DOWNLOAD] status =", res.status, res.ok ? "OK" : "ERREUR");
+
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
+        console.log("❌ [DOWNLOAD FAILED] data =", data);
         setError(data.error || "Impossible de créer le téléchargement.");
         setIsLoading(false);
         return;
       }
 
       const responseData = await res.json();
+      console.log("📦 [RESPONSE DATA]", responseData);
 
       if (!responseData.url) {
+        console.log("❌ [URL INVALIDE] responseData.url est vide");
         setError("L'URL générée est invalide.");
         setIsLoading(false);
         return;
       }
 
+      console.log("⬇️ [REDIRECT] window.location.assign vers", responseData.url);
       // 3. Téléchargement direct (ne quitte pas la page car c'est un ZIP)
       window.location.assign(responseData.url);
 
       setIsLoading(false);
       setCode("");
     } catch (e) {
-      console.error("Erreur:", e);
+      console.error("💥 [CATCH] Erreur inattendue:", e);
       setError("Une erreur inattendue est survenue.");
       setIsLoading(false);
     }

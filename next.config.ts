@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["unrelinquishable-uncamouflaged-maryjane.ngrok-free.dev"],
   async rewrites() {
     return [
       {

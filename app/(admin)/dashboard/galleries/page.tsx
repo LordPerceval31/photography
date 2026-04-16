@@ -24,6 +24,7 @@ export default async function GalleriesPage() {
       name: true,
       description: true,
       token: true,
+      isPremium: true,
       photos: {
         where: { isGalleryCover: true },
         select: { photo: { select: { url: true } } },
@@ -37,6 +38,7 @@ export default async function GalleriesPage() {
     name: g.name,
     description: g.description,
     token: g.token,
+    isPremium: g.isPremium,
     coverUrl: g.photos[0]?.photo.url ?? null,
   }));
 

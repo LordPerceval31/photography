@@ -54,7 +54,9 @@ export const AddToGallerySlot = ({ galleries }: Props) => {
 
     try {
       setStatus("signing");
-      const sig = await getUploadSignature();
+      // Si pas de titre, on utilise le nom du fichier original (sans extension)
+      const nameForSlug = title.trim() || file.name.replace(/\.[^.]+$/, "");
+      const sig = await getUploadSignature(nameForSlug);
       if (sig.error || !sig.signature) {
         setError(sig.error ?? "Erreur de signature.");
         setStatus("idle");
@@ -67,7 +69,8 @@ export const AddToGallerySlot = ({ galleries }: Props) => {
       formData.append("api_key", sig.apiKey!);
       formData.append("timestamp", String(sig.timestamp));
       formData.append("signature", sig.signature);
-      formData.append("folder", "photographe");
+      // public_id remplace folder — Cloudinary utilisera exactement ce nom
+      formData.append("public_id", sig.publicId!);
 
       const res = await fetch(
         `https://api.cloudinary.com/v1_1/${sig.cloudName}/image/upload`,

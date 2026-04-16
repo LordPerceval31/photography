@@ -89,23 +89,25 @@ const GalleryClient = () => {
       try {
         const uploadedPhotosData = [];
 
-        // Signature unique côté serveur pour toutes les photos de la galerie
-        // L'API secret ne quitte jamais le serveur, l'API key est un identifiant public
-        const sig = await getUploadSignature();
-        if (sig.error || !sig.signature) {
-          setError(sig.error ?? "Impossible de signer l'upload.");
-          return;
-        }
-
-        // Upload direct vers Cloudinary — pas de proxy, pas de limite de taille
+        // Une signature par photo — chacune a son propre public_id basé sur son titre
         for (let i = 0; i < photos.length; i++) {
           const p = photos[i];
+
+          // Si pas de titre, on utilise le nom du fichier original (sans extension)
+          const nameForSlug = p.title.trim() || p.file.name.replace(/\.[^.]+$/, "");
+          const sig = await getUploadSignature(nameForSlug);
+          if (sig.error || !sig.signature) {
+            setError(sig.error ?? `Impossible de signer la photo ${i + 1}.`);
+            return;
+          }
+
           const formData = new FormData();
           formData.append("file", p.file);
           formData.append("api_key", sig.apiKey!);
           formData.append("timestamp", String(sig.timestamp));
           formData.append("signature", sig.signature);
-          formData.append("folder", "photographe");
+          // public_id remplace folder — Cloudinary utilisera exactement ce nom
+          formData.append("public_id", sig.publicId!);
 
           const res = await fetch(
             `https://api.cloudinary.com/v1_1/${sig.cloudName}/image/upload`,

@@ -85,6 +85,31 @@ export async function updateGallery(
   }
 }
 
+export async function setFeaturedGallery(galleryId: string) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Non autorisé" };
+
+  try {
+    // Retire la mise en avant de toutes les galeries de l'utilisateur
+    await prisma.gallery.updateMany({
+      where: { userId: session.user.id },
+      data: { isPremium: false },
+    });
+
+    // Met en avant uniquement celle-ci
+    await prisma.gallery.update({
+      where: { id: galleryId, userId: session.user.id },
+      data: { isPremium: true },
+    });
+
+    revalidatePath("/dashboard/galleries");
+    return { success: true };
+  } catch (err: unknown) {
+    console.error("[galleries:setFeaturedGallery] Erreur", { galleryId, error: err });
+    return { error: "Erreur lors de la mise en avant." };
+  }
+}
+
 export async function shareGallery(galleryId: string, email: string) {
   const session = await auth();
   if (!session?.user?.id) return { error: "Non autorisé" };
