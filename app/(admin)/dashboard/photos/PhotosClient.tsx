@@ -704,14 +704,14 @@ const PhotosClient = ({
       </div>
 
       {/* PANNEAU AJOUT PHOTO À UNE GALERIE */}
-      <div className="w-[90%] self-center">
+      <div className="w-[80%] tablet:w-[90%] self-center">
         <button
           type="button"
           onClick={() => {
             setIsAddOpen((v) => !v);
             setAddError("");
           }}
-          className="flex items-center gap-2 text-cream/60 hover:text-cream transition-colors text-[10px] uppercase tracking-widest font-medium"
+          className="flex items-center gap-2 text-cream/60 hover:text-cream transition-colors text-[10px] uppercase tracking-widest font-medium mx-auto tablet:mx-0"
         >
           <ImagePlus className="w-4 h-4" />
           Ajouter une photo à une galerie
@@ -736,7 +736,7 @@ const PhotosClient = ({
               <button
                 type="button"
                 onClick={() => addInputRef.current?.click()}
-                className="shrink-0 w-24 h-24 rounded-lg border border-dashed border-cream/20 hover:border-cream/40 transition-colors overflow-hidden flex items-center justify-center text-cream/30 hover:text-cream/60"
+                className="shrink-0 w-24 h-24 rounded-lg border border-dashed border-cream/20 hover:border-cream/40 transition-colors overflow-hidden flex items-center justify-center text-cream/30 hover:text-cream/60 mx-auto tablet:mx-0"
               >
                 {addPreview ? (
                   <img
@@ -805,7 +805,7 @@ const PhotosClient = ({
 
             {addError && <p className="text-red-400 text-xs">{addError}</p>}
 
-            <div className="flex gap-2 justify-end">
+            <div className="flex gap-2 justify-center tablet:justify-end">
               <button
                 type="button"
                 onClick={() => {
