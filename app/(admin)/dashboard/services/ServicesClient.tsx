@@ -94,7 +94,7 @@ export default function ServicesClient({
 
     try {
       setUploadStatus("signing");
-      const sig = await getUploadSignature();
+      const sig = await getUploadSignature(title);
       if (sig.error || !sig.signature) {
         setUploadError(sig.error ?? "Erreur de signature");
         setPhotoPreview(editingService?.photoUrl ?? null);
