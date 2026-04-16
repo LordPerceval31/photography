@@ -1,9 +1,10 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { sendContactEmail, type ContactFormState } from "@/app/actions/contact";
+import MentionsLegalesModal from "./_components/MentionsLegalesModal";
 
 const GALLERY_PHOTOS = [
   {
@@ -53,6 +54,8 @@ export default function LandingPage() {
     ContactFormState,
     FormData
   >(sendContactEmail, { success: false });
+
+  const [mentionsOpen, setMentionsOpen] = useState(false);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -214,7 +217,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 px-4 py-3 laptop:py-4 desktop:py-5 bg-blue/10 border border-blue/20 rounded-xl text-xs laptop:text-sm text-blue font-mono truncate">
+              <div className="flex items-center gap-2 px-4 py-3 laptop:py-4 desktop:py-5 bg-blue/10 border border-blue/20 rounded-xl text-xs 2k:text-lg 4k:text-2xl laptop:text-sm text-blue font-mono truncate">
                 <span>🔗</span>
                 <span className="truncate cursor-default">
                   photolio.fr/g/mariage...
@@ -381,13 +384,19 @@ export default function LandingPage() {
         </section>
 
         {/* ── FOOTER ── */}
-        <footer className="w-full tablet:w-[85%] max-w-5xl mx-auto border-t border-cream/10 px-4 py-8 flex flex-col tablet:flex-row items-center justify-between gap-4 text-xs text-cream/40">
+        <footer className="w-full border-t border-cream/10 px-8 laptop:px-16 py-8 flex flex-col tablet:flex-row items-center justify-around gap-4 text-xs text-cream/40">
           <div className="flex items-center gap-2">
             <span className="font-bold text-cream/80 cursor-default">
               Photolio.fr
             </span>
             <span className="cursor-default">© 2026</span>
           </div>
+          <button
+            onClick={() => setMentionsOpen(true)}
+            className="hover:text-cream/70 underline underline-offset-4 transition-colors cursor-pointer"
+          >
+            Mentions légales
+          </button>
           <span className="cursor-default">
             Site réalisé par{" "}
             <a
@@ -400,6 +409,11 @@ export default function LandingPage() {
           </span>
         </footer>
       </main>
+
+      <MentionsLegalesModal
+        open={mentionsOpen}
+        onClose={() => setMentionsOpen(false)}
+      />
     </>
   );
 }

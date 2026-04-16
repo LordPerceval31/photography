@@ -5,6 +5,8 @@ posthog.init(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN!, {
   ui_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   // Inclure defaults comme requis par PostHog
   defaults: "2026-01-30",
+  // Aucun cookie ni localStorage : tout reste en mémoire RAM
+  persistence: "memory",
   // Active la capture automatique des exceptions non gérées
   capture_exceptions: true,
   // Mode debug en développement

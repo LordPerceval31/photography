@@ -1,5 +1,4 @@
 import type { NextAuthConfig } from "next-auth";
-import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 
 // Config Edge-compatible : pas de Prisma, pas de bcrypt
@@ -7,7 +6,7 @@ import Credentials from "next-auth/providers/credentials";
 // ATTENTION : ces callbacks sont utilisés UNIQUEMENT par proxy.ts.
 // auth.ts redéfinit ses propres callbacks plus complets pour le Node runtime.
 export const authConfig = {
-  providers: [Google, Credentials({})],
+  providers: [Credentials({})],
   pages: {
     signIn: "/login",
   },
