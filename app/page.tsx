@@ -90,7 +90,7 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <main className="bg-background text-foreground min-h-screen overflow-x-hidden selection:bg-blue selection:text-white">
+      <main className="bg-[#0a0a0a] text-[#ededed] min-h-screen overflow-x-hidden selection:bg-blue selection:text-white">
         {/* ── HEADER ── */}
         <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between w-[calc(100%-32px)] tablet:w-[70%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-600 px-4 py-3 2k:px-6 2k:py-4 4k:px-10 4k:py-8 glass-premium rounded-full transition-all duration-300">
           <span className="font-extrabold text-[15px] 2k:text-[18px] 4k:text-2xl tracking-tight text-cream cursor-default">
