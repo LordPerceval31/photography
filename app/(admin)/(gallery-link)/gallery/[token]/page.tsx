@@ -51,31 +51,8 @@ export default function GalleryAccessPage() {
       }
 
       console.log("✅ [VALIDATION OK] Début download");
-      // 2. Récupération de l'URL Cloudinary
-      const res = await fetch(`/api/download-gallery/${token}`);
-      console.log("📡 [DOWNLOAD] status =", res.status, res.ok ? "OK" : "ERREUR");
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        console.log("❌ [DOWNLOAD FAILED] data =", data);
-        setError(data.error || "Impossible de créer le téléchargement.");
-        setIsLoading(false);
-        return;
-      }
-
-      const responseData = await res.json();
-      console.log("📦 [RESPONSE DATA]", responseData);
-
-      if (!responseData.url) {
-        console.log("❌ [URL INVALIDE] responseData.url est vide");
-        setError("L'URL générée est invalide.");
-        setIsLoading(false);
-        return;
-      }
-
-      console.log("⬇️ [REDIRECT] window.location.assign vers", responseData.url);
-      // 3. Téléchargement direct (ne quitte pas la page car c'est un ZIP)
-      window.location.assign(responseData.url);
+      // 2. Redirige vers la route qui génère et redirige vers le ZIP Cloudinary
+      window.location.assign(`/api/download-gallery/${token}`);
 
       setIsLoading(false);
       setCode("");

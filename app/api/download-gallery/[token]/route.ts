@@ -43,5 +43,5 @@ export async function GET(
     target_public_id: gallery.name.toLowerCase().replace(/\s+/g, "-"),
   });
 
-  return NextResponse.json({ url });
+  return NextResponse.redirect(url);
 }
