@@ -12,12 +12,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 1.0,
     },
-    {
-      url: "https://photolio.fr/login",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
   ];
 
   // 2. TES SOUS-DOMAINES DYNAMIQUES (La requête vers ta BDD)

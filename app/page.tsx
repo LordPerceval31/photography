@@ -42,11 +42,10 @@ const GALLERY_PHOTOS = [
 ] as const;
 
 const PRICING_FEATURES = [
-  "Site vitrine complet pour présenter votre travail",
-  "Envoyez des galeries privées à vos clients",
-  "votre nom de domaine personnalisé",
-  "Améliorez votre vitrine au fil de vos envies",
-  "Proposez vos propres services",
+  "Architecture prête à l'emploi, zéro technique",
+  "Gérez vos galeries et contenus en totale autonomie",
+  "Faites évoluer votre vitrine au rythme de vos shootings",
+  "Hébergement et nom de domaine inclus",
 ];
 
 export default function LandingPage() {
@@ -121,8 +120,8 @@ export default function LandingPage() {
           <div className="relative z-10 w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-600 mx-auto flex flex-col items-start text-left 4k:translate-y-24 4k:-translate-x-70 transition-transform duration-500">
             {/* AJOUT SEO : Le VRAI H1 pour Google et les liseuses d'écran */}
             <h1 className="sr-only">
-              Photolio : Le logiciel SaaS et créateur de sites vitrines pour
-              photographes professionnels ou amateurs
+              Création de sites vitrines et galeries privées clé en main pour
+              photographes professionnels et amateurs
             </h1>
 
             {/* Le texte visuel passe en <p> et est caché aux liseuses avec aria-hidden */}
@@ -130,16 +129,17 @@ export default function LandingPage() {
               aria-hidden="true"
               className="text-4xl tablet:text-5xl laptop:text-[3.5rem] desktop:text-[4.5rem] 2k:text-[6rem] ultrawide:text-[8rem] 4k:text-[12rem] font-bold leading-[1.15] 2k:leading-[1.1] text-cream mb-6 laptop:mb-8 desktop:mb-10 2k:mb-12 4k:mb-20 cursor-default"
             >
-              Votre œuvre.
+              Vos œuvres
               <br />
               <span className="text-blue font-medium italic pr-2 cursor-default">
-                Votre outil.
+                Votre espace
               </span>
             </p>
 
-            <p className="text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-5xl text-cream/60 max-w-md laptop:max-w-lg desktop:max-w-2xl 2k:max-w-3xl 4k:max-w-6xl mb-10 laptop:mb-12 desktop:mb-16 2k:mb-20 4k:mb-32 leading-relaxed  cursor-default">
-              Votre site vitrine. Vos galeries privées. Un espace pensé pour
-              sublimer vos images, sans aucune friction technique.
+            <p className="text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-5xl text-cream/60 max-w-md laptop:max-w-lg desktop:max-w-2xl 2k:max-w-3xl 4k:max-w-7xl mb-10 laptop:mb-12 desktop:mb-16 2k:mb-20 4k:mb-32 leading-relaxed  cursor-default">
+              Déployez votre portfolio et vos galeries privées sans aucune
+              friction technique. Un espace conçu pour sublimer vos images, que
+              vous faites évoluer en totale autonomie.
             </p>
 
             <a
@@ -323,10 +323,12 @@ export default function LandingPage() {
         >
           <div className="text-center laptop:text-left mb-10 laptop:mb-16 desktop:mb-24 4k:mb-48">
             <h2 className="text-3xl tablet:text-4xl laptop:text-5xl 2k:text-7xl 4k:text-[10rem] font-extrabold tracking-tight text-cream mb-4 4k:mb-16 cursor-default">
-              Demander un accès
+              Prenez les clés de votre espace.
             </h2>
-            <p className="text-sm laptop:text-base 2k:text-2xl 4k:text-5xl text-cream/60 max-w-lg laptop:max-w-2xl 4k:max-w-7xl mx-auto laptop:mx-0 cursor-default">
-              Parlez-moi de votre activité, je crée votre espace sous 24h.
+            <p className="text-sm laptop:text-base desktop:text-lg 2k:text-2xl 4k:text-5xl text-cream/60 max-w-xl laptop:max-w-3xl 2k:max-w-5xl 4k:max-w-480 mx-auto laptop:mx-0 cursor-default">
+              Parlez-moi de votre activité. Je configure l&apos;architecture de
+              votre compte sous 24h. Vous n&apos;avez plus qu&apos;à importer
+              vos photos, écrire vos textes, et faire vivre votre site.
             </p>
           </div>
 
@@ -340,14 +342,14 @@ export default function LandingPage() {
                 type="text"
                 placeholder="Votre nom"
                 required
-                className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
+                className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-2xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
               />
               {/* CHAMP TÉLÉPHONE OPTIONNEL */}
               <input
                 name="phone"
                 type="tel"
                 placeholder="Téléphone (optionnel)"
-                className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
+                className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-2xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
               />
             </div>
             <input
@@ -355,19 +357,19 @@ export default function LandingPage() {
               type="email"
               placeholder="Votre email"
               required
-              className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
+              className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-2xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
             />
             <textarea
               name="message"
               placeholder="Détails sur vos besoins..."
               required
-              className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-xl text-cream placeholder:text-cream/30 min-h-40 resize-none outline-none focus:border-blue transition-colors"
+              className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-2xl 4k:text-4xl text-cream placeholder:text-cream/30 min-h-40 resize-none outline-none focus:border-blue transition-colors"
             />
 
             <button
               type="submit"
               disabled={isPending}
-              className="tablet:w-fit tablet:ml-auto tablet:px-12 w-full py-4 bg-blue text-cream rounded-xl text-sm font-bold tracking-tight hover:opacity-90 transition-opacity disabled:opacity-50 cursor-pointer"
+              className="tablet:w-fit tablet:ml-auto tablet:px-12 w-full py-4 bg-blue text-cream rounded-xl text-sm 2k:text-2xl 4k:text-4xl font-bold tracking-tight hover:opacity-90 transition-opacity disabled:opacity-50 cursor-pointer"
             >
               {isPending ? "Envoi..." : "Envoyer ma demande"}
             </button>

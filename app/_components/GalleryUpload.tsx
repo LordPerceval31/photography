@@ -174,7 +174,7 @@ export const GalleryUpload = ({ galleries }: Props) => {
             onClick={() => setIsGalleryOpen((v) => !v)}
             className={`flex items-center gap-2 glass-input px-3 py-2 text-[10px] tablet:text-xs desktop:text-sm 2k:text-lg ultrawide:text-xl 4k:text-3xl uppercase tracking-widest text-cream/80 outline-none transition-all duration-300 disabled:opacity-50 ${isGalleryOpen ? "rounded-t-lg rounded-b-none" : "rounded-lg"}`}
           >
-            <span className="truncate max-w-[80px] tablet:max-w-[120px] desktop:max-w-[150px] 2k:max-w-[200px] 4k:max-w-[300px]">
+            <span className="truncate max-w-20 tablet:max-w-30 desktop:max-w-37.5 2k:max-w-50 4k:max-w-75">
               {selectedGalleryName ?? "Galerie..."}
             </span>
             <ChevronDown

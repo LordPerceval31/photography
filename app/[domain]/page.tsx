@@ -23,6 +23,8 @@ const getUserByDomain = cache(async (domain: string) => {
     },
     include: {
       siteConfig: true,
+      // Récupère la photo de couverture pour le JSON-LD
+      photos: { where: { isCover: true }, take: 1 },
     },
   });
 });
@@ -81,15 +83,25 @@ const Home = async ({ params }: { params: Promise<{ domain: string }> }) => {
   }
 
   const config = user.siteConfig;
+  const coverPhoto = user.photos[0];
 
-  // Schema.org format pour remonter dans les recherches locales
+  // Schema.org — ProfessionalService est plus précis que LocalBusiness pour un prestataire
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: config?.seoTitle || user.name || "Photographe",
-    image: user.image || "",
+    "@type": "ProfessionalService",
     "@id": `https://${domain}`,
+    name: config?.seoTitle || user.name || "Photographe",
     url: `https://${domain}`,
+    // Image : la photo de couverture en priorité, sinon l'avatar du compte
+    image: coverPhoto?.url || user.image || "",
+    // Description : champ SEO dédié en priorité, sinon la bio, sinon le tagline
+    description:
+      config?.seoDescription ||
+      config?.bioParagraph1 ||
+      config?.heroTagline ||
+      "",
+    // Slogan court affiché dans certains résultats Google
+    ...(config?.heroTagline && { slogan: config.heroTagline }),
   };
 
   return (
