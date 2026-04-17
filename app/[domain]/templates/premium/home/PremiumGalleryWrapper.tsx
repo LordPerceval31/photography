@@ -1,5 +1,5 @@
-import prisma from "../../lib/prisma";
-import { Item } from "../../lib/types";
+import prisma from "../../../../lib/prisma";
+import { Item } from "../../../../lib/types";
 import PremiumGallerySection from "./PremiumGallerySection";
 
 const PremiumGalleryWrapper = async ({ userId }: { userId: string }) => {

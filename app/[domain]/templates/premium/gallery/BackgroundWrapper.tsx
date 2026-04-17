@@ -1,5 +1,5 @@
-import prisma from "../../lib/prisma";
-import { optimizeCloudinaryUrl } from "../../lib/types";
+import prisma from "../../../../lib/prisma";
+import { optimizeCloudinaryUrl } from "../../../../lib/types";
 import MasonryClient from "./MasonryClient";
 
 const shuffleArray = <T,>(array: T[]): T[] => {

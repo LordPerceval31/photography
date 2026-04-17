@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLenis } from "lenis/react";
-import { useMeasure, useMedia } from "../../hook/hook";
+import { useMeasure, useMedia } from "../../../../hook/hook";
 import Image from "next/image";
-import { Item } from "../../lib/types";
+import { Item } from "../../../../lib/types";
 import posthog from "posthog-js";
 import Lightbox from "@/app/_components/lightbox";
 

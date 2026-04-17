@@ -1,6 +1,6 @@
-import prisma from "../../lib/prisma";
+import prisma from "../../../../lib/prisma";
 import CarouselSection from "./CarouselSection";
-import { Item } from "../../lib/types";
+import { Item } from "../../../../lib/types";
 
 export type CarouselGallery = {
   id: string;

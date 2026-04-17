@@ -4,8 +4,8 @@ import { useState, useCallback } from "react";
 import Image from "next/image";
 import { Caveat } from "next/font/google";
 import { AnimatePresence } from "framer-motion";
-import { Item } from "../../lib/types";
-import Lightbox from "../../_components/lightbox";
+import { Item } from "../../../../lib/types";
+import Lightbox from "../../../../_components/lightbox";
 import posthog from "posthog-js";
 
 const caveat = Caveat({ subsets: ["latin"], display: "swap" });
