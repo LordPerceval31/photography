@@ -59,7 +59,7 @@ export const PhotoSlot = ({
       formData.append("api_key", sig.apiKey!);
       formData.append("timestamp", String(sig.timestamp));
       formData.append("signature", sig.signature);
-      formData.append("folder", "photographe");
+      formData.append("public_id", sig.publicId!);
 
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${sig.cloudName}/image/upload`,
@@ -67,7 +67,9 @@ export const PhotoSlot = ({
       );
 
       if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
         setPreview(currentUrl);
+        setError(errorData?.error?.message ?? "Échec de l'upload Cloudinary.");
         setStatus("idle");
         return;
       }

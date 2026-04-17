@@ -107,7 +107,7 @@ export default function ServicesClient({
       formData.append("api_key", sig.apiKey!);
       formData.append("timestamp", String(sig.timestamp));
       formData.append("signature", sig.signature);
-      formData.append("folder", "photographe");
+      formData.append("public_id", sig.publicId!);
 
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${sig.cloudName}/image/upload`,
@@ -115,7 +115,8 @@ export default function ServicesClient({
       );
 
       if (!response.ok) {
-        setUploadError("Échec de l'upload. Réessaie.");
+        const errorData = await response.json().catch(() => ({}));
+        setUploadError(errorData?.error?.message ?? "Échec de l'upload. Réessaie.");
         setPhotoPreview(editingService?.photoUrl ?? null);
         return;
       }

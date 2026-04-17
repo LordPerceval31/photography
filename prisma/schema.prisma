@@ -38,6 +38,10 @@ model User {
   photos    Photo[]
   galleries Gallery[]
   siteConfig SiteConfig?
+
+  activeTemplateId   String?
+  activeTemplate     Template?      @relation("UserActiveTemplate", fields: [activeTemplateId], references: [id])
+  purchasedTemplates UserTemplate[]
 }
 
 // Modèles requis par NextAuth v5 / PrismaAdapter
@@ -161,8 +165,9 @@ model SiteConfig {
   darkQuote       String @default("")
   darkQuoteAuthor String @default("")
   // SEO
-  seoTitle        String? @default("") 
+  seoTitle        String? @default("")
   seoDescription  String? @default("")
+  templateConfig  Json?   // champs spécifiques au template actif
 
   userId          String @unique 
   user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -176,6 +181,28 @@ model InviteCode {
   usedAt    DateTime?
   expiresAt DateTime
   createdAt DateTime  @default(now())
+}
+
+model Template {
+  id         String  @id @default(cuid())
+  slug       String  @unique   // "premium", "minimal", "cinematic"...
+  name       String            // "Premium", "Minimal"...
+  price      Float             // prix en euros
+  previewUrl String?           // URL d'une capture d'écran
+
+  activeUsers User[]         @relation("UserActiveTemplate")
+  purchases   UserTemplate[]
+}
+
+model UserTemplate {
+  userId      String
+  templateId  String
+  purchasedAt DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template Template @relation(fields: [templateId], references: [id])
+
+  @@id([userId, templateId])
 }
 
 model GalleryGuest {

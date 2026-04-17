@@ -15,6 +15,11 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
+  // Si l'utilisateur s'est connecté avec un code temporaire, il doit créer son mot de passe
+  if (session.user.isFirstLogin) {
+    redirect("/set-password");
+  }
+
   return (
     <div className="relative w-full min-h-screen overflow-x-hidden">
       {/* 1. LE FOND : Totalement indépendant et fixe */}
