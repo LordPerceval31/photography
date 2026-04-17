@@ -74,7 +74,7 @@ export const LoginPage = () => {
         <div className="flex justify-end -mt-2">
           <Link
             href="/forgot-password"
-            className="text-[10px] tablet:text-xs 2k:text-base 4k:text-3xl text-cream/60 hover:text-blue transition-colors duration-200 cursor-default"
+            className="text-[10px] tablet:text-xs 2k:text-base 4k:text-3xl text-cream/60 hover:text-blue transition-colors duration-200 cursor-pointer"
           >
             Mot de passe oublié ?
           </Link>
