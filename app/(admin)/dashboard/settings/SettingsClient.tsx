@@ -260,6 +260,32 @@ const SettingsClient = ({ user }: { user: User }) => {
           {/* ── SÉPARATEUR ── */}
           <div className={`w-full h-px bg-cream/10 ${separatorMargin}`} />
 
+          {/* ── SECTION TEMPLATES ── */}
+          <div className={`flex flex-col ${sectionSpacing}`}>
+            <div className="flex flex-col gap-2 tablet:gap-3">
+              <h2 className="text-base tablet:text-lg laptop:text-xl desktop:text-2xl 2k:text-3xl 4k:text-5xl font-semibold text-cream tracking-wide">
+                Templates
+              </h2>
+              <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
+                Choisissez le design de votre vitrine parmi vos templates achetés.
+              </p>
+            </div>
+            <Link
+              href="/dashboard/templates"
+              className="group relative self-start flex items-center justify-center
+                py-3 px-8 tablet:py-4 tablet:px-10 2k:py-5 2k:px-14 4k:py-8 4k:px-20
+                text-[9px] tablet:text-[11px] laptop:text-[11px] desktop:text-xs 2k:text-base 4k:text-2xl
+                uppercase tracking-[0.25em] font-semibold text-cream bg-dark rounded-xl 4k:rounded-3xl
+                overflow-hidden transition-all duration-300 hover:shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]"
+            >
+              <span className="absolute inset-0 bg-blue translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out" />
+              <span className="relative z-10">Gérer mes templates</span>
+            </Link>
+          </div>
+
+          {/* ── SÉPARATEUR ── */}
+          <div className={`w-full h-px bg-cream/10 ${separatorMargin}`} />
+
           {/* ── SECTION CLOUDINARY ── */}
           <form
             onSubmit={(e) => {
