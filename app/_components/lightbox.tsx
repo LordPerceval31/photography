@@ -7,7 +7,7 @@ import { useNavbar } from "./NavbarContext";
 import { Item } from "../lib/types";
 import GalleryCarousel, {
   GalleryItem,
-} from "../[domain]/gallery/GalleryCarousel";
+} from "../[domain]/templates/premium/gallery/GalleryCarousel";
 import posthog from "posthog-js";
 
 interface LightboxProps {

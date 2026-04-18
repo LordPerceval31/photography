@@ -1,41 +1,35 @@
-import type { Metadata } from "next";
-import BioSection from "./BioSection";
-import PictureAboutWrapper from "./PictureAboutWrapper";
-import StorySection from "./StorySection";
-import prisma from "../../lib/prisma";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import type { ComponentType } from "react";
+import { getUserByDomain } from "@/app/lib/getUserByDomain";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = { title: "À propos" };
+
+const templateMap: Record<
+  string,
+  () => Promise<{ default: ComponentType<{ userId: string }> }>
+> = {
+  premium: () => import("../templates/premium/about/index"),
+};
 
 const AboutPage = async ({
   params,
 }: {
   params: Promise<{ domain: string }>;
 }) => {
-  // 2. On "déballe" les params avec await
   const { domain } = await params;
+  const user = await getUserByDomain(domain);
 
-  // 3. On utilise la variable "domain" dans la requête
-  const user = await prisma.user.findFirst({
-    where: {
-      OR: [{ subdomain: domain }, { customDomain: domain }],
-    },
-  });
+  if (!user) return notFound();
 
-  // 4. Si le domaine ne correspond à aucun compte, on affiche une page 404
-  if (!user) {
-    return notFound();
-  }
+  const slug = user.activeTemplate?.slug;
+  if (!slug || !templateMap[slug]) return notFound();
 
-  return (
-    <main className="relative w-full bg-cream">
-      <BioSection userId={user.id} />
-      <StorySection userId={user.id} />
-      <PictureAboutWrapper userId={user.id} />
-    </main>
-  );
+  const { default: TemplatePage } = await templateMap[slug]();
+
+  return <TemplatePage userId={user.id} />;
 };
 
 export default AboutPage;
