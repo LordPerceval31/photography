@@ -39,7 +39,7 @@ export default async function BackgroundWrapper({
     img: optimizeCloudinaryUrl(photo.url),
     url: "#",
     height: heightPattern[index % heightPattern.length],
-    galleryId: photo.galleries[0]?.galleryId || "sans-galerie",
+    galleryId: photo.galleries[0]?.galleryId ?? photo.id,
   }));
 
   const shuffledItems = shuffleArray(formattedItems);

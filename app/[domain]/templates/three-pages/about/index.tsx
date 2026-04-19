@@ -15,12 +15,12 @@ const ThreePagesAbout = async ({ userId }: Props) => {
   return (
     <main
       style={theme as React.CSSProperties}
-      className="min-h-screen bg-[var(--color-bg)] py-20 px-4"
+      className="min-h-screen bg-(--color-bg) py-20 px-4"
     >
       <div className="max-w-2xl mx-auto">
         {config?.bioTitle && (
           <h1
-            className="text-4xl font-bold text-[var(--color-primary)] mb-8"
+            className="text-4xl font-bold text-(--color-primary) mb-8"
             style={{ fontFamily: "var(--font-heading)" }}
           >
             {config.bioTitle}
@@ -28,7 +28,7 @@ const ThreePagesAbout = async ({ userId }: Props) => {
         )}
         {config?.bioParagraph1 && (
           <p
-            className="text-[var(--color-text)] leading-relaxed mb-6"
+            className="text-(--color-text) leading-relaxed mb-6"
             style={{ fontFamily: "var(--font-body)" }}
           >
             {config.bioParagraph1}
@@ -36,7 +36,7 @@ const ThreePagesAbout = async ({ userId }: Props) => {
         )}
         {config?.bioParagraph2 && (
           <p
-            className="text-[var(--color-text)] leading-relaxed mb-6"
+            className="text-(--color-text) leading-relaxed mb-6"
             style={{ fontFamily: "var(--font-body)" }}
           >
             {config.bioParagraph2}
@@ -44,7 +44,7 @@ const ThreePagesAbout = async ({ userId }: Props) => {
         )}
         {config?.storyParagraph1 && (
           <p
-            className="text-[var(--color-muted)] leading-relaxed mt-8 italic"
+            className="text-(--color-muted) leading-relaxed mt-8 italic"
             style={{ fontFamily: "var(--font-body)" }}
           >
             {config.storyParagraph1}
@@ -52,7 +52,7 @@ const ThreePagesAbout = async ({ userId }: Props) => {
         )}
         {config?.storyParagraph2 && (
           <p
-            className="text-[var(--color-muted)] leading-relaxed mt-4 italic"
+            className="text-(--color-muted) leading-relaxed mt-4 italic"
             style={{ fontFamily: "var(--font-body)" }}
           >
             {config.storyParagraph2}

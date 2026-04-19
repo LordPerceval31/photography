@@ -3,6 +3,7 @@ import PremiumGalleryWrapper from "./PremiumGalleryWrapper";
 import DarkSection from "./DarkSection";
 import CarouselWrapper from "./CarouselWrapper";
 import SmoothScroll from "@/app/_components/SmoothScroll";
+import NavBar from "@/app/_components/navBar";
 
 interface Props {
   userId: string;
@@ -13,6 +14,7 @@ interface Props {
 const PremiumHome = ({ userId }: Props) => {
   return (
     <main className="relative w-full">
+      <NavBar />
       <SmoothScroll>
         <HeroSection userId={userId} />
         <PremiumGalleryWrapper userId={userId} />

@@ -3,7 +3,6 @@ import "../globals.css";
 import prisma from "../lib/prisma";
 import { NavbarProvider } from "../_components/NavbarContext";
 import PostHogDomainTracker from "../_components/PostHogDomainTracker";
-import NavBar from "../_components/navBar";
 
 // --- SEO dynamique par photographe ---
 export async function generateMetadata({
@@ -69,9 +68,7 @@ export default async function DomainLayout({
 
   return (
     <NavbarProvider>
-      {/* Enregistre le domaine du photographe dans toutes les analytics */}
       <PostHogDomainTracker domain={domain} />
-      <NavBar />
       {children}
     </NavbarProvider>
   );

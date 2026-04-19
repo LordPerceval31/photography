@@ -6,6 +6,4 @@ export const defaultTheme: Theme = {
   "--color-secondary": "#558b8b",
   "--color-text": "#2c2c2c",
   "--color-muted": "#888888",
-  "--font-heading": "Georgia, serif",
-  "--font-body": "system-ui, -apple-system, sans-serif",
 };

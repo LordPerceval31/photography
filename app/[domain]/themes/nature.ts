@@ -6,6 +6,4 @@ export const nature: Theme = {
   "--color-secondary": "#c8855a",
   "--color-text": "#2d2417",
   "--color-muted": "#8a7a6a",
-  "--font-heading": "Georgia, serif",
-  "--font-body": "system-ui, -apple-system, sans-serif",
 };

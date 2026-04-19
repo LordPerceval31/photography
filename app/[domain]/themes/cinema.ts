@@ -6,6 +6,4 @@ export const cinema: Theme = {
   "--color-secondary": "#8b1a2a",
   "--color-text": "#f0e8d0",
   "--color-muted": "#666666",
-  "--font-heading": "'Palatino Linotype', Georgia, serif",
-  "--font-body": "system-ui, -apple-system, sans-serif",
 };

@@ -14,8 +14,6 @@ export type Theme = {
   "--color-secondary": string;
   "--color-text": string;
   "--color-muted": string;
-  "--font-heading": string;
-  "--font-body": string;
 };
 
 export const themes: Record<string, Theme> = {

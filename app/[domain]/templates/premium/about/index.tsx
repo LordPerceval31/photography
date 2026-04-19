@@ -1,6 +1,7 @@
 import BioSection from "./BioSection";
 import StorySection from "./StorySection";
 import PictureAboutWrapper from "./PictureAboutWrapper";
+import NavBar from "@/app/_components/navBar";
 
 interface Props {
   userId: string;
@@ -11,6 +12,7 @@ interface Props {
 const PremiumAbout = ({ userId }: Props) => {
   return (
     <main className="relative w-full bg-cream">
+      <NavBar />
       <BioSection userId={userId} />
       <StorySection userId={userId} />
       <PictureAboutWrapper userId={userId} />

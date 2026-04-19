@@ -6,6 +6,4 @@ export const voyage: Theme = {
   "--color-secondary": "#c4a87e",
   "--color-text": "#f0e8d8",
   "--color-muted": "#8899aa",
-  "--font-heading": "system-ui, -apple-system, sans-serif",
-  "--font-body": "system-ui, -apple-system, sans-serif",
 };

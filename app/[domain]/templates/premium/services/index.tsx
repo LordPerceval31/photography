@@ -2,6 +2,7 @@ import Image from "next/image";
 import prisma from "@/app/lib/prisma";
 import ServicesSection from "./ServicesSection";
 import ContactSection from "./ContactSection";
+import NavBar from "@/app/_components/navBar";
 
 interface Props {
   userId: string;
@@ -45,6 +46,7 @@ const PremiumServices = async ({ userId }: Props) => {
 
       {/* Contenu scrollable par-dessus */}
       <div className="relative z-10 w-full flex flex-col">
+        <NavBar />
         <ServicesSection services={services} />
         <ContactSection
           hasNoCards={services.length === 0}

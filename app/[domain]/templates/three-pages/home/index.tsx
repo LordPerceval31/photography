@@ -25,7 +25,7 @@ const ThreePagesHome = async ({ userId }: Props) => {
   const galleryPhotos = photos.filter((p) => !p.isCover);
 
   return (
-    <main style={theme as React.CSSProperties} className="min-h-screen">
+    <main style={theme as React.CSSProperties} className="min-h-screen bg-(--color-bg)">
       {/* Hero */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {coverPhoto && (
@@ -37,17 +37,17 @@ const ThreePagesHome = async ({ userId }: Props) => {
             priority
           />
         )}
-        <div className="absolute inset-0 bg-[var(--color-bg)]/50" />
+        <div className="absolute inset-0 bg-(--color-bg)/50" />
         <div className="relative z-10 text-center px-4">
           <h1
-            className="text-4xl tablet:text-6xl font-bold text-[var(--color-primary)]"
+            className="text-4xl tablet:text-6xl font-bold text-(--color-primary)"
             style={{ fontFamily: "var(--font-heading)" }}
           >
             {config?.heroName || "Photographe"}
           </h1>
           {config?.heroTagline && (
             <p
-              className="mt-4 text-lg tablet:text-2xl text-[var(--color-secondary)]"
+              className="mt-4 text-lg tablet:text-2xl text-(--color-secondary)"
               style={{ fontFamily: "var(--font-body)" }}
             >
               {config.heroTagline}
@@ -55,7 +55,7 @@ const ThreePagesHome = async ({ userId }: Props) => {
           )}
           {config?.heroSubtitle && (
             <p
-              className="mt-2 text-sm tablet:text-base text-[var(--color-muted)]"
+              className="mt-2 text-sm tablet:text-base text-(--color-muted)"
               style={{ fontFamily: "var(--font-body)" }}
             >
               {config.heroSubtitle}
@@ -64,14 +64,14 @@ const ThreePagesHome = async ({ userId }: Props) => {
           <div className="mt-8 flex gap-4 justify-center flex-wrap">
             <Link
               href="/about"
-              className="px-6 py-3 bg-[var(--color-primary)] text-[var(--color-bg)] hover:opacity-80 transition-opacity"
+              className="px-6 py-3 bg-(--color-primary) text-(--color-bg) hover:opacity-80 transition-opacity"
               style={{ fontFamily: "var(--font-body)" }}
             >
               À propos
             </Link>
             <Link
               href="/contact"
-              className="px-6 py-3 border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-colors"
+              className="px-6 py-3 border border-(--color-primary) text-(--color-primary) hover:bg-(--color-primary) hover:text-(--color-bg) transition-colors"
               style={{ fontFamily: "var(--font-body)" }}
             >
               Me contacter
@@ -82,7 +82,7 @@ const ThreePagesHome = async ({ userId }: Props) => {
 
       {/* Galerie */}
       {galleryPhotos.length > 0 && (
-        <section className="py-16 px-4 bg-[var(--color-bg)]">
+        <section className="py-16 px-4 bg-(--color-bg)">
           <div className="grid grid-cols-2 tablet:grid-cols-3 gap-2 max-w-5xl mx-auto">
             {galleryPhotos.map((photo) => (
               <div key={photo.id} className="relative aspect-square overflow-hidden">
