@@ -12,6 +12,9 @@ const templateMap: Record<
   () => Promise<{ default: ComponentType<{ userId: string }> }>
 > = {
   premium: () => import("./templates/premium/home/index"),
+  "one-page": () => import("./templates/one-page/home/index"),
+  "two-pages": () => import("./templates/two-pages/home/index"),
+  "three-pages": () => import("./templates/three-pages/home/index"),
 };
 
 export async function generateMetadata({

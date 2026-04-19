@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import type { ComponentType } from "react";
 import { getUserByDomain } from "@/app/lib/getUserByDomain";
@@ -25,7 +25,7 @@ const GalleryPage = async ({
   if (!user) return notFound();
 
   const slug = user.activeTemplate?.slug;
-  if (!slug || !templateMap[slug]) return notFound();
+  if (!slug || !templateMap[slug]) return redirect("/");
 
   const { default: TemplatePage } = await templateMap[slug]();
 

@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import type { ComponentType } from "react";
 import { getUserByDomain } from "@/app/lib/getUserByDomain";
@@ -12,6 +12,7 @@ const templateMap: Record<
   () => Promise<{ default: ComponentType<{ userId: string }> }>
 > = {
   premium: () => import("../templates/premium/about/index"),
+  "three-pages": () => import("../templates/three-pages/about/index"),
 };
 
 const AboutPage = async ({
@@ -25,7 +26,7 @@ const AboutPage = async ({
   if (!user) return notFound();
 
   const slug = user.activeTemplate?.slug;
-  if (!slug || !templateMap[slug]) return notFound();
+  if (!slug || !templateMap[slug]) return redirect("/");
 
   const { default: TemplatePage } = await templateMap[slug]();
 
