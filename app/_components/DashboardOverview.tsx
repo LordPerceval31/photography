@@ -34,11 +34,16 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
 
   const capabilities = getCapabilities(user?.activeTemplate?.slug);
 
-  const portfolioUrl = user?.customDomain
-    ? `https://${user.customDomain}`
+  const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_DOMAIN || "photolio.fr";
+  const isDev = process.env.NODE_ENV === "development";
+  const realCustomDomain = user?.customDomain?.includes(".") ? user.customDomain : null;
+  const portfolioUrl = realCustomDomain
+    ? `https://${realCustomDomain}`
     : user?.subdomain
-    ? `https://${user.subdomain}.${process.env.NEXT_PUBLIC_BASE_DOMAIN}`
-    : null;
+      ? isDev
+        ? `http://localhost:3000/${user.subdomain}`
+        : `https://${user.subdomain}.${BASE_DOMAIN}`
+      : null;
 
   return (
     <div className="w-full flex flex-col items-center laptop:items-start gap-10 laptop:gap-4 desktop:gap-8 2k:gap-12 4k:gap-20">
