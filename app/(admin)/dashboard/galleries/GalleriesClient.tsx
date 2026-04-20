@@ -158,11 +158,11 @@ export default function GalleriesClient({
           <div className="flex flex-col laptop:flex-row gap-6 w-full items-center">
             {/* GAUCHE : indication */}
             <div className="w-full laptop:w-[45%] flex flex-col gap-1">
-              <span className="text-[10px] uppercase tracking-widest font-medium text-cream/50">
+              <span className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  uppercase tracking-widest font-medium text-cream/50">
                 Galeries
               </span>
               <span
-                className={`text-xs font-semibold uppercase tracking-widest transition-colors ${isSelectionMode ? "text-cream" : "text-cream/30"}`}
+                className={`text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl font-semibold uppercase tracking-widest transition-colors ${isSelectionMode ? "text-cream" : "text-cream/30"}`}
               >
                 {isSelectionMode
                   ? `« ${selected?.name} » sélectionnée`
@@ -181,7 +181,7 @@ export default function GalleriesClient({
                   className={`flex flex-col items-center justify-center gap-2 p-3 rounded-lg border transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${activeAction === "rename" ? "bg-cream/10 border-cream/30 text-cream" : "border-cream/10 bg-dark/60 text-cream/80 hover:bg-dark"}`}
                 >
                   <Pencil className="w-4 h-4" />
-                  <span className="text-[8px] uppercase tracking-wider">
+                  <span className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  uppercase tracking-wider">
                     Renommer
                   </span>
                 </button>
@@ -192,7 +192,7 @@ export default function GalleriesClient({
                   className={`flex flex-col items-center justify-center gap-2 p-3 rounded-lg border transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${activeAction === "share" ? "bg-cream/10 border-cream/30 text-cream" : "border-cream/10 bg-dark/60 text-cream/80 hover:bg-dark"}`}
                 >
                   <Share2 className="w-4 h-4" />
-                  <span className="text-[8px] uppercase tracking-wider">
+                  <span className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  uppercase tracking-wider">
                     Partager
                   </span>
                 </button>
@@ -203,7 +203,7 @@ export default function GalleriesClient({
                   className={`flex flex-col items-center justify-center gap-2 p-3 rounded-lg border transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${activeAction === "delete" ? "bg-red-500/20 border-red-500/40 text-red-400" : "border-red-500/10 bg-red-500/5 text-red-400/80 hover:bg-red-500/10"}`}
                 >
                   <Trash2 className="w-4 h-4" />
-                  <span className="text-[8px] uppercase tracking-wider">
+                  <span className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  uppercase tracking-wider">
                     Supprimer
                   </span>
                 </button>
@@ -379,7 +379,7 @@ export default function GalleriesClient({
                     className={`w-full h-full object-cover transition-all duration-500 ${isSelected ? "opacity-70" : ""}`}
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-cream/30 text-[10px] uppercase tracking-widest">
+                  <div className="w-full h-full flex items-center justify-center text-cream/30 text-base laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  uppercase tracking-widest">
                     Aucune couverture
                   </div>
                 )}
@@ -388,11 +388,11 @@ export default function GalleriesClient({
               {/* TEXTES */}
               <div className="flex flex-col px-1">
                 <h2
-                  className={`font-semibold text-base laptop:text-lg tracking-wide truncate transition-colors ${isSelected ? "text-cream" : "text-cream/80"}`}
+                  className={`font-semibold text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  tracking-wide truncate transition-colors ${isSelected ? "text-cream" : "text-cream/80"}`}
                 >
                   {gallery.name}
                 </h2>
-                <p className="text-cream/60 text-xs leading-relaxed line-clamp-2 mt-1">
+                <p className="text-cream/60 text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  leading-relaxed line-clamp-2 mt-1">
                   {gallery.description || "Aucune description"}
                 </p>
               </div>
@@ -401,7 +401,7 @@ export default function GalleriesClient({
         })}
 
         {galleries.length === 0 && (
-          <div className="col-span-full text-center text-cream/50 text-xs py-10">
+          <div className="col-span-full text-center text-cream/50 text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  py-10">
             Aucune galerie pour le moment.
           </div>
         )}

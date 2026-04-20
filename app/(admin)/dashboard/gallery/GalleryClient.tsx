@@ -94,7 +94,8 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
           const p = photos[i];
 
           // Si pas de titre, on utilise le nom du fichier original (sans extension)
-          const nameForSlug = p.title.trim() || p.file.name.replace(/\.[^.]+$/, "");
+          const nameForSlug =
+            p.title.trim() || p.file.name.replace(/\.[^.]+$/, "");
           const sig = await getUploadSignature(nameForSlug);
           if (sig.error || !sig.signature) {
             setError(sig.error ?? `Impossible de signer la photo ${i + 1}.`);
@@ -187,7 +188,7 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
       >
         <ArrowLeft className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-4 desktop:w-4 desktop:h-5 2k:w-6 2k:h-6 ultrawide:w-8 ultrawide:h-8 4k:w-10 4k:h-10 transition-transform group-hover:-translate-x-1" />
         <span className="uppercase tracking-widest text-[8px] tablet:text-[10px] laptop:text-xs desktop:text-sm 2k:text-lg ultrawide:text-xl 4k:text-3xl font-medium cursor-pointer">
-          Retour au dashboard
+          Retour au tableau de bord
         </span>
       </Link>
 
@@ -294,11 +295,16 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
 
       {/* SECTION PRIVÉE */}
       {isPrivate && !canShare && (
-        <div className={`flex items-center gap-3 laptop:self-center w-[90%] tablet:w-[80%] laptop:w-[70%] desktop:w-[60%] p-4 tablet:p-5 laptop:p-6 rounded-xl border border-cream/10 glass-card`}>
+        <div
+          className={`flex items-center gap-3 laptop:self-center w-[90%] tablet:w-[80%] laptop:w-[70%] desktop:w-[60%] p-4 tablet:p-5 laptop:p-6 rounded-xl border border-cream/10 glass-card`}
+        >
           <Lock className="w-4 h-4 text-cream/30 shrink-0" />
           <p className="text-cream/50 text-[10px] tablet:text-xs laptop:text-sm uppercase tracking-widest">
             Partage privé réservé au template Premium —{" "}
-            <Link href="/dashboard/templates" className="underline hover:text-cream transition-colors">
+            <Link
+              href="/dashboard/templates"
+              className="underline hover:text-cream transition-colors"
+            >
               Voir mes templates
             </Link>
           </p>

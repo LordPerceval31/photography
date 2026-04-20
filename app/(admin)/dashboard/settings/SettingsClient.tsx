@@ -138,7 +138,7 @@ const SettingsClient = ({ user }: { user: User }) => {
         >
           <ArrowLeft className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-4 desktop:w-4 desktop:h-5 2k:w-6 2k:h-6 ultrawide:w-8 ultrawide:h-8 4k:w-10 4k:h-10 transition-transform group-hover:-translate-x-1" />
           <span className="uppercase tracking-widest text-[8px] tablet:text-[10px] laptop:text-xs desktop:text-sm 2k:text-lg ultrawide:text-xl 4k:text-3xl font-medium cursor-pointer">
-            Retour au dashboard
+            Retour au tableau de bord
           </span>
         </Link>
         <h1
@@ -173,7 +173,7 @@ const SettingsClient = ({ user }: { user: User }) => {
               </p>
             </div>
 
-            <div className="flex flex-col gap-4 2k:gap-6 4k:gap-10 w-full laptop:max-w-lg desktop:max-w-xl">
+            <div className="flex flex-col gap-4 2k:gap-6 4k:gap-10 w-full laptop:max-w-lg desktop:max-w-xl 4k:max-w-5xl">
               <FloatingInput
                 name="newEmail"
                 label="Nouvel email"
@@ -223,7 +223,7 @@ const SettingsClient = ({ user }: { user: User }) => {
               </p>
             </div>
 
-            <div className="flex flex-col gap-4 2k:gap-6 4k:gap-10 w-full laptop:max-w-lg desktop:max-w-xl">
+            <div className="flex flex-col gap-4 2k:gap-6 4k:gap-10 w-full laptop:max-w-lg desktop:max-w-xl 4k:max-w-5xl">
               <FloatingInput
                 name="currentPassword"
                 label="Mot de passe actuel"
@@ -267,7 +267,8 @@ const SettingsClient = ({ user }: { user: User }) => {
                 Templates
               </h2>
               <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
-                Choisissez le design de votre vitrine parmi vos templates achetés.
+                Choisissez le design de votre vitrine parmi vos templates
+                achetés.
               </p>
             </div>
             <Link
@@ -337,7 +338,7 @@ const SettingsClient = ({ user }: { user: User }) => {
               </p>
             </div>
 
-            <div className="flex flex-col gap-4 2k:gap-6 4k:gap-10 w-full laptop:max-w-lg desktop:max-w-xl">
+            <div className="flex flex-col gap-4 2k:gap-6 4k:gap-10 w-full laptop:max-w-lg desktop:max-w-xl 4k:max-w-5xl">
               <FloatingInput
                 name="cloudinaryName"
                 label="Cloud Name"
@@ -426,7 +427,7 @@ const SettingsClient = ({ user }: { user: User }) => {
               </p>
             </div>
 
-            <div className="flex flex-col gap-5 2k:gap-7 4k:gap-12 w-full laptop:max-w-lg desktop:max-w-xl">
+            <div className="flex flex-col gap-5 2k:gap-7 4k:gap-12 w-full laptop:max-w-lg desktop:max-w-xl 4k:max-w-5xl">
               <div className="flex flex-col gap-1.5 2k:gap-2 4k:gap-4">
                 <FloatingInput
                   name="emailjsServiceId"
@@ -439,7 +440,7 @@ const SettingsClient = ({ user }: { user: User }) => {
                   copier le Service ID
                 </p>
               </div>
-              <div className="flex flex-col gap-1.5 2k:gap-2 4k:gap-4">
+              <div className="flex flex-col gap-1.5 2k:gap-2 4k:gap-4 ">
                 <FloatingInput
                   name="emailjsTemplateId"
                   label="Template ID"

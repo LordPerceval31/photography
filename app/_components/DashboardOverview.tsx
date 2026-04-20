@@ -36,7 +36,9 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
 
   const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_DOMAIN || "photolio.fr";
   const isDev = process.env.NODE_ENV === "development";
-  const realCustomDomain = user?.customDomain?.includes(".") ? user.customDomain : null;
+  const realCustomDomain = user?.customDomain?.includes(".")
+    ? user.customDomain
+    : null;
   const portfolioUrl = realCustomDomain
     ? `https://${realCustomDomain}`
     : user?.subdomain
@@ -116,7 +118,7 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
           className="group w-full laptop:w-auto laptop:flex-none laptop:h-[18vh] desktop:h-[18vh] 4k:h-[18vh] aspect-square flex flex-col items-center justify-center glass-card rounded-xl border border-cream/20 hover:bg-white/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:scale-95 active:shadow-md cursor-pointer"
         >
           <h2 className=" text-sm laptop:text-sm desktop:text-xl 2k:text-3xl 4k:text-5xl font-bold text-cream tracking-[0.2em]">
-            GALLERY
+            GALERIES
           </h2>
           <span className="mt-2 desktop:mt-4 2k:mt-6 4k:mt-10 px-3 py-1 laptop:px-4 desktop:px-6 2k:px-8 4k:px-12 desktop:py-2 2k:py-3 4k:py-5 border border-cream/30 rounded-full text-cream/70 text-[10px] desktop:text-xs 2k:text-sm 4k:text-xl uppercase tracking-widest group-hover:text-cream transition-all">
             + Ajouter

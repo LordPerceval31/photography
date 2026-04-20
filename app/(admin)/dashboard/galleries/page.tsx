@@ -59,7 +59,7 @@ export default async function GalleriesPage() {
         >
           <ArrowLeft className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-4 desktop:w-4 desktop:h-5 2k:w-6 2k:h-6 ultrawide:w-8 ultrawide:h-8 4k:w-10 4k:h-10 transition-transform group-hover:-translate-x-1" />
           <span className="uppercase tracking-widest text-[8px] tablet:text-[10px] laptop:text-xs desktop:text-sm 2k:text-lg ultrawide:text-xl 4k:text-3xl font-medium cursor-pointer">
-            Retour au dashboard
+            Retour à l&apos;espace
           </span>
         </Link>
       </div>
@@ -68,7 +68,10 @@ export default async function GalleriesPage() {
         Toutes les galeries
       </h1>
 
-      <GalleriesClient galleries={data} canShare={capabilities.shareGalleries} />
+      <GalleriesClient
+        galleries={data}
+        canShare={capabilities.shareGalleries}
+      />
     </div>
   );
 }

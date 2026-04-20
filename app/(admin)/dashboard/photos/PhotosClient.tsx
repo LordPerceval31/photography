@@ -288,7 +288,8 @@ const PhotosClient = ({
     setIsAddPending(true);
     setAddError("");
     try {
-      const nameForSlug = addTitle.trim() || addFile.name.replace(/\.[^.]+$/, "");
+      const nameForSlug =
+        addTitle.trim() || addFile.name.replace(/\.[^.]+$/, "");
       const sig = await getUploadSignature(nameForSlug);
       if (sig.error || !sig.signature) {
         setAddError(sig.error ?? "Impossible de signer l'upload.");
@@ -359,7 +360,7 @@ const PhotosClient = ({
         >
           <ArrowLeft className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-4 desktop:w-4 desktop:h-5 2k:w-6 2k:h-6 ultrawide:w-8 ultrawide:h-8 4k:w-10 4k:h-10 transition-transform group-hover:-translate-x-1" />
           <span className="uppercase tracking-widest text-[8px] tablet:text-[10px] laptop:text-xs desktop:text-sm 2k:text-lg ultrawide:text-xl 4k:text-3xl font-medium cursor-pointer">
-            Retour au dashboard
+            Retour au tableau de bord
           </span>
         </Link>
       </div>
@@ -701,140 +702,6 @@ const PhotosClient = ({
             </div>
           )}
         </div>
-      </div>
-
-      {/* PANNEAU AJOUT PHOTO À UNE GALERIE */}
-      <div className="w-[80%] tablet:w-[90%] self-center">
-        <button
-          type="button"
-          onClick={() => {
-            setIsAddOpen((v) => !v);
-            setAddError("");
-          }}
-          className="flex items-center gap-2 text-cream/60 hover:text-cream transition-colors text-[10px] uppercase tracking-widest font-medium mx-auto tablet:mx-0"
-        >
-          <ImagePlus className="w-4 h-4" />
-          Ajouter une photo à une galerie
-          <ChevronDown
-            className={`w-3 h-3 transition-transform duration-300 ${isAddOpen ? "rotate-180" : ""}`}
-          />
-        </button>
-
-        {isAddOpen && (
-          <div className="mt-4 p-4 rounded-xl glass-premium flex flex-col gap-4 animate-in slide-in-from-top-1 fade-in duration-200">
-            {/* Sélection du fichier */}
-            <input
-              ref={addInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleAddFileChange}
-            />
-
-            <div className="flex flex-col tablet:flex-row gap-4 items-start">
-              {/* Aperçu / zone de clic */}
-              <button
-                type="button"
-                onClick={() => addInputRef.current?.click()}
-                className="shrink-0 w-24 h-24 rounded-lg border border-dashed border-cream/20 hover:border-cream/40 transition-colors overflow-hidden flex items-center justify-center text-cream/30 hover:text-cream/60 mx-auto tablet:mx-0"
-              >
-                {addPreview ? (
-                  <img
-                    src={addPreview}
-                    alt="aperçu"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <ImagePlus className="w-6 h-6" />
-                )}
-              </button>
-
-              <div className="flex flex-col gap-3 flex-1 w-full">
-                {/* Titre (optionnel) */}
-                <input
-                  type="text"
-                  placeholder="Titre (optionnel)"
-                  value={addTitle}
-                  onChange={(e) => setAddTitle(e.target.value)}
-                  className="w-full bg-transparent border-b border-cream/10 focus:border-blue outline-none text-cream/80 placeholder:text-cream/20 py-1 text-xs transition-colors"
-                />
-
-                {/* Sélection de la galerie */}
-                <div className="relative">
-                  <button
-                    type="button"
-                    onClick={() => setIsAddGalleryOpen((v) => !v)}
-                    className={`w-full flex items-center justify-between glass-input text-cream/80 text-xs p-3 outline-none transition-all duration-300 ${isAddGalleryOpen ? "rounded-t-lg rounded-b-none" : "rounded-lg"}`}
-                  >
-                    <span className="truncate">
-                      {addGalleryId
-                        ? (galleries.find((g) => g.id === addGalleryId)?.name ??
-                          "Galerie...")
-                        : "Choisir une galerie..."}
-                    </span>
-                    <ChevronDown
-                      className={`w-3 h-3 transition-transform duration-300 shrink-0 ${isAddGalleryOpen ? "rotate-180 text-cream" : "text-cream/50"}`}
-                    />
-                  </button>
-
-                  {isAddGalleryOpen && (
-                    <div className="absolute z-50 top-full left-0 w-full glass-card rounded-t-none rounded-b-lg max-h-40 overflow-y-auto no-scrollbar">
-                      {galleries.map((gal) => (
-                        <button
-                          key={gal.id}
-                          type="button"
-                          className="w-full text-left p-3 text-xs text-cream/80 hover:text-cream hover:bg-black/40 truncate transition-colors"
-                          onClick={() => {
-                            setAddGalleryId(gal.id);
-                            setIsAddGalleryOpen(false);
-                          }}
-                        >
-                          {gal.name}
-                        </button>
-                      ))}
-                      {galleries.length === 0 && (
-                        <p className="p-3 text-xs text-cream/30">
-                          Aucune galerie disponible.
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {addError && <p className="text-red-400 text-xs">{addError}</p>}
-
-            <div className="flex gap-2 justify-center tablet:justify-end">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsAddOpen(false);
-                  setAddFile(null);
-                  setAddPreview(null);
-                  setAddTitle("");
-                  setAddGalleryId("");
-                  setAddError("");
-                }}
-                className="flex items-center gap-1 glass-card text-cream/50 hover:text-cream px-3 py-2 rounded-lg text-[10px] uppercase tracking-widest transition-colors"
-              >
-                <X className="w-3 h-3" /> Annuler
-              </button>
-              <button
-                type="button"
-                disabled={!addFile || !addGalleryId || isAddPending}
-                onClick={handleAddPhoto}
-                className="flex items-center gap-1 glass-card text-blue px-4 py-2 rounded-lg text-[10px] uppercase tracking-widest font-semibold disabled:opacity-30 transition-colors"
-              >
-                {isAddPending ? (
-                  <Loader2 className="w-3 h-3 animate-spin" />
-                ) : (
-                  "Ajouter"
-                )}
-              </button>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* GRILLE MASONRY */}

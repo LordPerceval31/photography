@@ -61,22 +61,27 @@ export default async function ServicesPage() {
           >
             <ArrowLeft className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-4 desktop:w-4 desktop:h-5 2k:w-6 2k:h-6 ultrawide:w-8 ultrawide:h-8 4k:w-10 4k:h-10 transition-transform group-hover:-translate-x-1" />
             <span className="uppercase tracking-widest text-[8px] tablet:text-[10px] laptop:text-xs desktop:text-sm 2k:text-lg ultrawide:text-xl 4k:text-3xl font-medium cursor-pointer">
-              Retour au dashboard
+              Retour au tableau de bord
             </span>
           </Link>
-          <h1 className="font-bold text-cream tracking-wide text-center cursor-default laptop:self-center w-[90%] tablet:w-[80%] laptop:w-[70%] text-xl tablet:text-2xl laptop:text-2xl desktop:text-3xl 2k:text-4xl ultrawide:text-4xl 4k:text-7xl laptop:mb-6 desktop:mb-8 2k:mb-12 ultrawide:mb-14 4k:mb-20">
+          <h1
+            className="font-bold text-cream tracking-wide text-center cursor-default self-center
+        w-[90%] tablet:w-[80%] laptop:w-[70%]
+        text-xl tablet:text-2xl laptop:text-2xl desktop:text-3xl 2k:text-4xl ultrawide:text-4xl 4k:text-7xl
+         laptop:mb-6 desktop:mb-8 2k:mb-12 ultrawide:mb-14 4k:mb-20"
+          >
             Mes services
           </h1>
         </div>
         <div className="flex-1 flex items-center justify-center">
-          <div className="flex flex-col items-center gap-6 text-center max-w-md px-4">
+          <div className="flex flex-col items-center gap-6 text-center max-w-5xl px-4">
             <Lock className="w-10 h-10 text-cream/30" />
-            <p className="text-cream/70 text-sm tablet:text-base desktop:text-lg leading-relaxed">
+            <p className="text-cream/70 <text-[10px] tablet:text-sm laptop:text-lg desktop:text-xl 2k:text-3xl 4k:text-5xl > leading-relaxed">
               La gestion des services est réservée au template Premium.
             </p>
             <Link
               href="/dashboard/templates"
-              className="px-8 py-3 border border-cream/30 text-cream/70 text-xs uppercase tracking-widest hover:text-cream hover:border-cream/50 transition-all rounded-xl"
+              className="px-8 py-3 border border-cream/30 text-cream/70 text-[10px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  uppercase tracking-widest hover:text-cream hover:border-cream/50 transition-all rounded-xl"
             >
               Voir mes templates →
             </Link>
@@ -110,7 +115,7 @@ export default async function ServicesPage() {
         >
           <ArrowLeft className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-4 desktop:w-4 desktop:h-5 2k:w-6 2k:h-6 ultrawide:w-8 ultrawide:h-8 4k:w-10 4k:h-10 transition-transform group-hover:-translate-x-1" />
           <span className="uppercase tracking-widest text-[8px] tablet:text-[10px] laptop:text-xs desktop:text-sm 2k:text-lg ultrawide:text-xl 4k:text-3xl font-medium cursor-pointer">
-            Retour au dashboard
+            Retour au tableau de bord
           </span>
         </Link>
         <h1 className="font-bold text-cream tracking-wide text-center cursor-default laptop:self-center w-[90%] tablet:w-[80%] laptop:w-[70%] text-xl tablet:text-2xl laptop:text-2xl desktop:text-3xl 2k:text-4xl ultrawide:text-4xl 4k:text-7xl laptop:mb-6 desktop:mb-8 2k:mb-12 ultrawide:mb-14 4k:mb-20">

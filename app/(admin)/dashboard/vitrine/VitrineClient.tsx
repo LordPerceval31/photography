@@ -58,7 +58,7 @@ const VitrineClient = ({ initialData, vitrineFields }: Props) => {
         >
           <ArrowLeft className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-4 desktop:w-4 desktop:h-5 2k:w-6 2k:h-6 ultrawide:w-8 ultrawide:h-8 4k:w-10 4k:h-10 transition-transform group-hover:-translate-x-1" />
           <span className="uppercase tracking-widest text-[8px] tablet:text-[10px] laptop:text-xs desktop:text-sm 2k:text-lg ultrawide:text-xl 4k:text-3xl font-medium cursor-pointer">
-            Retour au dashboard
+            Retour au tableau de bord
           </span>
         </Link>
         <h1
@@ -180,8 +180,8 @@ const VitrineClient = ({ initialData, vitrineFields }: Props) => {
                 className={`flex flex-col ${sectionSpacing} border-t border-cream/10 ${separatorPadding}`}
               >
                 <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
-                  Mise en avant : Une citation qui résonne avec votre vision de la
-                  photographie.
+                  Mise en avant : Une citation qui résonne avec votre vision de
+                  la photographie.
                 </p>
                 <div className="flex flex-col gap-4 w-full">
                   <FloatingTextarea

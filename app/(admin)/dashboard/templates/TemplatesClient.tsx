@@ -93,7 +93,7 @@ const TemplatesClient = ({ templates, currentThemeSlug }: Props) => {
                       value={selectedTheme}
                       onChange={(e) => setSelectedTheme(e.target.value)}
                       disabled={isPending}
-                      className="appearance-none bg-cream/10 text-cream text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm
+                      className="appearance-none bg-cream/10 text-cream text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm 4k:text-2xl
                         pl-3 pr-8 py-2 tablet:pl-4 tablet:pr-10 tablet:py-3 rounded-lg border border-cream/20
                         focus:outline-none focus:border-cream/40
                         disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
@@ -108,7 +108,7 @@ const TemplatesClient = ({ templates, currentThemeSlug }: Props) => {
                         </option>
                       ))}
                     </select>
-                    <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-cream/50 text-xs">
+                    <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-cream/50 text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm 4k:text-2xl">
                       ▾
                     </span>
                   </div>

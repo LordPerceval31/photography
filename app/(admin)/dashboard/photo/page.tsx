@@ -87,11 +87,16 @@ const AddPhotoPage = async () => {
           className="group flex items-center gap-2 text-cream/50 hover:text-cream transition-colors w-max"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-          <span className="uppercase tracking-widest text-[10px] laptop:text-xs font-medium">
-            Retour au dashboard
+          <span className="uppercase tracking-widest text-[8px] tablet:text-[10px] laptop:text-xs desktop:text-sm 2k:text-lg ultrawide:text-xl 4k:text-3xl font-medium cursor-pointer">
+            Retour au tableau de bord
           </span>
         </Link>
-        <h1 className="font-bold text-cream tracking-wide text-center laptop:self-center text-xl tablet:text-2xl desktop:text-3xl laptop:mb-6">
+        <h1
+          className="font-bold text-cream tracking-wide text-center cursor-default laptop:self-center
+        w-[90%] tablet:w-[80%] laptop:w-[70%]
+        text-xl tablet:text-2xl laptop:text-2xl desktop:text-3xl 2k:text-4xl ultrawide:text-4xl 4k:text-7xl
+         laptop:mb-6 desktop:mb-8 2k:mb-12 ultrawide:mb-14 4k:mb-20"
+        >
           Configuration des photos de la vitrine
         </h1>
       </div>
@@ -99,12 +104,12 @@ const AddPhotoPage = async () => {
       {/* CONTENEUR CENTRAL */}
       <div className="flex flex-col items-center justify-start w-full h-full gap-12 laptop:gap-16 pb-20 overflow-y-auto no-scrollbar">
         {/* 1. LIGNE COVER (RÉFÉRENCE) */}
-        <div className="flex flex-col laptop:flex-row items-center justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
-          <p className="text-center laptop:text-left italic font-light text-cream/60 text-sm laptop:text-base leading-relaxed">
+        <div className="flex flex-col gap-1 tablet:gap-8 laptop:flex-row items-center justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
+          <p className="text-center laptop:text-left italic font-light text-cream/60 text-[12px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-3xl leading-relaxed">
             Photo principale de présentation du site.
           </p>
           <div className="flex flex-col items-center gap-1 w-[70vw] tablet:w-[50vw] laptop:w-55 desktop:w-87.5 2k:w-100 ultrawide:w-100 4k:w-175">
-            <p className="text-[10px] uppercase tracking-widest text-cream/30">
+            <p className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl uppercase tracking-widest text-cream/30">
               Couverture (16:9)
             </p>
             <PhotoSlot
@@ -118,11 +123,11 @@ const AddPhotoPage = async () => {
         {/* 2. PORTRAIT */}
         {capabilities.aboutPhotos && (
           <div className="flex flex-col laptop:flex-row items-center justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
-            <p className="text-center laptop:text-left italic font-light text-cream/60 text-sm laptop:text-base leading-relaxed">
+            <p className="text-center laptop:text-left italic font-light text-cream/60 text-[12px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-3xl leading-relaxed">
               Portrait affiché dans la page About.
             </p>
             <div className="flex flex-col items-center gap-1 w-[35vw] tablet:w-[25vw] laptop:w-25 desktop:w-40 2k:w-45 ultrawide:w-50 4k:w-75">
-              <p className="text-[10px] uppercase tracking-widest text-cream/30">
+              <p className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl uppercase tracking-widest text-cream/30">
                 Profil
               </p>
               <PhotoSlot
@@ -137,11 +142,11 @@ const AddPhotoPage = async () => {
         {/* 3. ABOUT (x3) */}
         {capabilities.aboutPhotos && (
           <div className="flex flex-col laptop:flex-row items-center justify-between gap-4 w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
-            <p className="text-center laptop:text-left italic font-light text-cream/60 text-sm laptop:text-base leading-relaxed">
+            <p className="text-center laptop:text-left italic font-light text-cream/60 text-[12px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-3xl leading-relaxed">
               Images illustratives en bas de la page About.
             </p>
             <div className="flex flex-col items-center gap-1 w-[80vw] tablet:w-[60vw] laptop:w-82.5 desktop:w-100 2k:w-125 ultrawide:w-150 4k:w-225">
-              <p className="text-[10px] uppercase tracking-widest text-cream/30">
+              <p className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl uppercase tracking-widest text-cream/30">
                 About (x3)
               </p>
               <div className="grid grid-cols-3 gap-4 w-full">
@@ -167,13 +172,13 @@ const AddPhotoPage = async () => {
 
         {/* 4. SECTION GALERIE - COPIE CONFORME DES DIMENSIONS DE LA COVER */}
         <div className="flex flex-col laptop:flex-row items-center laptop:items-start justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%] gap-8">
-          <p className="text-center laptop:text-left italic font-light text-cream/60 text-sm laptop:text-base leading-relaxed laptop:pt-12">
+          <p className="text-center laptop:text-left italic font-light text-cream/60 text-[12px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-3xl leading-relaxed laptop:pt-12">
             Ajouter une photo à l&apos;une de vos galeries.
           </p>
 
           {/* L'enveloppe ci-dessous utilise tes classes au pixel près */}
           <div className="flex flex-col items-center gap-1 w-[70vw] tablet:w-[50vw] laptop:w-55 desktop:w-87.5 2k:w-100 ultrawide:w-100 4k:w-175">
-            <p className="text-[10px] uppercase tracking-widest text-cream/30">
+            <p className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl uppercase tracking-widest text-cream/30">
               Galerie
             </p>
             <GalleryUpload galleries={galleries} />
