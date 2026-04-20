@@ -6,13 +6,14 @@ import { ArrowLeft, CheckCircle, XCircle } from "lucide-react";
 import { updateVitrineTexts, VitrineData } from "../../actions/updateVitrine";
 import { FloatingInput } from "@/app/_components/FloatingInput";
 import { FloatingTextarea } from "@/app/_components/FloatingTextarea";
+import { Capabilities } from "@/app/lib/capabilities";
 
 type Props = {
-  // null si l'utilisateur n'a jamais configuré ses textes
   initialData: VitrineData | null;
+  vitrineFields: Capabilities["vitrineFields"];
 };
 
-const VitrineClient = ({ initialData }: Props) => {
+const VitrineClient = ({ initialData, vitrineFields }: Props) => {
   const [isPending, startTransition] = useTransition();
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -89,11 +90,13 @@ const VitrineClient = ({ initialData }: Props) => {
                 votre univers dès l&apos;arrivée.
               </p>
               <div className="flex flex-col gap-4 w-full">
-                <FloatingInput
-                  name="heroSubtitle"
-                  label="Sous-titre"
-                  defaultValue={initialData?.heroSubtitle ?? ""}
-                />
+                {vitrineFields.heroSubtitle && (
+                  <FloatingInput
+                    name="heroSubtitle"
+                    label="Sous-titre"
+                    defaultValue={initialData?.heroSubtitle ?? ""}
+                  />
+                )}
                 <FloatingInput
                   name="heroName"
                   label="Nom affiché"
@@ -116,12 +119,14 @@ const VitrineClient = ({ initialData }: Props) => {
                 raconter dans la page About.
               </p>
               <div className="flex flex-col gap-4 w-full">
-                <FloatingInput
-                  name="bioTitle"
-                  label="Titre Bio"
-                  className="font-caveat"
-                  defaultValue={initialData?.bioTitle ?? ""}
-                />
+                {vitrineFields.bioTitle && (
+                  <FloatingInput
+                    name="bioTitle"
+                    label="Titre Bio"
+                    className="font-caveat"
+                    defaultValue={initialData?.bioTitle ?? ""}
+                  />
+                )}
                 <FloatingTextarea
                   name="bioParagraph1"
                   label="Paragraphe 1"
@@ -146,49 +151,53 @@ const VitrineClient = ({ initialData }: Props) => {
             className={`flex flex-col flex-1 ${sectionSpacing} laptop:pl-10 desktop:pl-14 2k:pl-20`}
           >
             {/* Section Story */}
-            <div className={`flex flex-col ${sectionSpacing}`}>
-              <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
-                Récit : Deux blocs de texte pour approfondir votre parcours et
-                votre passion.
-              </p>
-              <div className="flex flex-col gap-4 w-full">
-                <FloatingTextarea
-                  name="storyParagraph1"
-                  label="Premier bloc d'histoire"
-                  rows={6}
-                  defaultValue={initialData?.storyParagraph1 ?? ""}
-                />
-                <FloatingTextarea
-                  name="storyParagraph2"
-                  label="Second bloc d'histoire"
-                  rows={6}
-                  defaultValue={initialData?.storyParagraph2 ?? ""}
-                />
+            {vitrineFields.story && (
+              <div className={`flex flex-col ${sectionSpacing}`}>
+                <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
+                  Récit : Deux blocs de texte pour approfondir votre parcours et
+                  votre passion.
+                </p>
+                <div className="flex flex-col gap-4 w-full">
+                  <FloatingTextarea
+                    name="storyParagraph1"
+                    label="Premier bloc d'histoire"
+                    rows={6}
+                    defaultValue={initialData?.storyParagraph1 ?? ""}
+                  />
+                  <FloatingTextarea
+                    name="storyParagraph2"
+                    label="Second bloc d'histoire"
+                    rows={6}
+                    defaultValue={initialData?.storyParagraph2 ?? ""}
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Section Citation */}
-            <div
-              className={`flex flex-col ${sectionSpacing} border-t border-cream/10 ${separatorPadding}`}
-            >
-              <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
-                Mise en avant : Une citation qui résonne avec votre vision de la
-                photographie.
-              </p>
-              <div className="flex flex-col gap-4 w-full">
-                <FloatingTextarea
-                  name="darkQuote"
-                  label="La Citation"
-                  rows={3}
-                  defaultValue={initialData?.darkQuote ?? ""}
-                />
-                <FloatingInput
-                  name="darkQuoteAuthor"
-                  label="Auteur"
-                  defaultValue={initialData?.darkQuoteAuthor ?? ""}
-                />
+            {vitrineFields.darkQuote && (
+              <div
+                className={`flex flex-col ${sectionSpacing} border-t border-cream/10 ${separatorPadding}`}
+              >
+                <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
+                  Mise en avant : Une citation qui résonne avec votre vision de la
+                  photographie.
+                </p>
+                <div className="flex flex-col gap-4 w-full">
+                  <FloatingTextarea
+                    name="darkQuote"
+                    label="La Citation"
+                    rows={3}
+                    defaultValue={initialData?.darkQuote ?? ""}
+                  />
+                  <FloatingInput
+                    name="darkQuoteAuthor"
+                    label="Auteur"
+                    defaultValue={initialData?.darkQuoteAuthor ?? ""}
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Section SEO */}
             <div

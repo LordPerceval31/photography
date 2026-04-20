@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Lock } from "lucide-react";
 import ServicesClient from "./ServicesClient";
 import prisma from "@/app/lib/prisma";
+import { getCapabilities } from "@/app/lib/capabilities";
 
 export const dynamic = "force-dynamic";
 
@@ -23,6 +24,7 @@ export default async function ServicesPage() {
       cloudinaryName: true,
       cloudinaryKey: true,
       cloudinarySecret: true,
+      activeTemplate: { select: { slug: true } },
     },
   });
 
@@ -42,6 +44,43 @@ export default async function ServicesPage() {
           >
             Aller dans les Paramètres →
           </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const capabilities = getCapabilities(user?.activeTemplate?.slug);
+
+  if (!capabilities.services) {
+    return (
+      <div className="w-full h-full flex flex-col overflow-hidden">
+        <div className="flex flex-col shrink-0 gap-1 tablet:gap-2 desktop:gap-4 4k:gap-8 mb-8 tablet:mb-12 laptop:mb-10 px-4 tablet:px-6 laptop:px-0 w-full">
+          <Link
+            href="/dashboard"
+            className="group flex items-center gap-2 text-cream/50 hover:text-cream transition-colors w-max"
+          >
+            <ArrowLeft className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-4 desktop:w-4 desktop:h-5 2k:w-6 2k:h-6 ultrawide:w-8 ultrawide:h-8 4k:w-10 4k:h-10 transition-transform group-hover:-translate-x-1" />
+            <span className="uppercase tracking-widest text-[8px] tablet:text-[10px] laptop:text-xs desktop:text-sm 2k:text-lg ultrawide:text-xl 4k:text-3xl font-medium cursor-pointer">
+              Retour au dashboard
+            </span>
+          </Link>
+          <h1 className="font-bold text-cream tracking-wide text-center cursor-default laptop:self-center w-[90%] tablet:w-[80%] laptop:w-[70%] text-xl tablet:text-2xl laptop:text-2xl desktop:text-3xl 2k:text-4xl ultrawide:text-4xl 4k:text-7xl laptop:mb-6 desktop:mb-8 2k:mb-12 ultrawide:mb-14 4k:mb-20">
+            Mes services
+          </h1>
+        </div>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-6 text-center max-w-md px-4">
+            <Lock className="w-10 h-10 text-cream/30" />
+            <p className="text-cream/70 text-sm tablet:text-base desktop:text-lg leading-relaxed">
+              La gestion des services est réservée au template Premium.
+            </p>
+            <Link
+              href="/dashboard/templates"
+              className="px-8 py-3 border border-cream/30 text-cream/70 text-xs uppercase tracking-widest hover:text-cream hover:border-cream/50 transition-all rounded-xl"
+            >
+              Voir mes templates →
+            </Link>
+          </div>
         </div>
       </div>
     );

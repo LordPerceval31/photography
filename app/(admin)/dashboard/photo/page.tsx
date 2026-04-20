@@ -6,6 +6,7 @@ import prisma from "@/app/lib/prisma";
 import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
 import { PhotoSlot } from "@/app/_components/PhotoSlot";
 import { GalleryUpload } from "@/app/_components/GalleryUpload";
+import { getCapabilities } from "@/app/lib/capabilities";
 
 export const dynamic = "force-dynamic";
 
@@ -19,8 +20,11 @@ const AddPhotoPage = async () => {
       cloudinaryName: true,
       cloudinaryKey: true,
       cloudinarySecret: true,
+      activeTemplate: { select: { slug: true } },
     },
   });
+
+  const capabilities = getCapabilities(userCredentials?.activeTemplate?.slug);
 
   if (!userCredentials?.cloudinaryName || !userCredentials?.cloudinaryKey) {
     return (
@@ -112,50 +116,54 @@ const AddPhotoPage = async () => {
         </div>
 
         {/* 2. PORTRAIT */}
-        <div className="flex flex-col laptop:flex-row items-center justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
-          <p className="text-center laptop:text-left italic font-light text-cream/60 text-sm laptop:text-base leading-relaxed">
-            Portrait affiché dans la page About.
-          </p>
-          <div className="flex flex-col items-center gap-1 w-[35vw] tablet:w-[25vw] laptop:w-25 desktop:w-40 2k:w-45 ultrawide:w-50 4k:w-75">
-            <p className="text-[10px] uppercase tracking-widest text-cream/30">
-              Profil
+        {capabilities.aboutPhotos && (
+          <div className="flex flex-col laptop:flex-row items-center justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
+            <p className="text-center laptop:text-left italic font-light text-cream/60 text-sm laptop:text-base leading-relaxed">
+              Portrait affiché dans la page About.
             </p>
-            <PhotoSlot
-              slot="isPortrait"
-              aspectRatio="aspect-3/4"
-              currentUrl={portraitUrl}
-            />
-          </div>
-        </div>
-
-        {/* 3. ABOUT (x3) */}
-        <div className="flex flex-col laptop:flex-row items-center justify-between gap-4 w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
-          <p className="text-center laptop:text-left italic font-light text-cream/60 text-sm laptop:text-base leading-relaxed">
-            Images illustratives en bas de la page About.
-          </p>
-          <div className="flex flex-col items-center gap-1 w-[80vw] tablet:w-[60vw] laptop:w-82.5 desktop:w-100 2k:w-125 ultrawide:w-150 4k:w-225">
-            <p className="text-[10px] uppercase tracking-widest text-cream/30">
-              About (x3)
-            </p>
-            <div className="grid grid-cols-3 gap-4 w-full">
+            <div className="flex flex-col items-center gap-1 w-[35vw] tablet:w-[25vw] laptop:w-25 desktop:w-40 2k:w-45 ultrawide:w-50 4k:w-75">
+              <p className="text-[10px] uppercase tracking-widest text-cream/30">
+                Profil
+              </p>
               <PhotoSlot
-                slot="isAboutPicture1"
+                slot="isPortrait"
                 aspectRatio="aspect-3/4"
-                currentUrl={about1Url}
-              />
-              <PhotoSlot
-                slot="isAboutPicture2"
-                aspectRatio="aspect-3/4"
-                currentUrl={about2Url}
-              />
-              <PhotoSlot
-                slot="isAboutPicture3"
-                aspectRatio="aspect-3/4"
-                currentUrl={about3Url}
+                currentUrl={portraitUrl}
               />
             </div>
           </div>
-        </div>
+        )}
+
+        {/* 3. ABOUT (x3) */}
+        {capabilities.aboutPhotos && (
+          <div className="flex flex-col laptop:flex-row items-center justify-between gap-4 w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
+            <p className="text-center laptop:text-left italic font-light text-cream/60 text-sm laptop:text-base leading-relaxed">
+              Images illustratives en bas de la page About.
+            </p>
+            <div className="flex flex-col items-center gap-1 w-[80vw] tablet:w-[60vw] laptop:w-82.5 desktop:w-100 2k:w-125 ultrawide:w-150 4k:w-225">
+              <p className="text-[10px] uppercase tracking-widest text-cream/30">
+                About (x3)
+              </p>
+              <div className="grid grid-cols-3 gap-4 w-full">
+                <PhotoSlot
+                  slot="isAboutPicture1"
+                  aspectRatio="aspect-3/4"
+                  currentUrl={about1Url}
+                />
+                <PhotoSlot
+                  slot="isAboutPicture2"
+                  aspectRatio="aspect-3/4"
+                  currentUrl={about2Url}
+                />
+                <PhotoSlot
+                  slot="isAboutPicture3"
+                  aspectRatio="aspect-3/4"
+                  currentUrl={about3Url}
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* 4. SECTION GALERIE - COPIE CONFORME DES DIMENSIONS DE LA COVER */}
         <div className="flex flex-col laptop:flex-row items-center laptop:items-start justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%] gap-8">

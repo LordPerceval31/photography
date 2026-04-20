@@ -29,18 +29,26 @@ export const savePhoto = async (
   }
 
   try {
-    // 1. Récupérer l'ancienne photo
+    // 1. Chercher l'ancienne photo du slot pour supprimer son fichier Cloudinary
+    //    si son publicId est différent du nouveau (sinon Cloudinary l'a déjà remplacé)
     const oldPhoto = await prisma.photo.findFirst({
       where: { userId: session.user.id, [slot]: true },
+      select: { publicId: true },
     });
 
-    // 2. Supprimer l'ancienne de Cloudinary et de la base
-    if (oldPhoto) {
-      if (oldPhoto.publicId) {
-        await cloudinary.uploader.destroy(oldPhoto.publicId);
-      }
-      await prisma.photo.delete({ where: { id: oldPhoto.id } });
+    if (oldPhoto?.publicId && oldPhoto.publicId !== publicId) {
+      await cloudinary.uploader.destroy(oldPhoto.publicId);
     }
+
+    // 2. Supprimer tous les enregistrements qui bloqueraient le create :
+    //    - l'ancien slot (isCover/isPortrait/…)
+    //    - tout enregistrement orphelin avec le même publicId
+    await prisma.photo.deleteMany({
+      where: {
+        userId: session.user.id,
+        OR: [{ [slot]: true }, { publicId }],
+      },
+    });
 
     // 3. Sauvegarder la nouvelle
     await prisma.photo.create({

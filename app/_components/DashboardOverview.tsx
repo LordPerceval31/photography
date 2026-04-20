@@ -1,39 +1,73 @@
 import Image from "next/image";
-import { Settings, LogOut } from "lucide-react";
+import { Settings, LogOut, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import prisma from "../lib/prisma";
 import { optimizeCloudinaryUrl } from "../lib/cloudinary-url";
 import { logout } from "../(admin)/actions/auth";
+import { getCapabilities } from "../lib/capabilities";
 
 interface DashboardOverviewProps {
   userId: string;
 }
 
 export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
-  const recentPhotos = await prisma.photo.findMany({
-    where: { userId },
-    orderBy: { createdAt: "desc" },
-    take: 4,
-  });
+  const [recentPhotos, recentGalleries, user] = await Promise.all([
+    prisma.photo.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      take: 4,
+    }),
+    prisma.gallery.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      take: 3,
+    }),
+    prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        activeTemplate: { select: { slug: true } },
+        subdomain: true,
+        customDomain: true,
+      },
+    }),
+  ]);
 
-  const recentGalleries = await prisma.gallery.findMany({
-    where: { userId },
-    orderBy: { createdAt: "desc" },
-    take: 3,
-  });
+  const capabilities = getCapabilities(user?.activeTemplate?.slug);
+
+  const portfolioUrl = user?.customDomain
+    ? `https://${user.customDomain}`
+    : user?.subdomain
+    ? `https://${user.subdomain}.${process.env.NEXT_PUBLIC_BASE_DOMAIN}`
+    : null;
 
   return (
     <div className="w-full flex flex-col items-center laptop:items-start gap-10 laptop:gap-4 desktop:gap-8 2k:gap-12 4k:gap-20">
-      {/* --- BOUTON PARAMÈTRES --- */}
-      <Link
-        href="/dashboard/settings"
-        className="absolute top-6 right-6 desktop:top-10 desktop:right-10 2k:top-14 2k:right-14 ultrawide:top-16 ultrawide:right-16 4k:top-20 4k:right-20 flex items-center gap-3 desktop:gap-4 4k:gap-10 text-cream/30 hover:text-cream transition-all duration-300 group z-100 cursor-pointer hover:-translate-y-1 active:translate-y-0 active:scale-95"
-      >
-        <span className="hidden laptop:block uppercase tracking-[0.4em] text-[10px] desktop:text-xs 2k:text-base ultrawide:text-xl 4k:text-2xl font-medium">
-          Paramètres
-        </span>
-        <Settings className="w-5 h-5 desktop:w-7 desktop:h-7 2k:w-10 2k:h-10 ultrawide:w-10 ultrawide:h-10 4k:w-12 4k:h-12 group-hover:rotate-90 transition-transform duration-500" />
-      </Link>
+      {/* --- BOUTONS HAUT DROITE --- */}
+      <div className="absolute top-6 right-6 desktop:top-10 desktop:right-10 2k:top-14 2k:right-14 ultrawide:top-16 ultrawide:right-16 4k:top-20 4k:right-20 flex flex-col items-end gap-3 desktop:gap-4 z-100">
+        <Link
+          href="/dashboard/settings"
+          className="flex items-center gap-3 desktop:gap-4 4k:gap-10 text-cream/30 hover:text-cream transition-all duration-300 group cursor-pointer hover:-translate-y-1 active:translate-y-0 active:scale-95"
+        >
+          <span className="hidden laptop:block uppercase tracking-[0.4em] text-[10px] desktop:text-xs 2k:text-base ultrawide:text-xl 4k:text-2xl font-medium">
+            Paramètres
+          </span>
+          <Settings className="w-5 h-5 desktop:w-7 desktop:h-7 2k:w-10 2k:h-10 ultrawide:w-10 ultrawide:h-10 4k:w-12 4k:h-12 group-hover:rotate-90 transition-transform duration-500" />
+        </Link>
+
+        {portfolioUrl && (
+          <a
+            href={portfolioUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 desktop:gap-4 4k:gap-10 text-cream/30 hover:text-cream transition-all duration-300 group cursor-pointer hover:-translate-y-1 active:translate-y-0 active:scale-95"
+          >
+            <span className="hidden laptop:block uppercase tracking-[0.4em] text-[10px] desktop:text-xs 2k:text-base ultrawide:text-xl 4k:text-2xl font-medium">
+              Aperçu
+            </span>
+            <ExternalLink className="w-5 h-5 desktop:w-7 desktop:h-7 2k:w-10 2k:h-10 ultrawide:w-10 ultrawide:h-10 4k:w-12 4k:h-12 group-hover:scale-110 transition-transform duration-300" />
+          </a>
+        )}
+      </div>
 
       {/* --- BOUTON DÉCONNEXION --- */}
       <form

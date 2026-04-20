@@ -99,7 +99,7 @@ model Photo {
   id             String   @id @default(cuid())
   title          String?
   url            String
-  publicId       String?  @unique // identifiant Cloudinary (optionnel pour les photos existantes)
+  publicId       String?  // identifiant Cloudinary (optionnel pour les photos existantes)
   isCover        Boolean  @default(false)
   isPortrait     Boolean  @default(false)
   isAboutPicture1  Boolean  @default(false)
@@ -114,6 +114,8 @@ model Photo {
   category   Category? @relation(fields: [categoryId], references: [id])
 
   galleries GalleryPhoto[]
+
+  @@unique([userId, publicId])
 }
 
 model Gallery {

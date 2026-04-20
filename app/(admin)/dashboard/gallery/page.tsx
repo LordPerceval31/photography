@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import GalleryClient from "./GalleryClient";
 import prisma from "@/app/lib/prisma";
+import { getCapabilities } from "@/app/lib/capabilities";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,7 @@ export default async function GalleryPage() {
       cloudinaryName: true,
       cloudinaryKey: true,
       cloudinarySecret: true,
+      activeTemplate: { select: { slug: true } },
     },
   });
 
@@ -40,5 +42,7 @@ export default async function GalleryPage() {
     );
   }
 
-  return <GalleryClient />;
+  const capabilities = getCapabilities(user?.activeTemplate?.slug);
+
+  return <GalleryClient canShare={capabilities.shareGalleries} />;
 }

@@ -14,7 +14,12 @@ const TemplatesPage = async () => {
 
   if ("error" in result) redirect("/login");
 
-  return <TemplatesClient templates={result.templates} />;
+  return (
+    <TemplatesClient
+      templates={result.templates}
+      currentThemeSlug={result.currentThemeSlug}
+    />
+  );
 };
 
 export default TemplatesPage;

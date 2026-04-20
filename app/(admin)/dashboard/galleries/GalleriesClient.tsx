@@ -10,6 +10,7 @@ import {
   Loader2,
   CheckCircle,
   XCircle,
+  Lock,
 } from "lucide-react";
 import {
   deleteGallery,
@@ -34,8 +35,10 @@ type ActionType = "rename" | "delete" | "share" | null;
 
 export default function GalleriesClient({
   galleries: initial,
+  canShare,
 }: {
   galleries: Gallery[];
+  canShare: boolean;
 }) {
   const [galleries, setGalleries] = useState(initial);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -246,9 +249,23 @@ export default function GalleriesClient({
                 </div>
               )}
 
-              {activeAction === "share" && (
+              {activeAction === "share" && !canShare && (
+                <div className="flex flex-col items-center gap-3 w-full laptop:w-[55%] laptop:ml-auto py-4">
+                  <Lock className="w-6 h-6 text-cream/30" />
+                  <p className="text-cream/60 text-xs text-center leading-relaxed">
+                    Le partage de galeries est réservé au template Premium.
+                  </p>
+                  <a
+                    href="/dashboard/templates"
+                    className="text-[10px] uppercase tracking-widest text-cream/50 hover:text-cream border border-cream/20 hover:border-cream/40 px-4 py-2 rounded-lg transition-all"
+                  >
+                    Voir mes templates →
+                  </a>
+                </div>
+              )}
+
+              {activeAction === "share" && canShare && (
                 <div className="flex flex-col gap-3 w-full laptop:w-[55%] laptop:ml-auto">
-                  {/* Champ email via ton composant */}
                   <FloatingInput
                     type="email"
                     id="share_email"

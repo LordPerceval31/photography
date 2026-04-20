@@ -11,24 +11,30 @@ export async function getTemplatesForUser() {
 
   const userId = session.user.id;
 
-  const [allTemplates, user] = await Promise.all([
+  const [allTemplates, user, siteConfig] = await Promise.all([
     prisma.template.findMany({ orderBy: { price: "asc" } }),
     prisma.user.findUnique({
       where: { id: userId },
       include: { purchasedTemplates: true },
     }),
+    prisma.siteConfig.findUnique({
+      where: { userId },
+      select: { templateConfig: true },
+    }),
   ]);
 
   if (!user) return { error: "Utilisateur introuvable" as const };
 
-  // Enrichit chaque template avec isPurchased et isActive
   const templates = allTemplates.map((template) => ({
     ...template,
     isPurchased: user.purchasedTemplates.some((p) => p.templateId === template.id),
     isActive: user.activeTemplateId === template.id,
   }));
 
-  return { success: true as const, templates };
+  const currentThemeSlug =
+    (siteConfig?.templateConfig as { themeSlug?: string } | null)?.themeSlug ?? "default";
+
+  return { success: true as const, templates, currentThemeSlug };
 }
 
 // Active un template déjà acheté par le user
@@ -51,6 +57,35 @@ export async function activateTemplate(templateId: string) {
     where: { id: userId },
     data: { activeTemplateId: templateId },
   });
+
+  revalidatePath("/dashboard/templates");
+  return { success: true as const };
+}
+
+// Active un template ET sauvegarde le thème choisi
+export async function configureTemplate(templateId: string, themeSlug: string) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Non autorisé" as const };
+
+  const userId = session.user.id;
+
+  const purchase = await prisma.userTemplate.findUnique({
+    where: { userId_templateId: { userId, templateId } },
+  });
+
+  if (!purchase) return { error: "Template non acheté" as const };
+
+  await prisma.$transaction([
+    prisma.user.update({
+      where: { id: userId },
+      data: { activeTemplateId: templateId },
+    }),
+    prisma.siteConfig.upsert({
+      where: { userId },
+      update: { templateConfig: { themeSlug } },
+      create: { userId, templateConfig: { themeSlug } },
+    }),
+  ]);
 
   revalidatePath("/dashboard/templates");
   return { success: true as const };

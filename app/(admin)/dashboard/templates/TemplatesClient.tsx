@@ -3,7 +3,21 @@
 import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle } from "lucide-react";
-import { activateTemplate } from "@/app/(admin)/actions/templates";
+import { configureTemplate } from "@/app/(admin)/actions/templates";
+
+const TEMPLATES_WITH_THEMES = ["one-page", "two-pages", "three-pages"];
+
+const THEMES = [
+  { slug: "default", name: "Classique" },
+  { slug: "argentic", name: "Argentique" },
+  { slug: "sepia", name: "Sépia" },
+  { slug: "evenement", name: "Évènement" },
+  { slug: "nature", name: "Nature" },
+  { slug: "voyage", name: "Voyage" },
+  { slug: "portrait", name: "Portrait" },
+  { slug: "street", name: "Street" },
+  { slug: "cinema", name: "Cinéma" },
+] as const;
 
 type Template = {
   id: string;
@@ -17,17 +31,19 @@ type Template = {
 
 type Props = {
   templates: Template[];
+  currentThemeSlug: string;
 };
 
-const TemplatesClient = ({ templates }: Props) => {
+const TemplatesClient = ({ templates, currentThemeSlug }: Props) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [activatingId, setActivatingId] = useState<string | null>(null);
+  const [selectedTheme, setSelectedTheme] = useState(currentThemeSlug);
 
   const handleActivate = (templateId: string) => {
     setActivatingId(templateId);
     startTransition(async () => {
-      await activateTemplate(templateId);
+      await configureTemplate(templateId, selectedTheme);
       router.push("/dashboard");
     });
   };
@@ -68,21 +84,50 @@ const TemplatesClient = ({ templates }: Props) => {
               )}
             </div>
 
-            {/* Action */}
+            {/* Sélecteur de thème + bouton */}
             {template.isPurchased ? (
-              <button
-                onClick={() => handleActivate(template.id)}
-                disabled={isPending && activatingId === template.id}
-                className="px-4 py-2 tablet:px-6 tablet:py-3 desktop:px-8 2k:px-10 2k:py-4 4k:px-16 4k:py-6
-                  text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm 4k:text-xl
-                  uppercase tracking-widest font-semibold rounded-lg transition-all
-                  disabled:opacity-50 disabled:cursor-not-allowed
-                  bg-cream/10 text-cream hover:bg-cream/20"
-              >
-                {isPending && activatingId === template.id
-                  ? "Activation..."
-                  : "Configurer"}
-              </button>
+              <div className="flex items-center gap-2 tablet:gap-3">
+                {TEMPLATES_WITH_THEMES.includes(template.slug) && (
+                  <div className="relative">
+                    <select
+                      value={selectedTheme}
+                      onChange={(e) => setSelectedTheme(e.target.value)}
+                      disabled={isPending}
+                      className="appearance-none bg-cream/10 text-cream text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm
+                        pl-3 pr-8 py-2 tablet:pl-4 tablet:pr-10 tablet:py-3 rounded-lg border border-cream/20
+                        focus:outline-none focus:border-cream/40
+                        disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                      {THEMES.map((theme) => (
+                        <option
+                          key={theme.slug}
+                          value={theme.slug}
+                          className="bg-[#1a1a1a] text-cream"
+                        >
+                          {theme.name}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-cream/50 text-xs">
+                      ▾
+                    </span>
+                  </div>
+                )}
+
+                <button
+                  onClick={() => handleActivate(template.id)}
+                  disabled={isPending && activatingId === template.id}
+                  className="px-4 py-2 tablet:px-6 tablet:py-3 desktop:px-8 2k:px-10 2k:py-4 4k:px-16 4k:py-6
+                    text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm 4k:text-xl
+                    uppercase tracking-widest font-semibold rounded-lg transition-all
+                    disabled:opacity-50 disabled:cursor-not-allowed
+                    bg-cream/10 text-cream hover:bg-cream/20"
+                >
+                  {isPending && activatingId === template.id
+                    ? "Activation..."
+                    : "Configurer"}
+                </button>
+              </div>
             ) : (
               <button
                 disabled

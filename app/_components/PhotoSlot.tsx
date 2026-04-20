@@ -44,7 +44,7 @@ export const PhotoSlot = ({
     try {
       // 1. Signature côté serveur — l'API secret ne quitte jamais le serveur
       setStatus("signing");
-      const sig = await getUploadSignature(slot);
+      const sig = await getUploadSignature(slot, true);
       if (sig.error || !sig.signature) {
         setPreview(currentUrl);
         setError(sig.error ?? "Erreur de signature");

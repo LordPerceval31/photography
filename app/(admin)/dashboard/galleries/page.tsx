@@ -11,10 +11,18 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import GalleriesClient from "./GalleriesClient";
 import prisma from "@/app/lib/prisma";
+import { getCapabilities } from "@/app/lib/capabilities";
 
 export default async function GalleriesPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { activeTemplate: { select: { slug: true } } },
+  });
+
+  const capabilities = getCapabilities(user?.activeTemplate?.slug);
 
   const galleries = await prisma.gallery.findMany({
     where: { userId: session.user.id },
@@ -60,7 +68,7 @@ export default async function GalleriesPage() {
         Toutes les galeries
       </h1>
 
-      <GalleriesClient galleries={data} />
+      <GalleriesClient galleries={data} canShare={capabilities.shareGalleries} />
     </div>
   );
 }

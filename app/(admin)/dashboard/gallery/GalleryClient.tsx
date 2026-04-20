@@ -8,7 +8,7 @@ import { getUploadSignature } from "../../actions/getUploadSignature";
 import { createGallery } from "../../actions/createGallery";
 import { FloatingInput } from "@/app/_components/FloatingInput";
 
-const GalleryClient = () => {
+const GalleryClient = ({ canShare }: { canShare: boolean }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [isPremium, setIsPremium] = useState(false);
@@ -293,7 +293,18 @@ const GalleryClient = () => {
       </div>
 
       {/* SECTION PRIVÉE */}
-      {isPrivate && (
+      {isPrivate && !canShare && (
+        <div className={`flex items-center gap-3 laptop:self-center w-[90%] tablet:w-[80%] laptop:w-[70%] desktop:w-[60%] p-4 tablet:p-5 laptop:p-6 rounded-xl border border-cream/10 glass-card`}>
+          <Lock className="w-4 h-4 text-cream/30 shrink-0" />
+          <p className="text-cream/50 text-[10px] tablet:text-xs laptop:text-sm uppercase tracking-widest">
+            Partage privé réservé au template Premium —{" "}
+            <Link href="/dashboard/templates" className="underline hover:text-cream transition-colors">
+              Voir mes templates
+            </Link>
+          </p>
+        </div>
+      )}
+      {isPrivate && canShare && (
         <div
           className="flex flex-col laptop:self-center
           w-[90%] tablet:w-[80%] laptop:w-[70%] desktop:w-[60%] 2k:w-[55%] 4k:w-[60%]
