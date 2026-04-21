@@ -264,7 +264,7 @@ const SettingsClient = ({ user }: { user: User }) => {
           <div className={`flex flex-col ${sectionSpacing}`}>
             <div className="flex flex-col gap-2 tablet:gap-3">
               <h2 className="text-base tablet:text-lg laptop:text-xl desktop:text-2xl 2k:text-3xl 4k:text-5xl font-semibold text-cream tracking-wide">
-                Gabaris
+                Gabarits
               </h2>
               <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
                 Choisissez le design de votre vitrine parmi vos gabarits
