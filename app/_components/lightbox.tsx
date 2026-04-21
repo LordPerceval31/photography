@@ -223,6 +223,7 @@ const Lightbox = ({
               id: item.id,
               title: item.img,
               url: item.img,
+              alt: item.alt || "Photographie",
             }),
           )}
           activeIndex={selectedIndex}
