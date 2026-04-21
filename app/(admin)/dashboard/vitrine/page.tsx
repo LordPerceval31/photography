@@ -38,6 +38,7 @@ export default async function VitrinePage() {
       darkQuoteAuthor: true,
       seoTitle: true,
       seoDescription: true,
+      seoLocation: true,
     },
   });
 
@@ -46,6 +47,7 @@ export default async function VitrinePage() {
         ...config,
         seoTitle: config.seoTitle ?? "",
         seoDescription: config.seoDescription ?? "",
+        seoLocation: config.seoLocation ?? "",
       }
     : null;
 
