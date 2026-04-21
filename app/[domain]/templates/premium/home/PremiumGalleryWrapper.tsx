@@ -35,6 +35,7 @@ const PremiumGalleryWrapper = async ({ userId }: { userId: string }) => {
     img: p.photo.url,
     url: p.photo.url,
     height: 600,
+    alt: p.photo.title || "Photographie",
     galleryId: premiumGallery.id,
   }));
 
