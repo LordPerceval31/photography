@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/ton-image-de-partage.jpg",
+        url: "/www.photolio.fr_(laptop).webp",
         width: 1200,
         height: 630,
         alt: "Aperçu de Photolio",

@@ -46,8 +46,11 @@ const NavBar = () => {
 
   const iconClasses =
     "w-7 h-7 tablet:w-10 tablet:h-10 laptop:w-7 laptop:h-7 desktop:w-8 desktop:h-8 2k:w-10 2k:h-10 4k:w-16 4k:h-16 ultrawide:w-16 ultrawide:h-16";
+
+  // AJOUT : whitespace-nowrap pour empêcher le retour à la ligne
   const textClasses =
-    "font-semibold tracking-wide text-xs tablet:text-lg laptop:text-lg desktop:text-lg 2k:text-lg 4k:text-4xl ultrawide:text-4xl";
+    "font-semibold tracking-wide text-xs tablet:text-lg laptop:text-lg desktop:text-lg 2k:text-lg 4k:text-4xl ultrawide:text-4xl whitespace-nowrap";
+
   const heightClasses =
     "h-12 tablet:h-16 laptop:h-12 desktop:h-14 2k:h-16 4k:h-24 ultrawide:h-24";
   const widthClosed =
@@ -81,7 +84,7 @@ const NavBar = () => {
     >
       <nav>
         <div
-          className={`relative flex items-center justify-center transition-all duration-300 ease-in-out overflow-hidden rounded-full
+          className={`relative flex items-center justify-center transition-all duration-500 ease-in-out overflow-hidden rounded-full
             backdrop-blur-[3px] border 
             ${textColor} ${borderColor} ${bgColor} ${shadowClasses}
             ${heightClasses}
@@ -98,10 +101,11 @@ const NavBar = () => {
             <Menu className={iconClasses} strokeWidth={1} />
           </button>
 
+          {/* AJOUT : shrink-0 et w-max pour que le contenu ne se compresse jamais */}
           <div
-            className={`flex items-center justify-center w-full px-4 tablet:px-8 transition-all duration-300 ease-in-out
+            className={`flex items-center justify-center px-4 tablet:px-8 transition-all duration-500 ease-in-out shrink-0 w-max
             ${gapClasses} 
-            ${isOpen ? "opacity-100 scale-100" : "opacity-0 scale-150 pointer-events-none"}`}
+            ${isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}
           >
             <Link
               href="/"
@@ -148,7 +152,7 @@ const NavBar = () => {
 
             <button
               onClick={() => setIsOpen(false)}
-              className="flex items-center justify-center active:scale-90"
+              className="flex items-center justify-center active:scale-90 shrink-0"
             >
               <X
                 className={`${closeIconColor} transition-colors cursor-pointer w-4 h-4 tablet:w-5 tablet:h-5 laptop:w-4 laptop:h-4 desktop:w-5 desktop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8 ultrawide:w-8 ultrawide:h-8`}
