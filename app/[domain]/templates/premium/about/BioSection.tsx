@@ -15,7 +15,16 @@ const BioSection = async ({ userId }: { userId: string }) => {
   const rawImageUrl = portraitPhoto?.url || "/fallback-portrait.jpg";
   const imageUrl = optimizeCloudinaryUrl(rawImageUrl);
 
-  const imageAlt = portraitPhoto?.title || "Portrait d'Aurélien, photographe";
+  // --- OPTIMISATION SEO DYNAMIQUE ---
+  const photographerName = config?.heroName || "Photographe";
+  const location = config?.seoLocation ? ` à ${config.seoLocation}` : "";
+
+  // On construit un ALT qui aide Google à référencer le photographe sur son nom et sa ville
+  // Fallback : "Portrait de [Nom] - Photographe à [Ville]"
+  const defaultAlt = `Portrait de ${photographerName} - Photographe${location}`;
+  const imageAlt = portraitPhoto?.title
+    ? `${portraitPhoto?.title} | ${defaultAlt}`
+    : defaultAlt;
 
   const bioTitle = config?.bioTitle || "l'art de l'observation silencieuse";
   const bioParagraph1 =
@@ -30,22 +39,23 @@ const BioSection = async ({ userId }: { userId: string }) => {
       data-theme="light"
       className="flex flex-col laptop:flex-row items-center justify-center min-h-screen bg-cream px-8 tablet:px-16 laptop:px-24 py-16"
     >
-      {/* 1. LA BOÎTE DE L'IMAGE : Elle prend exactement 50% de la largeur sur laptop */}
+      {/* 1. LA BOÎTE DE L'IMAGE */}
       <div className="w-full laptop:w-1/2 flex justify-center laptop:justify-end laptop:pr-12">
-        <div className="relative w-full laptop:max-w-md desktop:max-w-2xl 2k:max-w-4xl 4k:max-w-7xl aspect-4/5  overflow-hidden rounded-sm shadow-xl">
+        <div className="relative w-full laptop:max-w-md desktop:max-w-2xl 2k:max-w-4xl 4k:max-w-7xl aspect-4/5 overflow-hidden rounded-sm shadow-xl">
           <Image
             src={imageUrl}
             alt={imageAlt}
             fill
             className="object-cover"
+            // Crucial pour les performances : indique les tailles de rendu
+            sizes="(max-width: 1024px) 100vw, 50vw"
             priority
           />
         </div>
       </div>
 
-      {/* 2. LA BOÎTE DU TEXTE : Elle prend l'autre 50% de la largeur */}
+      {/* 2. LA BOÎTE DU TEXTE */}
       <div className="w-full laptop:w-1/2 flex justify-center laptop:justify-start laptop:pl-12 mt-12 laptop:mt-0">
-        {/* Tu contrôles ici l'espacement intérieur, le texte s'adaptera sans déborder */}
         <div className="w-full max-w-2xl 2k:max-w-4xl ultrawide:max-w-7xl text-dark 4k:ml-30">
           <h2
             className={`${caveat.className} text-5xl tablet:text-6xl desktop:text-7xl 2k:text-8xl ultrawide:text-8xl 4k:text-9xl font-bold mb-6`}

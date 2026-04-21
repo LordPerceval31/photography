@@ -169,6 +169,7 @@ model SiteConfig {
   // SEO
   seoTitle        String? @default("")
   seoDescription  String? @default("")
+  seoLocation     String? @default("")
   templateConfig  Json?   // champs spécifiques au template actif
 
   userId          String @unique 

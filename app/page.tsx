@@ -117,7 +117,7 @@ export default function LandingPage() {
             <div className="absolute inset-0 bg-linear-to-t from-background via-background/40 to-transparent" />
           </div>
 
-          <div className="relative z-10 w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-600 mx-auto flex flex-col items-start text-left 4k:translate-y-24 4k:-translate-x-70 transition-transform duration-500">
+          <div className="relative z-10 w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-600 mx-auto flex flex-col items-start text-left laptop:translate-y-6 laptop:-translate-x-20 desktop:translate-y-12 desktop:-translate-x-50 2k:translate-y-24 2k:-translate-x-70 4k:translate-y-24 4k:-translate-x-70 transition-transform duration-500">
             {/* AJOUT SEO : Le VRAI H1 pour Google et les liseuses d'écran */}
             <h1 className="sr-only">
               Création de sites vitrines et galeries privées clé en main pour

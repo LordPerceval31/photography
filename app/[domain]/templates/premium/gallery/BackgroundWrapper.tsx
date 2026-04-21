@@ -16,31 +16,49 @@ export default async function BackgroundWrapper({
 }: {
   userId: string;
 }) {
-  const photosFromDb = await prisma.photo.findMany({
-    where: {
-      userId: userId,
-      isCover: false,
-      isPortrait: false,
-      isAboutPicture1: false,
-      isAboutPicture2: false,
-      isAboutPicture3: false,
-    },
-    include: {
-      galleries: {
-        select: { galleryId: true },
+  // 1. On récupère TOUT en parallèle pour aller vite (Photos + Config SEO)
+  const [photosFromDb, config] = await Promise.all([
+    prisma.photo.findMany({
+      where: {
+        userId: userId,
+        isCover: false,
+        isPortrait: false,
+        isAboutPicture1: false,
+        isAboutPicture2: false,
+        isAboutPicture3: false,
       },
-    },
-  });
+      include: {
+        galleries: {
+          select: { galleryId: true },
+        },
+      },
+    }),
+    prisma.siteConfig.findFirst({ where: { userId: userId } }),
+  ]);
+
+  // 2. On prépare la base SEO du photographe
+  const name = config?.heroName || "Photographe";
+  const location = config?.seoLocation ? ` à ${config.seoLocation}` : "";
+  const baseAlt = `${name}${location}`;
 
   const heightPattern = [500, 1200, 600, 1600, 400, 900, 700, 1400, 450, 1000];
 
-  const formattedItems = photosFromDb.map((photo, index) => ({
-    id: photo.id.toString(),
-    img: optimizeCloudinaryUrl(photo.url),
-    url: "#",
-    height: heightPattern[index % heightPattern.length],
-    galleryId: photo.galleries[0]?.galleryId ?? photo.id,
-  }));
+  // 3. On formate les items et on pré-calcule le ALT final
+  const formattedItems = photosFromDb.map((photo, index) => {
+    // Si la photo a un titre, on l'ajoute. Sinon, c'est juste "Portfolio | Nom à Ville"
+    const finalAlt = photo.title
+      ? `${photo.title} | ${baseAlt}`
+      : `Portfolio | ${baseAlt}`;
+
+    return {
+      id: photo.id.toString(),
+      img: optimizeCloudinaryUrl(photo.url),
+      url: "#",
+      height: heightPattern[index % heightPattern.length],
+      galleryId: photo.galleries[0]?.galleryId ?? photo.id,
+      alt: finalAlt, // <-- LA DONNÉE SEO EST PRÊTE
+    };
+  });
 
   const shuffledItems = shuffleArray(formattedItems);
 

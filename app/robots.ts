@@ -1,13 +1,17 @@
 import { MetadataRoute } from "next";
+import { headers } from "next/headers";
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const headersList = await headers();
+  const domain = headersList.get("host"); // Récupère le domaine (ex: tartampion.photolio.fr)
+
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      // Optionnel : tu peux bloquer l'indexation du back-office
       disallow: ["/dashboard/", "/admin/"],
     },
-    sitemap: "https://photolio.fr/sitemap.xml",
+    // On génère dynamiquement l'URL du sitemap correspondant au domaine consulté
+    sitemap: `https://${domain}/sitemap.xml`,
   };
 }

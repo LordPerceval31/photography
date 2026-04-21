@@ -14,6 +14,7 @@ export interface GalleryItem {
   id: string;
   title: string;
   url: string;
+  alt: string;
 }
 
 const ASPECT_RATIO = 4 / 5;
@@ -93,7 +94,7 @@ const CarouselCard = ({
     >
       <img
         src={item.url}
-        alt={item.title}
+        alt={item.alt || item.title || "Photographie"}
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
       />
     </motion.div>

@@ -45,7 +45,16 @@ export const metadata: Metadata = {
     siteName: "Photolio",
     locale: "fr_FR",
     type: "website",
+    images: [
+      {
+        url: "/ton-image-de-partage.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Aperçu de Photolio",
+      },
+    ],
   },
+  metadataBase: new URL("https://photolio.fr"),
 };
 
 export default function RootLayout({

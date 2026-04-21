@@ -21,7 +21,17 @@ export async function generateMetadata({
 
   const config = user.siteConfig;
   const name = config?.heroName || "Photographe";
-  const description = config?.heroTagline || config?.bioParagraph1 || "";
+  const location = config?.seoLocation ? ` à ${config.seoLocation}` : "";
+
+  // On fusionne le nom et le lieu pour le titre SEO
+  const defaultTitle = `${name}${location}`;
+
+  // On priorise la description SEO explicite, sinon on replie sur la tagline
+  const description =
+    config?.seoDescription ||
+    config?.heroTagline ||
+    config?.bioParagraph1 ||
+    "";
 
   // URL canonique : domaine custom en priorité, sinon sous-domaine Photolio
   const baseUrl = user.customDomain
@@ -34,8 +44,8 @@ export async function generateMetadata({
   });
 
   return {
-    // "%s | Jean Dupont" — chaque page injecte son propre titre à la place de %s
-    title: { default: name, template: `%s | ${name}` },
+    // "%s | Jean Dupont à Lyon" — chaque page injecte son propre titre à la place de %s
+    title: { default: defaultTitle, template: `%s | ${defaultTitle}` },
     description,
     metadataBase: new URL(baseUrl),
     alternates: { canonical: baseUrl },
@@ -44,13 +54,13 @@ export async function generateMetadata({
       locale: "fr_FR",
       url: baseUrl,
       siteName: name,
-      title: name,
+      title: defaultTitle,
       description,
       images: coverPhoto ? [{ url: coverPhoto.url, alt: name }] : [],
     },
     twitter: {
       card: "summary_large_image",
-      title: name,
+      title: defaultTitle,
       description,
       images: coverPhoto ? [coverPhoto.url] : [],
     },

@@ -37,7 +37,16 @@ const OnePage = async ({ userId }: Props) => {
   const theme: Theme = themes[themeSlug ?? ""] ?? themes.default;
   const fonts = themeFonts[themeSlug ?? ""] ?? themeFonts.default;
 
+  // --- LOGIQUE SEO ---
+  const name = config?.heroName || "Photographe";
+  const location = config?.seoLocation ? ` à ${config.seoLocation}` : "";
+  const baseAlt = `${name}${location}`;
+
   const coverPhoto = photos.find((p) => p.isCover) ?? photos[0];
+  const coverAlt = coverPhoto?.title
+    ? `${coverPhoto.title} | ${baseAlt}`
+    : `Accueil | ${baseAlt}`;
+
   const galleryPhotos = photos
     .filter((p) => !p.isCover)
     .map((p) => ({
@@ -45,7 +54,9 @@ const OnePage = async ({ userId }: Props) => {
       url: p.url,
       title: p.title,
       galleryId: p.galleries[0]?.galleryId ?? p.id,
+      alt: p.title ? `${p.title} | ${baseAlt}` : `Portfolio | ${baseAlt}`,
     }));
+
   const hasBio = config?.bioParagraph1 || config?.bioParagraph2;
 
   return (
@@ -58,7 +69,7 @@ const OnePage = async ({ userId }: Props) => {
         {coverPhoto ? (
           <Image
             src={coverPhoto.url}
-            alt={config?.heroName ?? "Portfolio"}
+            alt={coverAlt}
             fill
             className="object-cover"
             priority

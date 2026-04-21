@@ -1,6 +1,7 @@
 export interface Item {
   id: string;
   img: string;
+  alt: string;
   url: string;
   height: number;
   galleryId: string | null;

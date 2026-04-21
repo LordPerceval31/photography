@@ -17,6 +17,7 @@ export type VitrineData = {
   darkQuoteAuthor: string;
   seoTitle: string;
   seoDescription: string;
+  seoLocation: string;
 };
 
 export async function updateVitrineTexts(data: VitrineData) {

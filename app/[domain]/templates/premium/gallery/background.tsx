@@ -119,14 +119,6 @@ const Masonry = ({
     };
   }, [columns, items, width]);
 
-  // useEffect(() => {
-  //   if (items.length > 0) {
-  //     preloadImages(items.map((i) => i.img)).then(() => {
-  //       setImagesReady(true);
-  //     });
-  //   }
-  // }, [items, duration, stagger]);
-
   return (
     <>
       <motion.div
@@ -171,7 +163,7 @@ const Masonry = ({
               <div className="relative w-full h-full rounded-[10px] shadow-lg overflow-hidden">
                 <Image
                   src={item.img}
-                  alt="Gallery image"
+                  alt={item.alt || "Photographie du portfolio"}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 25vw"
                   className="object-cover"

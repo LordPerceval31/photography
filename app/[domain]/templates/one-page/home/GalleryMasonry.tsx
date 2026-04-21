@@ -6,7 +6,13 @@ import { AnimatePresence } from "framer-motion";
 import Lightbox from "@/app/_components/lightbox";
 import type { Item } from "@/app/lib/types";
 
-type Photo = { id: string; url: string; title: string | null; galleryId: string };
+type Photo = {
+  id: string;
+  url: string;
+  title: string | null;
+  galleryId: string;
+  alt?: string;
+};
 
 const GalleryMasonry = ({ photos }: { photos: Photo[] }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -18,12 +24,15 @@ const GalleryMasonry = ({ photos }: { photos: Photo[] }) => {
     img: p.url,
     url: p.url,
     height: 400,
+    alt: p.alt || p.title || "Photographie",
     galleryId: p.galleryId,
   }));
 
   const handleOpen = useCallback(
     (clicked: Item) => {
-      const filtered = allItems.filter((i) => i.galleryId === clicked.galleryId);
+      const filtered = allItems.filter(
+        (i) => i.galleryId === clicked.galleryId,
+      );
       setActiveItems(filtered);
       setSelectedIndex(filtered.findIndex((i) => i.id === clicked.id));
     },
@@ -60,7 +69,7 @@ const GalleryMasonry = ({ photos }: { photos: Photo[] }) => {
             >
               <Image
                 src={photo.url}
-                alt={photo.title ?? ""}
+                alt={photo.alt || photo.title || "Photographie"}
                 width={0}
                 height={0}
                 sizes="(max-width: 640px) 50vw, 33vw"

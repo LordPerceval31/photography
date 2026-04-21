@@ -214,9 +214,15 @@ const VitrineClient = ({ initialData, vitrineFields }: Props) => {
                   label="Titre SEO (ex: Jeanne Doe | Photographe)"
                   defaultValue={initialData?.seoTitle ?? ""}
                 />
+                {/* Nouveau champ Localité */}
+                <FloatingInput
+                  name="seoLocation"
+                  label="Ville ou Région (ex: Lyon, Annecy, Rhône-Alpes)"
+                  defaultValue={initialData?.seoLocation ?? ""}
+                />
                 <FloatingTextarea
                   name="seoDescription"
-                  label="Description courte pour les moteurs de recherche"
+                  label="Description courte..."
                   rows={3}
                   defaultValue={initialData?.seoDescription ?? ""}
                 />
