@@ -264,10 +264,10 @@ const SettingsClient = ({ user }: { user: User }) => {
           <div className={`flex flex-col ${sectionSpacing}`}>
             <div className="flex flex-col gap-2 tablet:gap-3">
               <h2 className="text-base tablet:text-lg laptop:text-xl desktop:text-2xl 2k:text-3xl 4k:text-5xl font-semibold text-cream tracking-wide">
-                Templates
+                Gabaris
               </h2>
               <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
-                Choisissez le design de votre vitrine parmi vos templates
+                Choisissez le design de votre vitrine parmi vos gabarits
                 achetés.
               </p>
             </div>
@@ -280,7 +280,7 @@ const SettingsClient = ({ user }: { user: User }) => {
                 overflow-hidden transition-all duration-300 hover:shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]"
             >
               <span className="absolute inset-0 bg-blue translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out" />
-              <span className="relative z-10">Gérer mes templates</span>
+              <span className="relative z-10">Gérer mes gabarits</span>
             </Link>
           </div>
 

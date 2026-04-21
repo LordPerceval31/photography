@@ -53,10 +53,10 @@ const TemplatesClient = ({ templates, currentThemeSlug }: Props) => {
       {/* Header */}
       <div className="flex flex-col shrink-0 gap-1 tablet:gap-2 mb-8 tablet:mb-12 px-4 tablet:px-6 laptop:px-0">
         <h1 className="font-bold text-cream tracking-wide text-xl tablet:text-2xl laptop:text-2xl desktop:text-3xl 2k:text-4xl 4k:text-6xl">
-          Mes templates
+          Mes gabarits
         </h1>
         <p className="text-cream/50 text-sm tablet:text-base desktop:text-lg 2k:text-xl 4k:text-3xl">
-          Choisissez le design de votre vitrine parmi vos templates achetés.
+          Choisissez le design de votre vitrine parmi vos gabarits achetés.
         </p>
       </div>
 

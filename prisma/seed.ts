@@ -42,26 +42,38 @@ async function main() {
     });
   }
 
-  console.log(`✓ Migration terminée — ${usersWithoutTemplate.length} users migrés`);
+  console.log(
+    `✓ Migration terminée — ${usersWithoutTemplate.length} users migrés`,
+  );
 
   const onePage = await prisma.template.upsert({
     where: { slug: "one-page" },
-    update: {},
-    create: { slug: "one-page", name: "One Page", price: 0, previewUrl: null },
+    update: { name: "1 page" },
+    create: { slug: "one-page", name: "1 page", price: 0, previewUrl: null },
   });
   console.log(`✓ Template créé : ${onePage.name} (id: ${onePage.id})`);
 
   const twoPages = await prisma.template.upsert({
     where: { slug: "two-pages" },
-    update: {},
-    create: { slug: "two-pages", name: "Two Pages", price: 0, previewUrl: null },
+    update: { name: "2 pages" },
+    create: {
+      slug: "two-pages",
+      name: "2 pages",
+      price: 0,
+      previewUrl: null,
+    },
   });
   console.log(`✓ Template créé : ${twoPages.name} (id: ${twoPages.id})`);
 
   const threePages = await prisma.template.upsert({
     where: { slug: "three-pages" },
-    update: {},
-    create: { slug: "three-pages", name: "Three Pages", price: 0, previewUrl: null },
+    update: { name: "3 pages" },
+    create: {
+      slug: "three-pages",
+      name: "3 pages",
+      price: 0,
+      previewUrl: null,
+    },
   });
   console.log(`✓ Template créé : ${threePages.name} (id: ${threePages.id})`);
 }

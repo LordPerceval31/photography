@@ -77,13 +77,13 @@ export default async function ServicesPage() {
           <div className="flex flex-col items-center gap-6 text-center max-w-5xl px-4">
             <Lock className="w-10 h-10 text-cream/30" />
             <p className="text-cream/70 <text-[10px] tablet:text-sm laptop:text-lg desktop:text-xl 2k:text-3xl 4k:text-5xl > leading-relaxed">
-              La gestion des services est réservée au template Premium.
+              La gestion des services est réservée au gabarit Premium.
             </p>
             <Link
               href="/dashboard/templates"
               className="px-8 py-3 border border-cream/30 text-cream/70 text-[10px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  uppercase tracking-widest hover:text-cream hover:border-cream/50 transition-all rounded-xl"
             >
-              Voir mes templates →
+              Voir mes gabarits →
             </Link>
           </div>
         </div>

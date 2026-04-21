@@ -25,18 +25,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   });
 
-  const tenantSites: MetadataRoute.Sitemap = users.map((user) => {
-    const domainUrl = user.customDomain
-      ? `https://${user.customDomain}`
-      : `https://${user.subdomain}.photolio.fr`;
+  const tenantSites: MetadataRoute.Sitemap = users
+    .map((user) => {
+      // Un customDomain valide doit contenir un point (ex: "mon-site.fr")
+      // Sinon on replie sur le sous-domaine photolio.fr
+      const domainUrl =
+        user.customDomain && user.customDomain.includes(".")
+          ? `https://${user.customDomain}`
+          : user.subdomain
+            ? `https://${user.subdomain}.photolio.fr`
+            : null;
 
-    return {
-      url: domainUrl,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    };
-  });
+      if (!domainUrl) return null;
+
+      return {
+        url: domainUrl,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      };
+    })
+    .filter((entry) => entry !== null);
 
   // 3. ON ASSEMBLE TOUT ET ON ENVOIE À GOOGLE
   return [...staticPages, ...tenantSites];

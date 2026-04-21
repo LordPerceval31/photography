@@ -143,11 +143,11 @@ const AddPhotoPage = async () => {
         {capabilities.aboutPhotos && (
           <div className="flex flex-col laptop:flex-row items-center justify-between gap-4 w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
             <p className="text-center laptop:text-left italic font-light text-cream/60 text-[12px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-3xl leading-relaxed">
-              Images illustratives en bas de la page About.
+              Images illustratives en bas de la page À propos.
             </p>
             <div className="flex flex-col items-center gap-1 w-[80vw] tablet:w-[60vw] laptop:w-82.5 desktop:w-100 2k:w-125 ultrawide:w-150 4k:w-225">
               <p className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl uppercase tracking-widest text-cream/30">
-                About (x3)
+                À propos (x3)
               </p>
               <div className="grid grid-cols-3 gap-4 w-full">
                 <PhotoSlot

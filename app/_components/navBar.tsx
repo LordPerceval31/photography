@@ -53,7 +53,7 @@ const NavBar = () => {
   const widthClosed =
     "w-12 tablet:w-16 laptop:w-12 desktop:w-14 2k:w-16 4k:w-24 ultrawide:w-24";
   const widthOpen =
-    "w-[320px] tablet:w-[480px] laptop:w-[470px] desktop:w-[550px] 2k:w-[560px] 4k:w-[900px] ultrawide:w-[860px]";
+    "w-[360px] tablet:w-[520px] laptop:w-[520px] desktop:w-[580px] 2k:w-[590px] 4k:w-[940px] ultrawide:w-[940px]";
   const gapClasses =
     "gap-5 tablet:gap-8 laptop:gap-8 desktop:gap-12 2k:gap-12 4k:gap-14 ultrawide:gap-14";
 
@@ -105,28 +105,42 @@ const NavBar = () => {
           >
             <Link
               href="/"
-              onClick={() => { setIsOpen(false); posthog.capture("nav_link_clicked", { destination: "home" }); }}
+              onClick={() => {
+                setIsOpen(false);
+                posthog.capture("nav_link_clicked", { destination: "home" });
+              }}
               className={`${textClasses} ${iconHover} transition-colors`}
             >
-              Home
+              Accueil
             </Link>
             <Link
               href="/about"
-              onClick={() => { setIsOpen(false); posthog.capture("nav_link_clicked", { destination: "about" }); }}
+              onClick={() => {
+                setIsOpen(false);
+                posthog.capture("nav_link_clicked", { destination: "about" });
+              }}
               className={`${textClasses} ${iconHover} transition-colors`}
             >
-              About
+              À propos
             </Link>
             <Link
               href="/gallery"
-              onClick={() => { setIsOpen(false); posthog.capture("nav_link_clicked", { destination: "gallery" }); }}
+              onClick={() => {
+                setIsOpen(false);
+                posthog.capture("nav_link_clicked", { destination: "gallery" });
+              }}
               className={`${textClasses} ${iconHover} transition-colors`}
             >
-              Gallery
+              Galeries
             </Link>
             <Link
               href="/services"
-              onClick={() => { setIsOpen(false); posthog.capture("nav_link_clicked", { destination: "services" }); }}
+              onClick={() => {
+                setIsOpen(false);
+                posthog.capture("nav_link_clicked", {
+                  destination: "services",
+                });
+              }}
               className={`${textClasses} ${iconHover} transition-colors`}
             >
               Services
