@@ -260,11 +260,11 @@ export default function LandingPage() {
           id="tarifs"
           className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-350 2k:max-w-400 mx-auto px-4 py-10 laptop:py-20"
         >
-          <div className="mb-16 text-center">
+          <div className="mb-10 laptop:mb-16 text-center tablet:text-left">
             <h2 className="text-3xl tablet:text-5xl laptop:text-6xl font-extrabold tracking-tight text-cream mb-4 cursor-default">
               Des offres qui s&apos;adaptent à vous.
             </h2>
-            <p className="text-base laptop:text-xl text-cream/60 max-w-2xl mx-auto cursor-default">
+            <p className="text-base laptop:text-xl text-cream/60 max-w-2xl cursor-default">
               Paiement unique. Accès à vie. Choisissez l&apos;architecture qui
               correspond au stade de votre activité.
             </p>
