@@ -11,7 +11,7 @@ type AboutPhoto = {
 
 const PictureAboutSection = ({ photos }: { photos: AboutPhoto[] }) => {
   const cardSizing =
-    "relative w-full aspect-square laptop:w-[30%] laptop:aspect-[3/4] rounded-2xl shadow-xl overflow-hidden";
+    "relative w-full aspect-square laptop:w-[30%] laptop:aspect-[3/4] rounded-2xl shadow-xl overflow-hidden border border-(--color-muted)/10";
 
   const moveUp = "laptop:-translate-y-12 4k:-translate-y-20";
   const moveDown = "laptop:translate-y-12 4k:translate-y-20";
@@ -26,10 +26,8 @@ const PictureAboutSection = ({ photos }: { photos: AboutPhoto[] }) => {
   const [photoLeft, photoMiddle, photoRight] = photos;
 
   return (
-    <section
-      // Ajout de bg-(--color-bg) pour rendre la section opaque
-      className="flex flex-col laptop:flex-row items-center justify-around min-h-screen bg-(--color-bg) px-8 tablet:px-16 laptop:px-24 ultrawide:px-[15vw] py-32 gap-12"
-    >
+    <section className="relative flex flex-col laptop:flex-row items-center justify-around min-h-screen bg-(--color-bg) text-(--color-text) px-8 tablet:px-16 laptop:px-24 ultrawide:px-[15vw] py-32 gap-12 overflow-hidden">
+      {/* IMAGE 1 (Gauche) */}
       <motion.div
         initial={{ opacity: 0, x: -100 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -46,6 +44,7 @@ const PictureAboutSection = ({ photos }: { photos: AboutPhoto[] }) => {
         />
       </motion.div>
 
+      {/* IMAGE 2 (Milieu) */}
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -62,6 +61,7 @@ const PictureAboutSection = ({ photos }: { photos: AboutPhoto[] }) => {
         />
       </motion.div>
 
+      {/* IMAGE 3 (Droite) */}
       <motion.div
         initial={{ opacity: 0, x: 100 }}
         whileInView={{ opacity: 1, x: 0 }}

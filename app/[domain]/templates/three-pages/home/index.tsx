@@ -55,7 +55,7 @@ const threePage = async ({ userId }: Props) => {
       style={theme as React.CSSProperties}
       className="bg-(--color-bg) text-(--color-text) relative cursor-default"
     >
-      <Navbar fonts={fonts} showAbout={true} />
+      <Navbar fonts={fonts} showAbout={true} isHome={true} />
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section className="relative h-screen w-full overflow-hidden">

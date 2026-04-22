@@ -1,45 +1,54 @@
-import { caveat } from "../../../../lib/fonts";
+import type { ThemeFonts } from "../../../themes/fonts";
 import prisma from "../../../../lib/prisma";
 
-const StorySection = async ({ userId }: { userId: string }) => {
+const StorySection = async ({
+  userId,
+  fonts,
+}: {
+  userId: string;
+  fonts: ThemeFonts;
+}) => {
   const config = await prisma.siteConfig.findFirst({
     where: { userId: userId },
   });
 
-  const storyParagraph1 =
-    config?.storyParagraph1 ||
-    "Tout a commencé avec un vieil appareil argentique trouvé dans le grenier familial...";
-  const storyParagraph2 =
-    config?.storyParagraph2 ||
-    "Aujourd'hui, mon approche est intimement liée à cette quête d'authenticité...";
-
   return (
-    <section
-      // Ajout de bg-(--color-muted)/5 pour un léger contraste opaque
-      className="flex flex-col laptop:flex-row items-start laptop:items-center justify-between min-h-screen bg-(--color-muted)/5 px-8 tablet:px-16 laptop:px-24 py-24 gap-12 laptop:gap-16"
-    >
-      <div className="w-full laptop:w-1/3 flex flex-col justify-start laptop:self-start">
+    <section className="relative flex flex-col px-8 tablet:px-16 laptop:px-24 py-24 tablet:py-40 min-h-screen bg-(--color-bg) text-(--color-text) overflow-hidden">
+      {/* LE TITRE : Centré en mobile, bascule à gauche en Laptop pour l'ancrage */}
+      <div className="absolute inset-0 laptop:inset-auto laptop:left-0 desktop:left-10 2k:left-12 4k:left-2 laptop:top-1/2 laptop:-translate-y-1/2 flex items-center justify-center laptop:justify-start pointer-events-none z-0">
         <h2
-          className={`${caveat.className} text-5xl tablet:text-6xl ultrawide:text-8xl 4k:text-9xl 4k:mt-40 4k:ml-40 font-bold mt-0 ultrawide:mt-30 ultrawide:ml-30 text-(--color-primary)`}
+          className="[writing-mode:vertical-lr] rotate-180 text-[20vw] laptop:text-[10vw] desktop:text-[9vw] 2k:text-[15rem] 4k:text-[20rem] font-bold opacity-5 text-(--color-primary) whitespace-nowrap leading-none"
+          style={{ fontFamily: fonts.heading }}
         >
-          Story
+          HISTOIRE
         </h2>
-        <div className="w-40 ultrawide:w-72 4k:w-100 tablet:w-50 h-0.5 bg-(--color-primary) mt-2 ultrawide:ml-30 4k:ml-40 opacity-60"></div>
       </div>
 
-      <div className="w-full laptop:w-1/3 flex justify-start tablet:justify-center">
-        <div className="w-full max-w-sm desktop:max-w-md 2k:max-w-lg ultrawide:max-w-2xl 4k:max-w-4xl text-justify text-(--color-text) opacity-80">
-          <p className="desktop:text-lg 2k:text-2xl ultrawide:text-3xl 4k:text-4xl leading-relaxed">
-            {storyParagraph1}
+      {/* CONTENEUR HAUT : Prend 50% de l'écran et centre verticalement */}
+      <div className="flex-1 flex flex-col justify-center w-full relative z-10">
+        {/* PARAGRAPHE 1 : Placement horizontal intact */}
+        <div className="w-full laptop:w-[60%] desktop:w-[60%] 2k:w-[60%] ml-auto mr-0 laptop:mr-8 desktop:mr-40 2k:mr-40 ultrawide:mr-80 4k:mr-32">
+          <p
+            className="text-2xl tablet:text-4xl laptop:text-2xl desktop:text-4xl 2k:text-5xl 4k:text-7xl italic text-(--color-primary) leading-tight laptop:text-right"
+            style={{ fontFamily: fonts.heading }}
+          >
+            {config?.storyParagraph1}
           </p>
         </div>
       </div>
 
-      <div className="w-full laptop:w-1/3 flex justify-start tablet:justify-center 4k:mr-40">
-        <div className="w-full max-w-sm desktop:max-w-md 2k:max-w-lg ultrawide:max-w-2xl 4k:max-w-4xl text-justify text-(--color-text) opacity-80">
-          <p className="desktop:text-lg 2k:text-2xl ultrawide:text-3xl 4k:text-4xl leading-relaxed">
-            {storyParagraph2}
-          </p>
+      {/* CONTENEUR BAS : Prend 50% de l'écran et centre verticalement */}
+      <div className="flex-1 flex flex-col justify-center w-full relative z-10">
+        {/* PARAGRAPHE 2 : Placement horizontal intact */}
+        <div className="w-full desktop:w-[45%] 2k:w-[60%] border-l-2 border-(--color-primary) pl-6 tablet:pl-16 laptop:ml-10 desktop:ml-40 2k:ml-60">
+          <div className="w-full max-w-sm laptop:max-w-lg desktop:max-w-2xl 2k:max-w-4xl 4k:max-w-7xl">
+            <p
+              className="text-base tablet:text-lg laptop:text-sm desktop:text-xl 2k:text-3xl 4k:text-4xl opacity-70 leading-relaxed text-justify"
+              style={{ fontFamily: fonts.body }}
+            >
+              {config?.storyParagraph2}
+            </p>
+          </div>
         </div>
       </div>
     </section>

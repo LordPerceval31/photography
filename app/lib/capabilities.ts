@@ -27,7 +27,7 @@ const PREMIUM: Capabilities = {
 const THREE_PAGES: Capabilities = {
   services: true,
   shareGalleries: false,
-  aboutPhotos: false,
+  aboutPhotos: true,
   vitrineFields: {
     heroSubtitle: false,
     bioTitle: true,

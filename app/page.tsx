@@ -41,11 +41,53 @@ const GALLERY_PHOTOS = [
   },
 ] as const;
 
-const PRICING_FEATURES = [
-  "Architecture prête à l'emploi, zéro technique",
-  "Gérez vos galeries et contenus en totale autonomie",
-  "Faites évoluer votre vitrine au rythme de vos shootings",
-  "Hébergement et nom de domaine inclus",
+// NOUVEAU : Structure de données des prix
+const PRICING_PLANS = [
+  {
+    name: "Essentiel",
+    price: 69,
+    originalPrice: null,
+    features: [
+      "Architecture prête à l'emploi, zéro technique",
+      "Gérez vos galeries et contenus en totale autonomie",
+      "Faites évoluer votre vitrine au rythme de vos shootings",
+      "Hébergement et nom de domaine inclus",
+    ],
+    highlight: false,
+    demoLink: "https://demo-animaux.photolio.fr",
+  },
+  {
+    name: "Studio",
+    price: 89,
+    originalPrice: null,
+    features: [
+      "Toutes les fonctionnalités Essentiel",
+      "Mettez en avant et proposez vos propres services",
+    ],
+    highlight: false,
+  },
+  {
+    name: "Signature",
+    price: 109,
+    originalPrice: null,
+    features: [
+      "Toutes les fonctionnalités Studio",
+      "Espace dédié : Parlez de vous et de votre sensibilité",
+    ],
+    highlight: false,
+    demoLink: "https://demo-mariage.photolio.fr",
+  },
+  {
+    name: "Premium",
+    price: 89,
+    originalPrice: 129,
+    features: [
+      "Toutes les fonctionnalités Signature",
+      "Envoyez les photos à vos clients de manière simple et sécurisée",
+    ],
+    highlight: true,
+    demoLink: "https://demo-cuisine.photolio.fr",
+  },
 ];
 
 export default function LandingPage() {
@@ -56,6 +98,7 @@ export default function LandingPage() {
 
   const [mentionsOpen, setMentionsOpen] = useState(false);
 
+  // MISE À JOUR SEO : AggregateOffer pour gérer la fourchette de prix
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -63,8 +106,10 @@ export default function LandingPage() {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     offers: {
-      "@type": "Offer",
-      price: "89.00",
+      "@type": "AggregateOffer",
+      offerCount: "4",
+      lowPrice: "69.00",
+      highPrice: "109.00",
       priceCurrency: "EUR",
     },
     creator: {
@@ -83,7 +128,6 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* 👇 AJOUT SEO : Injection du script JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -118,13 +162,11 @@ export default function LandingPage() {
           </div>
 
           <div className="relative z-10 w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-600 mx-auto flex flex-col items-start text-left laptop:translate-y-6 laptop:-translate-x-20 desktop:translate-y-12 desktop:-translate-x-50 2k:translate-y-24 2k:-translate-x-70 4k:translate-y-24 4k:-translate-x-70 transition-transform duration-500">
-            {/* AJOUT SEO : Le VRAI H1 pour Google et les liseuses d'écran */}
             <h1 className="sr-only">
               Création de sites vitrines et galeries privées clé en main pour
               photographes professionnels et amateurs
             </h1>
 
-            {/* Le texte visuel passe en <p> et est caché aux liseuses avec aria-hidden */}
             <p
               aria-hidden="true"
               className="text-4xl tablet:text-5xl laptop:text-[3.5rem] desktop:text-[4.5rem] 2k:text-[6rem] ultrawide:text-[8rem] 4k:text-[12rem] font-bold leading-[1.15] 2k:leading-[1.1] text-cream mb-6 laptop:mb-8 desktop:mb-10 2k:mb-12 4k:mb-20 cursor-default"
@@ -143,139 +185,172 @@ export default function LandingPage() {
             </p>
 
             <a
-              href="#contact"
+              href="#tarifs"
               className="px-8 py-4 laptop:px-10 laptop:py-4 desktop:px-12 desktop:py-5 2k:px-16 2k:py-6 4k:px-24 4k:py-10 bg-blue/10 border border-blue/30 text-cream rounded-full text-sm desktop:text-base 2k:text-xl 4k:text-4xl font-semibold tracking-wide hover:bg-blue hover:border-blue transition-all duration-300 w-full tablet:w-auto text-center backdrop-blur-sm"
             >
-              Réserver mon accès
+              Voir les offres
             </a>
           </div>
         </section>
 
-        {/* ── BENTO GRID ── */}
+        {/* ── SECTION GALERIES (Focus sur l'atout Premium) ── */}
         <section className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-700 mx-auto px-4 py-20 laptop:py-32 desktop:py-40 2k:py-56 4k:py-80">
-          <div className="mb-10 laptop:mb-16 desktop:mb-20 2k:mb-24 4k:mb-40 text-center tablet:text-left">
-            {/* AJOUT SEO : Le H2 invisible */}
-            <h2 className="sr-only">
-              Galeries privées et portfolios sans commission
-            </h2>
-
-            {/* LE DESIGN : Le titre visuel */}
-            <p
-              aria-hidden="true"
-              className="text-3xl tablet:text-5xl laptop:text-6xl desktop:text-7xl 2k:text-8xl 4k:text-[11rem] font-extrabold tracking-tight text-cream mb-4 leading-tight cursor-default"
-            >
+          <div className="mb-10 laptop:mb-16 text-center tablet:text-left">
+            <h2 className="text-3xl tablet:text-5xl laptop:text-6xl desktop:text-7xl font-extrabold tracking-tight text-cream mb-4 leading-tight cursor-default">
               Conçu pour l&apos;image.
+            </h2>
+          </div>
+
+          <div className="glass-card rounded-3xl p-6 tablet:p-10 laptop:p-16 flex flex-col laptop:flex-row items-center gap-10 laptop:gap-20">
+            <div className="w-full laptop:w-1/2">
+              <span className="inline-block px-3 py-1 bg-blue/10 border border-blue/30 text-blue rounded-full text-xs font-bold tracking-widest uppercase mb-4">
+                Inclus dans l&apos;offre Premium
+              </span>
+              <h3 className="text-2xl laptop:text-4xl font-bold tracking-tight text-cream mb-4 cursor-default">
+                Vos Galeries Clients Privées
+              </h3>
+              <p className="text-base laptop:text-lg text-cream/60 leading-relaxed mb-6 cursor-default">
+                L&apos;atout maître pour fidéliser. Offrez à vos clients un lien
+                sécurisé, élégant et à votre image. Ils visionnent et
+                téléchargent leurs photos en un clic, sans même avoir besoin de
+                créer un compte.
+              </p>
+              <div className="inline-flex items-center gap-2 px-4 py-3 bg-dark border border-white/5 rounded-xl text-sm text-blue font-mono">
+                <span>🔗</span>
+                <span className="truncate cursor-default">
+                  photolio.fr/g/mariage-sophie-marc
+                </span>
+              </div>
+            </div>
+
+            <div className="w-full laptop:w-1/2 relative min-h-75 laptop:min-h-100 flex items-center justify-center">
+              <div className="absolute w-32 laptop:w-48 aspect-3/4 rounded-xl overflow-hidden -rotate-6 -translate-x-16 shadow-2xl border border-white/5 opacity-50">
+                <Image
+                  src={GALLERY_PHOTOS[4].src}
+                  fill
+                  sizes="300px"
+                  alt="Aperçu gauche"
+                  className="object-cover"
+                />
+              </div>
+              <div className="absolute w-32 laptop:w-48 aspect-3/4 rounded-xl overflow-hidden rotate-6 translate-x-16 shadow-2xl border border-white/5 opacity-50">
+                <Image
+                  src={GALLERY_PHOTOS[1].src}
+                  fill
+                  sizes="300px"
+                  alt="Aperçu droite"
+                  className="object-cover"
+                />
+              </div>
+              <div className="absolute w-40 laptop:w-56 aspect-3/4 rounded-xl overflow-hidden z-10 shadow-2xl border border-white/10 hover:scale-105 transition-transform duration-500">
+                <Image
+                  src={GALLERY_PHOTOS[2].src}
+                  fill
+                  sizes="400px"
+                  alt="Aperçu centre"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── SECTION TARIFS (4 Colonnes) ── */}
+        <section
+          id="tarifs"
+          className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-350 2k:max-w-400 mx-auto px-4 py-10 laptop:py-20"
+        >
+          <div className="mb-16 text-center">
+            <h2 className="text-3xl tablet:text-5xl laptop:text-6xl font-extrabold tracking-tight text-cream mb-4 cursor-default">
+              Des offres qui s&apos;adaptent à vous.
+            </h2>
+            <p className="text-base laptop:text-xl text-cream/60 max-w-2xl mx-auto cursor-default">
+              Paiement unique. Accès à vie. Choisissez l&apos;architecture qui
+              correspond au stade de votre activité.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 tablet:grid-cols-2 gap-4 laptop:gap-8 desktop:gap-12 2k:gap-16 4k:gap-24">
-            <div className="glass-card rounded-3xl 2k:rounded-[40px] 4k:rounded-[80px] p-6 tablet:p-8 laptop:p-12 desktop:p-16 2k:p-20 4k:p-32 flex flex-col justify-between">
-              <div>
-                <h3 className="text-xl laptop:text-2xl desktop:text-3xl 2k:text-4xl 4k:text-7xl font-bold tracking-tight text-cream mb-2 desktop:mb-4 2k:mb-6 4k:mb-12 cursor-default">
-                  Galeries Client
+          <div className="grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 gap-6">
+            {PRICING_PLANS.map((plan) => (
+              <div
+                key={plan.name}
+                className={`relative flex flex-col p-6 laptop:p-8 rounded-3xl transition-all duration-300 ${
+                  plan.highlight
+                    ? "bg-blue/10 border-2 border-blue shadow-[0_0_30px_rgba(0,102,255,0.15)]"
+                    : "glass-card border border-white/5 hover:border-white/10"
+                }`}
+              >
+                {plan.highlight && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow-lg">
+                    Offre la plus choisie
+                  </div>
+                )}
+
+                <h3 className="text-xl laptop:text-2xl font-bold text-cream mb-2">
+                  {plan.name}
                 </h3>
-                <p className="text-sm laptop:text-base desktop:text-lg 2k:text-xl 4k:text-4xl text-cream/60 leading-relaxed cursor-default">
-                  Un lien sécurisé. Vos clients téléchargent leurs photos en un
-                  clic, sans créer de compte.
-                </p>
-              </div>
 
-              <div className="relative w-full flex-1 min-h-55 laptop:min-h-72 desktop:min-h-96 2k:min-h-125 4k:min-h-180 flex items-center justify-center my-6 laptop:my-10 desktop:my-16 2k:my-20 4k:my-40">
-                {/* Image de gauche en arrière-plan */}
-                <div className="absolute w-28 laptop:w-36 desktop:w-48 2k:w-64 4k:w-110 aspect-3/4 rounded-xl 2k:rounded-2xl 4k:rounded-[40px] overflow-hidden -rotate-6 -translate-x-12 laptop:-translate-x-16 desktop:-translate-x-24 2k:-translate-x-32 4k:-translate-x-56 shadow-2xl border border-white/5 opacity-50 transition-transform hover:-rotate-12 duration-500">
-                  <Image
-                    src={GALLERY_PHOTOS[4].src}
-                    fill
-                    sizes="300px"
-                    alt="Aperçu gauche"
-                    className="object-cover"
-                  />
+                <div className="flex flex-col mb-8">
+                  <div className="h-8 mb-1">
+                    {plan.originalPrice && (
+                      <span className="text-lg laptop:text-xl font-bold text-cream/40 line-through decoration-red-500/50">
+                        {plan.originalPrice} €
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-5xl laptop:text-6xl font-extrabold tracking-tight text-cream">
+                      {plan.price}
+                    </span>
+                    <span className="text-xl font-medium text-cream/60">€</span>
+                  </div>
                 </div>
 
-                {/* NOUVELLE : Image de droite en arrière-plan */}
-                <div className="absolute w-28 laptop:w-36 desktop:w-48 2k:w-64 4k:w-110 aspect-3/4 rounded-xl 2k:rounded-2xl 4k:rounded-[40px] overflow-hidden rotate-6 translate-x-12 laptop:translate-x-16 desktop:translate-x-24 2k:translate-x-32 4k:translate-x-56 shadow-2xl border border-white/5 opacity-50 transition-transform hover:rotate-12 duration-500">
-                  <Image
-                    src={
-                      GALLERY_PHOTOS[1].src
-                    } /* Tu peux changer l'index ici pour une autre photo */
-                    fill
-                    sizes="300px"
-                    alt="Aperçu droite"
-                    className="object-cover"
-                  />
-                </div>
+                <ul className="flex-1 space-y-4 mb-8">
+                  {plan.features.map((feature, i) => (
+                    <li
+                      key={i}
+                      className="flex items-start gap-3 text-sm laptop:text-base text-cream/80"
+                    >
+                      <span className="text-blue font-bold shrink-0 mt-0.5">
+                        ✓
+                      </span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
 
-                {/* Image centrale au premier plan (z-10) */}
-                <div className="absolute w-32 laptop:w-44 desktop:w-56 2k:w-72 4k:w-125 aspect-3/4 rounded-xl 2k:rounded-2xl 4k:rounded-[40px] overflow-hidden z-10 shadow-2xl border border-white/10 transition-transform hover:scale-105 duration-500">
-                  <Image
-                    src={GALLERY_PHOTOS[2].src}
-                    fill
-                    sizes="400px"
-                    alt="Aperçu centre"
-                    className="object-cover"
-                  />
-                </div>
+                <a
+                  href={plan.demoLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-full py-4 rounded-xl text-sm font-bold tracking-wide text-center transition-colors flex items-center justify-center gap-2 ${
+                    plan.highlight
+                      ? "bg-blue text-white hover:bg-blue/90 shadow-md"
+                      : "bg-white/5 text-cream border border-white/10 hover:bg-white/10"
+                  }`}
+                >
+                  Voir la démo ↗
+                </a>
               </div>
-
-              <div className="flex items-center gap-2 px-4 py-3 laptop:py-4 desktop:py-5 bg-blue/10 border border-blue/20 rounded-xl text-xs 2k:text-lg 4k:text-2xl laptop:text-sm text-blue font-mono truncate">
-                <span>🔗</span>
-                <span className="truncate cursor-default">
-                  photolio.fr/g/mariage...
-                </span>
-              </div>
-            </div>
-
-            <div className="relative glass-card rounded-3xl 2k:rounded-[40px] 4k:rounded-[80px] p-6 tablet:p-8 laptop:p-12 desktop:p-16 2k:p-20 4k:p-32 flex flex-col border border-blue/20 bg-blue/5">
-              <span className="absolute -top-3.5 4k:-top-6 left-8 4k:left-32 bg-blue text-cream text-[11px] 2k:text-base 4k:text-3xl font-bold px-4 py-1 4k:px-12 4k:py-4 rounded-full tracking-wider cursor-default">
-                Offre de lancement
-              </span>
-
-              <div className="flex flex-col mt-4">
-                {/* PRIX BARRÉ AJOUTÉ ICI */}
-                <span className="text-xl laptop:text-2xl desktop:text-3xl 2k:text-5xl 4k:text-[6rem] font-bold text-cream/40 line-through -mb-2 laptop:mb-3 2k:mb-6 4k:mb-12 ml-1 cursor-default">
-                  149 €
-                </span>
-                <div className="flex items-start">
-                  <p className="text-[64px] laptop:text-[88px] desktop:text-[120px] 2k:text-[160px] 4k:text-[280px] font-extrabold tracking-tight leading-none text-cream cursor-default">
-                    89
-                  </p>
-                  <span className="text-2xl desktop:text-4xl 2k:text-6xl 4k:text-[10rem] font-bold text-cream mt-2 ml-1 cursor-default">
-                    €
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-[12px] 2k:text-xl 4k:text-4xl text-blue tracking-wide mt-2 mb-8 cursor-default">
-                paiement unique · accès à vie
-              </p>
-              <ul className="space-y-0 w-full mt-auto">
-                {PRICING_FEATURES.map((feature, index) => (
-                  <li
-                    key={index}
-                    className="flex items-center gap-3 py-3 laptop:py-4 border-b border-cream/5 text-sm laptop:text-base 2k:text-xl 4k:text-5xl text-cream/70 last:border-b-0 cursor-default"
-                  >
-                    <span className="text-blue font-bold">✓</span> {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            ))}
           </div>
         </section>
 
         {/* ── DÉMO EN DIRECT ── */}
         <section className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-700 mx-auto px-4 py-20 laptop:py-32 desktop:py-40 2k:py-56 4k:py-80">
-          <div className="mb-10 laptop:mb-16 desktop:mb-20 2k:mb-24 4k:mb-40 text-center tablet:text-left">
-            <h2 className="text-3xl tablet:text-5xl laptop:text-6xl desktop:text-7xl 2k:text-8xl 4k:text-[11rem] font-extrabold tracking-tight text-cream mb-4 leading-tight cursor-default">
+          <div className="mb-10 laptop:mb-16 text-center tablet:text-left">
+            <h2 className="text-3xl tablet:text-5xl laptop:text-6xl font-extrabold tracking-tight text-cream mb-4 leading-tight cursor-default">
               Le résultat final.
             </h2>
           </div>
 
-          <div className="glass-card rounded-3xl 2k:rounded-[40px] 4k:rounded-[80px] p-6 tablet:p-10 laptop:p-14 desktop:p-20 flex flex-col laptop:flex-row items-center gap-10 laptop:gap-16">
+          <div className="glass-card rounded-3xl p-6 tablet:p-10 flex flex-col laptop:flex-row items-center gap-10">
             <div className="w-full laptop:w-1/2 flex flex-col items-start text-left">
-              <h3 className="text-2xl laptop:text-3xl desktop:text-4xl 2k:text-5xl 4k:text-7xl font-bold tracking-tight text-cream mb-4 cursor-default">
+              <h3 className="text-2xl laptop:text-3xl font-bold tracking-tight text-cream mb-4 cursor-default">
                 Portfolio &quot;Cuisine &amp; Art de vivre&quot;
               </h3>
-              <p className="text-sm laptop:text-base desktop:text-lg 2k:text-xl 4k:text-4xl text-cream/60 leading-relaxed mb-8 laptop:mb-12 cursor-default">
+              <p className="text-sm laptop:text-base text-cream/60 leading-relaxed mb-8 cursor-default">
                 Ne vous contentez pas de promesses. Visitez un exemple concret
                 de site vitrine généré avec Photolio. Explorez les galeries,
                 testez la fluidité de navigation et imaginez vos propres photos
@@ -286,7 +361,7 @@ export default function LandingPage() {
                 href="https://demo-cuisine.photolio.fr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group px-8 py-4 laptop:px-10 desktop:px-12 bg-blue text-cream rounded-full text-sm desktop:text-base 2k:text-xl 4k:text-4xl font-bold tracking-tight hover:opacity-90 transition-all flex items-center gap-3 w-full tablet:w-auto justify-center"
+                className="group px-8 py-4 bg-blue text-cream rounded-full text-sm font-bold tracking-tight hover:opacity-90 transition-all flex items-center gap-3 w-full tablet:w-auto justify-center"
               >
                 Explorer la démo
                 <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
@@ -299,7 +374,7 @@ export default function LandingPage() {
               href="https://demo-cuisine.photolio.fr"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full laptop:w-1/2 relative aspect-video rounded-2xl 2k:rounded-3xl overflow-hidden border border-white/10 shadow-2xl group cursor-pointer"
+              className="w-full laptop:w-1/2 relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl group cursor-pointer"
             >
               <Image
                 src="/kitchen.webp"
@@ -319,13 +394,13 @@ export default function LandingPage() {
         {/* ── CONTACT ── */}
         <section
           id="contact"
-          className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 4k:max-w-700 mx-auto px-4 py-24 laptop:py-32 desktop:py-40 2k:py-56 4k:py-96"
+          className="w-full tablet:w-[85%] max-w-5xl desktop:max-w-7xl mx-auto px-4 py-24 laptop:py-32"
         >
-          <div className="text-center laptop:text-left mb-10 laptop:mb-16 desktop:mb-24 4k:mb-48">
-            <h2 className="text-3xl tablet:text-4xl laptop:text-5xl 2k:text-7xl 4k:text-[10rem] font-extrabold tracking-tight text-cream mb-4 4k:mb-16 cursor-default">
+          <div className="text-center laptop:text-left mb-10 laptop:mb-16">
+            <h2 className="text-3xl tablet:text-4xl laptop:text-5xl font-extrabold tracking-tight text-cream mb-4 cursor-default">
               Prenez les clés de votre espace.
             </h2>
-            <p className="text-sm laptop:text-base desktop:text-lg 2k:text-2xl 4k:text-5xl text-cream/60 max-w-xl laptop:max-w-3xl 2k:max-w-5xl 4k:max-w-480 mx-auto laptop:mx-0 cursor-default">
+            <p className="text-sm laptop:text-base text-cream/60 max-w-xl mx-auto laptop:mx-0 cursor-default">
               Parlez-moi de votre activité. Je configure l&apos;architecture de
               votre compte sous 24h. Vous n&apos;avez plus qu&apos;à importer
               vos photos, écrire vos textes, et faire vivre votre site.
@@ -334,22 +409,21 @@ export default function LandingPage() {
 
           <form
             action={formAction}
-            className="glass-card p-6 tablet:p-10 laptop:p-14 desktop:p-20 rounded-3xl flex flex-col gap-6 laptop:gap-8"
+            className="glass-card p-6 tablet:p-10 rounded-3xl flex flex-col gap-6"
           >
-            <div className="flex flex-col tablet:flex-row gap-6 laptop:gap-8">
+            <div className="flex flex-col tablet:flex-row gap-6">
               <input
                 name="name"
                 type="text"
                 placeholder="Votre nom"
                 required
-                className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-2xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
+                className="glass-input w-full p-4 rounded-xl text-sm text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
               />
-              {/* CHAMP TÉLÉPHONE OPTIONNEL */}
               <input
                 name="phone"
                 type="tel"
                 placeholder="Téléphone (optionnel)"
-                className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-2xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
+                className="glass-input w-full p-4 rounded-xl text-sm text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
               />
             </div>
             <input
@@ -357,19 +431,19 @@ export default function LandingPage() {
               type="email"
               placeholder="Votre email"
               required
-              className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-2xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
+              className="glass-input w-full p-4 rounded-xl text-sm text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors"
             />
             <textarea
               name="message"
-              placeholder="Détails sur vos besoins..."
+              placeholder="Détails sur vos besoins (précisez l'offre qui vous intéresse)..."
               required
-              className="glass-input w-full p-4 2k:p-8 rounded-xl text-sm 2k:text-2xl 4k:text-4xl text-cream placeholder:text-cream/30 min-h-40 resize-none outline-none focus:border-blue transition-colors"
+              className="glass-input w-full p-4 rounded-xl text-sm text-cream placeholder:text-cream/30 min-h-40 resize-none outline-none focus:border-blue transition-colors"
             />
 
             <button
               type="submit"
               disabled={isPending}
-              className="tablet:w-fit tablet:ml-auto tablet:px-12 w-full py-4 bg-blue text-cream rounded-xl text-sm 2k:text-2xl 4k:text-4xl font-bold tracking-tight hover:opacity-90 transition-opacity disabled:opacity-50 cursor-pointer"
+              className="tablet:w-fit tablet:ml-auto tablet:px-12 w-full py-4 bg-blue text-cream rounded-xl text-sm font-bold tracking-tight hover:opacity-90 transition-opacity disabled:opacity-50 cursor-pointer"
             >
               {isPending ? "Envoi..." : "Envoyer ma demande"}
             </button>
@@ -386,7 +460,7 @@ export default function LandingPage() {
         </section>
 
         {/* ── FOOTER ── */}
-        <footer className="w-full border-t border-cream/10 px-8 laptop:px-16 py-8 flex flex-col tablet:flex-row items-center justify-around gap-4 text-xs text-cream/40">
+        <footer className="w-full border-t border-cream/10 px-8 py-8 flex flex-col tablet:flex-row items-center justify-around gap-4 text-xs text-cream/40">
           <div className="flex items-center gap-2">
             <span className="font-bold text-cream/80 cursor-default">
               Photolio.fr

@@ -33,7 +33,7 @@ export default async function ContactPage({ userId }: { userId: string }) {
       style={theme as React.CSSProperties}
       className="bg-(--color-bg) min-h-screen flex flex-col cursor-default"
     >
-      <Navbar fonts={fonts} />
+      <Navbar fonts={fonts} showAbout={true} />
 
       <section className="flex-1 flex flex-col pt-32 pb-24 desktop:py-24 desktop:justify-center px-8 tablet:px-24">
         {services.length > 0 && (

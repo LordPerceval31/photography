@@ -55,7 +55,7 @@ const TwoPage = async ({ userId }: Props) => {
       style={theme as React.CSSProperties}
       className="bg-(--color-bg) text-(--color-text) relative cursor-default"
     >
-      <Navbar fonts={fonts} />
+      <Navbar fonts={fonts} isHome={true} />
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section className="relative h-screen w-full overflow-hidden">

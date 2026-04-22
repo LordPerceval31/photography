@@ -8,41 +8,45 @@ const StorySection = async ({ userId }: { userId: string }) => {
 
   const storyParagraph1 =
     config?.storyParagraph1 ||
-    "Tout a commencé avec un vieil appareil argentique trouvé dans le grenier familial. Avant même de maîtriser la technique ou de comprendre l'art de l'exposition, j'étais fasciné par le pouvoir de cette petite boîte noire : figer le temps. Mon parcours n'était pourtant pas tracé pour l'image. J'ai d'abord exploré d'autres voies avant de réaliser que les mots me manquaient souvent, et que ma seule véritable façon de raconter le monde était à travers un viseur. C'est cette urgence de retenir une émotion avant qu'elle ne s'évapore qui m'a poussé à faire de cette obsession mon métier.";
+    "Tout a commencé avec un vieil appareil argentique trouvé dans le grenier familial. Avant même de maîtriser la technique ou de comprendre l'art de l'exposition, j'étais fasciné par le pouvoir de cette petite boîte noire : figer le temps...";
   const storyParagraph2 =
     config?.storyParagraph2 ||
-    "Aujourd'hui, mon approche est intimement liée à cette quête d'authenticité. Je fuis la perfection plastique des studios aseptisés pour traquer la vérité : un éclat de rire spontané, la mélancolie d'une lumière de fin de journée, ou la force d'un regard silencieux. Chaque séance est une immersion dans l'intimité de mes sujets. Mon but n'est pas de simplement documenter une scène de manière clinique, mais d'en extraire la poésie viscérale. Je veux que dans vingt ans, en regardant ces clichés, l'odeur et le frisson de l'instant vous reviennent intacts.";
+    "Aujourd'hui, mon approche est intimement liée à cette quête d'authenticité. Je fuis la perfection plastique des studios aseptisés pour traquer la vérité : un éclat de rire spontané, la mélancolie d'une lumière de fin de journée...";
 
   return (
     <section
       data-theme="light"
-      className="flex flex-col laptop:flex-row items-start laptop:items-center justify-between min-h-screen bg-gray-50 px-8 tablet:px-16 laptop:px-24 py-24 gap-12 laptop:gap-16 text-dark"
+      className="relative flex flex-col px-8 tablet:px-16 laptop:px-24 py-24 tablet:py-40 min-h-screen bg-gray-50 text-dark overflow-hidden"
     >
-      {/* 1/3 : Le Titre */}
-      <div className="w-full laptop:w-1/3 flex flex-col justify-start laptop:self-start">
+      {/* LE TITRE DE FOND (Disposition Magazine) */}
+      <div className="absolute inset-0 laptop:inset-auto laptop:left-0 desktop:left-10 2k:left-12 4k:left-2 laptop:top-1/2 laptop:-translate-y-1/2 flex items-center justify-center laptop:justify-start pointer-events-none z-0">
         <h2
-          className={`${caveat.className} text-5xl tablet:text-6xl ultrawide:text-8xl 4k:text-9xl 4k:mt-40 4k:ml-40 font-bold mt-0 ultrawide:mt-30 ultrawide:ml-30`}
+          className={`${caveat.className} [writing-mode:vertical-lr] rotate-180 text-[20vw] laptop:text-[10vw] desktop:text-[9vw] 2k:text-[15rem] 4k:text-[20rem] font-bold opacity-5 text-blue whitespace-nowrap leading-none`}
         >
-          Story
+          HISTOIRE
         </h2>
-        <div className="w-40 ultrawide:w-72 4k:w-100 tablet:w-50 h-0.5 bg-blue mt-2 ultrawide:ml-30 4k:ml-40"></div>
       </div>
 
-      {/* 1/3 : Premier paragraphe */}
-      <div className="w-full laptop:w-1/3 flex justify-start tablet:justify-center">
-        <div className="w-full max-w-sm desktop:max-w-md 2k:max-w-lg ultrawide:max-w-2xl 4k:max-w-4xl text-justify">
-          <p className="desktop:text-lg 2k:text-2xl ultrawide:text-3xl 4k:text-4xl leading-relaxed">
+      {/* BLOC HAUT : 50% de l'écran, centré verticalement */}
+      <div className="flex-1 flex flex-col justify-center w-full relative z-10">
+        <div className="w-full laptop:w-[60%] desktop:w-[60%] 2k:w-[60%] ml-auto mr-0 laptop:mr-8 desktop:mr-40 2k:mr-40 ultrawide:mr-80 4k:mr-32">
+          <p
+            className={`${caveat.className} text-2xl tablet:text-4xl laptop:text-3xl desktop:text-5xl 2k:text-6xl 4k:text-8xl italic text-blue leading-tight laptop:text-right`}
+          >
             {storyParagraph1}
           </p>
         </div>
       </div>
 
-      {/* 1/3 : Deuxième paragraphe */}
-      <div className="w-full laptop:w-1/3 flex justify-start tablet:justify-center 4k:mr-40">
-        <div className="w-full max-w-sm desktop:max-w-md 2k:max-w-lg ultrawide:max-w-2xl 4k:max-w-4xl text-justify">
-          <p className="desktop:text-lg 2k:text-2xl ultrawide:text-3xl 4k:text-4xl leading-relaxed">
-            {storyParagraph2}
-          </p>
+      {/* BLOC BAS : 50% de l'écran, centré verticalement */}
+      <div className="flex-1 flex flex-col justify-center w-full relative z-10">
+        {/* Bordure bleue latérale comme dans ta version Premium */}
+        <div className="w-full desktop:w-[45%] 2k:w-[60%] border-l-2 border-blue pl-6 tablet:pl-16 laptop:ml-10 desktop:ml-40 2k:ml-60">
+          <div className="w-full max-w-base laptop:max-w-lg desktop:max-w-2xl 2k:max-w-4xl 4k:max-w-7xl">
+            <p className="text-sm tablet:text-lg laptop:text-lg desktop:text-xl 2k:text-3xl 4k:text-4xl opacity-80 leading-relaxed text-justify">
+              {storyParagraph2}
+            </p>
+          </div>
         </div>
       </div>
     </section>
