@@ -36,6 +36,7 @@ export default async function VitrinePage() {
       storyParagraph2: true,
       darkQuote: true,
       darkQuoteAuthor: true,
+      contactText: true,
       seoTitle: true,
       seoDescription: true,
       seoLocation: true,

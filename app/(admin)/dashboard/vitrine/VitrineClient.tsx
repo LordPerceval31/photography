@@ -198,6 +198,27 @@ const VitrineClient = ({ initialData, vitrineFields }: Props) => {
                 </div>
               </div>
             )}
+            {/* Section Texte Contact (Conditionnée) */}
+            {vitrineFields.contactText && (
+              <div
+                className={`flex flex-col ${sectionSpacing} border-t border-cream/10 ${separatorPadding}`}
+              >
+                <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
+                  Page Contact : Un petit mot pour accueillir vos futurs clients
+                  et les inciter à vous écrire.
+                </p>
+                <div className="flex flex-col gap-4 w-full">
+                  <FloatingTextarea
+                    name="contactText"
+                    label="Texte d'introduction (ex: Discutons de votre projet...)"
+                    rows={3}
+                    defaultValue={
+                      (initialData as VitrineData)?.contactText ?? ""
+                    }
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Section SEO */}
             <div

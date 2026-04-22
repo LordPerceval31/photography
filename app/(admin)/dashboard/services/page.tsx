@@ -77,7 +77,7 @@ export default async function ServicesPage() {
           <div className="flex flex-col items-center gap-6 text-center max-w-5xl px-4">
             <Lock className="w-10 h-10 text-cream/30" />
             <p className="text-cream/70 <text-[10px] tablet:text-sm laptop:text-lg desktop:text-xl 2k:text-3xl 4k:text-5xl > leading-relaxed">
-              La gestion des services est réservée au gabarit Premium.
+              La gestion des services est réservée aux autres gabarits.
             </p>
             <Link
               href="/dashboard/templates"

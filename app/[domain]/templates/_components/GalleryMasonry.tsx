@@ -57,14 +57,14 @@ const GalleryMasonry = ({ photos }: { photos: Photo[] }) => {
 
   return (
     <>
-      <div style={{ columns: "3 180px", columnGap: "8px" }}>
+      {/* ── C'est ici qu'on gère le responsive des colonnes ── */}
+      <div className="columns-2 tablet:columns-3 desktop:columns-4 gap-2">
         {photos.map((photo) => {
           const item = allItems.find((i) => i.id === photo.id)!;
           return (
             <div
               key={photo.id}
-              className="mb-2 overflow-hidden rounded-[10px] cursor-pointer group"
-              style={{ breakInside: "avoid" }}
+              className="mb-2 break-inside-avoid overflow-hidden rounded-[10px] cursor-pointer group"
               onClick={() => handleOpen(item)}
             >
               <Image
@@ -72,7 +72,7 @@ const GalleryMasonry = ({ photos }: { photos: Photo[] }) => {
                 alt={photo.alt || photo.title || "Photographie"}
                 width={0}
                 height={0}
-                sizes="(max-width: 640px) 50vw, 33vw"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="w-full h-auto block brightness-90 group-hover:brightness-105 group-hover:scale-[1.03] transition-all duration-500"
               />
             </div>

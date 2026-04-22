@@ -1,18 +1,35 @@
+import prisma from "@/app/lib/prisma";
+import { themes } from "../../../themes/index";
+import type { Theme } from "../../../themes/index";
+import { themeFonts } from "../../../themes/fonts";
+import { Navbar } from "../../_components/navbar";
 import BioSection from "./BioSection";
 import StorySection from "./StorySection";
 import PictureAboutWrapper from "./PictureAboutWrapper";
-import NavBar from "@/app/_components/navBar";
 
 interface Props {
   userId: string;
 }
 
-// Contenu visuel de la page about — template Premium
-// L'aiguilleur (app/[domain]/about/page.tsx) injecte userId
-const PremiumAbout = ({ userId }: Props) => {
+const ThreePageAbout = async ({ userId }: Props) => {
+  // On récupère la configuration pour connaître le thème choisi
+  const config = await prisma.siteConfig.findUnique({
+    where: { userId },
+  });
+
+  const themeSlug = (config?.templateConfig as { themeSlug?: string })
+    ?.themeSlug;
+  const theme: Theme = themes[themeSlug ?? ""] ?? themes.default;
+  const fonts = themeFonts[themeSlug ?? ""] ?? themeFonts.default;
+
   return (
-    <main className="relative w-full bg-cream">
-      <NavBar />
+    <main
+      style={theme as React.CSSProperties}
+      className="relative w-full min-h-screen bg-(--color-bg) text-(--color-text) cursor-default"
+    >
+      {/* On active explicitement le lien À propos dans la Navbar */}
+      <Navbar fonts={fonts} showAbout={true} />
+
       <BioSection userId={userId} />
       <StorySection userId={userId} />
       <PictureAboutWrapper userId={userId} />
@@ -20,4 +37,4 @@ const PremiumAbout = ({ userId }: Props) => {
   );
 };
 
-export default PremiumAbout;
+export default ThreePageAbout;

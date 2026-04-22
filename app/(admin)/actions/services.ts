@@ -80,13 +80,13 @@ const updateService = async (
       return { error: "Service introuvable." };
     }
 
-    // Si la photo est remplacée, supprime l'ancienne de Cloudinary
-    if (data.oldPhotoPublicId) {
+    // Si la photo est remplacée ET que son ID est différent de la nouvelle photo,
+    // on supprime l'ancienne de Cloudinary
+    if (data.oldPhotoPublicId && data.oldPhotoPublicId !== data.photoPublicId) {
       try {
         cloudinary.config(await getCloudinaryConfig(session.user.id));
         await cloudinary.uploader.destroy(data.oldPhotoPublicId);
       } catch {
-        // Suppression Cloudinary non bloquante — le service est mis à jour quand même
         console.warn(
           "[services:updateService] Impossible de supprimer l'ancienne photo Cloudinary",
         );

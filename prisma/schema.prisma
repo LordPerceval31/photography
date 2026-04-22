@@ -163,6 +163,8 @@ model SiteConfig {
   // Story (page About)
   storyParagraph1 String @default("")
   storyParagraph2 String @default("")
+  // Contact
+  contactText    String @default("")
   // Section sombre (page d'accueil)
   darkQuote       String @default("")
   darkQuoteAuthor String @default("")

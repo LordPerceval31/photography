@@ -7,6 +7,7 @@ export type Capabilities = {
     bioTitle: boolean;
     story: boolean;
     darkQuote: boolean;
+    contactText: boolean;
   };
 };
 
@@ -19,11 +20,12 @@ const PREMIUM: Capabilities = {
     bioTitle: true,
     story: true,
     darkQuote: true,
+    contactText: false,
   },
 };
 
 const THREE_PAGES: Capabilities = {
-  services: false,
+  services: true,
   shareGalleries: false,
   aboutPhotos: false,
   vitrineFields: {
@@ -31,11 +33,12 @@ const THREE_PAGES: Capabilities = {
     bioTitle: true,
     story: true,
     darkQuote: false,
+    contactText: true,
   },
 };
 
 const TWO_PAGES: Capabilities = {
-  services: false,
+  services: true,
   shareGalleries: false,
   aboutPhotos: false,
   vitrineFields: {
@@ -43,6 +46,7 @@ const TWO_PAGES: Capabilities = {
     bioTitle: false,
     story: false,
     darkQuote: false,
+    contactText: true,
   },
 };
 
@@ -55,6 +59,7 @@ const ONE_PAGE: Capabilities = {
     bioTitle: false,
     story: false,
     darkQuote: false,
+    contactText: false,
   },
 };
 

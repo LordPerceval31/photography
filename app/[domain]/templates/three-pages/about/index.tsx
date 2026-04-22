@@ -1,66 +1,21 @@
-import prisma from "@/app/lib/prisma";
-import { themes } from "../../../themes/index";
-import type { Theme } from "../../../themes/index";
+import PictureAboutWrapper from "../../premium/about/PictureAboutWrapper";
+import BioSection from "./biosection";
+import StorySection from "./storysection";
 
 interface Props {
   userId: string;
 }
 
-const ThreePagesAbout = async ({ userId }: Props) => {
-  const config = await prisma.siteConfig.findUnique({ where: { userId } });
-
-  const themeSlug = (config?.templateConfig as { themeSlug?: string })?.themeSlug;
-  const theme: Theme = themes[themeSlug ?? ""] ?? themes.default;
-
+// Contenu visuel de la page about — template Premium
+// L'aiguilleur (app/[domain]/about/page.tsx) injecte userId
+const PremiumAbout = ({ userId }: Props) => {
   return (
-    <main
-      style={theme as React.CSSProperties}
-      className="min-h-screen bg-(--color-bg) py-20 px-4"
-    >
-      <div className="max-w-2xl mx-auto">
-        {config?.bioTitle && (
-          <h1
-            className="text-4xl font-bold text-(--color-primary) mb-8"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
-            {config.bioTitle}
-          </h1>
-        )}
-        {config?.bioParagraph1 && (
-          <p
-            className="text-(--color-text) leading-relaxed mb-6"
-            style={{ fontFamily: "var(--font-body)" }}
-          >
-            {config.bioParagraph1}
-          </p>
-        )}
-        {config?.bioParagraph2 && (
-          <p
-            className="text-(--color-text) leading-relaxed mb-6"
-            style={{ fontFamily: "var(--font-body)" }}
-          >
-            {config.bioParagraph2}
-          </p>
-        )}
-        {config?.storyParagraph1 && (
-          <p
-            className="text-(--color-muted) leading-relaxed mt-8 italic"
-            style={{ fontFamily: "var(--font-body)" }}
-          >
-            {config.storyParagraph1}
-          </p>
-        )}
-        {config?.storyParagraph2 && (
-          <p
-            className="text-(--color-muted) leading-relaxed mt-4 italic"
-            style={{ fontFamily: "var(--font-body)" }}
-          >
-            {config.storyParagraph2}
-          </p>
-        )}
-      </div>
+    <main className="relative w-full bg-cream">
+      <BioSection userId={userId} />
+      <StorySection userId={userId} />
+      <PictureAboutWrapper userId={userId} />
     </main>
   );
 };
 
-export default ThreePagesAbout;
+export default PremiumAbout;

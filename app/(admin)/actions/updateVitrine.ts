@@ -15,6 +15,7 @@ export type VitrineData = {
   storyParagraph2: string;
   darkQuote: string;
   darkQuoteAuthor: string;
+  contactText: string;
   seoTitle: string;
   seoDescription: string;
   seoLocation: string;
