@@ -48,17 +48,17 @@ async function main() {
 
   const onePage = await prisma.template.upsert({
     where: { slug: "one-page" },
-    update: { name: "1 page" },
-    create: { slug: "one-page", name: "1 page", price: 0, previewUrl: null },
+    update: { name: "Essentiel" },
+    create: { slug: "one-page", name: "Essentiel", price: 0, previewUrl: null },
   });
   console.log(`✓ Template créé : ${onePage.name} (id: ${onePage.id})`);
 
   const twoPages = await prisma.template.upsert({
     where: { slug: "two-pages" },
-    update: { name: "2 pages" },
+    update: { name: "Studio" },
     create: {
       slug: "two-pages",
-      name: "2 pages",
+      name: "Studio",
       price: 0,
       previewUrl: null,
     },
@@ -67,10 +67,10 @@ async function main() {
 
   const threePages = await prisma.template.upsert({
     where: { slug: "three-pages" },
-    update: { name: "3 pages" },
+    update: { name: "Signature" },
     create: {
       slug: "three-pages",
-      name: "3 pages",
+      name: "Signature",
       price: 0,
       previewUrl: null,
     },

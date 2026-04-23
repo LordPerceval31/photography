@@ -115,8 +115,9 @@ const VitrineClient = ({ initialData, vitrineFields }: Props) => {
               className={`flex flex-col ${sectionSpacing} border-t border-cream/10 ${separatorPadding}`}
             >
               <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
-                Présentation : Un titre fort et deux paragraphes pour vous
-                raconter dans la page About.
+                {vitrineFields.bioTitle
+                  ? "Présentation : Rédigez le contenu de votre page « À propos ». Un titre marquant et votre histoire pour vous dévoiler plus en détail."
+                  : "Présentation : Quelques mots pour parler de vous et de votre approche, affichés directement sur votre page d'accueil."}
               </p>
               <div className="flex flex-col gap-4 w-full">
                 {vitrineFields.bioTitle && (

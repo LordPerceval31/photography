@@ -7,6 +7,7 @@ import { ExpiresIn, PendingPhoto } from "../../types/gallery";
 import { getUploadSignature } from "../../actions/getUploadSignature";
 import { createGallery } from "../../actions/createGallery";
 import { FloatingInput } from "@/app/_components/FloatingInput";
+import { toast } from "react-toastify";
 
 const GalleryClient = ({ canShare }: { canShare: boolean }) => {
   const [name, setName] = useState("");
@@ -238,7 +239,15 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
         >
           <button
             type="button"
-            onClick={() => setIsPremium(!isPremium)}
+            onClick={() => {
+              if (!canShare) {
+                toast.info(
+                  "La mise en avant de galeries n'est pas disponible avec votre template actuel.",
+                );
+                return;
+              }
+              setIsPremium(!isPremium);
+            }}
             className={`flex items-center rounded-xl border transition-all duration-300
               gap-2 tablet:gap-3 4k:gap-4
               px-3 tablet:px-4 laptop:px-5 2k:px-6 4k:px-10
@@ -247,7 +256,10 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
               uppercase tracking-widest
               ${isPremium ? "border-blue bg-blue/10 text-blue" : "border-cream/20 text-cream/50 hover:border-cream/40 cursor-pointer"}`}
           >
-            <Star className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8" />
+            <Star
+              className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8"
+              fill={isPremium ? "currentColor" : "none"}
+            />
             Mise en avant
           </button>
           <button

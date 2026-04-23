@@ -15,8 +15,20 @@ const OnePage = async ({ userId }: Props) => {
     prisma.siteConfig.findUnique({ where: { userId } }),
     prisma.photo.findMany({
       where: { userId },
-      include: {
-        galleries: { select: { galleryId: true }, take: 1 },
+      select: {
+        id: true,
+        url: true,
+        title: true,
+        isCover: true,
+        isPortrait: true,
+        isAboutPicture1: true,
+        isAboutPicture2: true,
+        isAboutPicture3: true,
+        createdAt: true,
+        galleries: {
+          select: { galleryId: true },
+          take: 1,
+        },
       },
       orderBy: { createdAt: "desc" },
       take: 40,
@@ -47,15 +59,18 @@ const OnePage = async ({ userId }: Props) => {
     ? `${coverPhoto.title} | ${baseAlt}`
     : `Accueil | ${baseAlt}`;
 
-  const galleryPhotos = photos
-    .filter((p) => !p.isCover)
-    .map((p) => ({
-      id: p.id,
-      url: p.url,
-      title: p.title,
-      galleryId: p.galleries[0]?.galleryId ?? p.id,
-      alt: p.title ? `${p.title} | ${baseAlt}` : `Portfolio | ${baseAlt}`,
-    }));
+  const galleryPhotos = photos.map((p) => ({
+    id: p.id,
+    url: p.url,
+    title: p.title,
+    galleryId: p.galleries[0]?.galleryId ?? p.id,
+    alt: p.title ? `${p.title} | ${baseAlt}` : `Portfolio | ${baseAlt}`,
+    isCover: p.isCover,
+    isPortrait: p.isPortrait,
+    isAboutPicture1: p.isAboutPicture1,
+    isAboutPicture2: p.isAboutPicture2,
+    isAboutPicture3: p.isAboutPicture3,
+  }));
 
   const hasBio = config?.bioParagraph1 || config?.bioParagraph2;
 

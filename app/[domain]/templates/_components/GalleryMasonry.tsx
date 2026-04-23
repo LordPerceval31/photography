@@ -12,6 +12,11 @@ type Photo = {
   title: string | null;
   galleryId: string;
   alt?: string;
+  isCover?: boolean;
+  isPortrait?: boolean;
+  isAboutPicture1?: boolean;
+  isAboutPicture2?: boolean;
+  isAboutPicture3?: boolean;
 };
 
 const GalleryMasonry = ({ photos }: { photos: Photo[] }) => {
@@ -19,7 +24,16 @@ const GalleryMasonry = ({ photos }: { photos: Photo[] }) => {
   const [activeItems, setActiveItems] = useState<Item[]>([]);
   const [direction, setDirection] = useState(0);
 
-  const allItems: Item[] = photos.map((p) => ({
+  const galleryPhotos = photos.filter(
+    (p) =>
+      !p.isCover &&
+      !p.isPortrait &&
+      !p.isAboutPicture1 &&
+      !p.isAboutPicture2 &&
+      !p.isAboutPicture3,
+  );
+
+  const allItems: Item[] = galleryPhotos.map((p) => ({
     id: p.id,
     img: p.url,
     url: p.url,
@@ -59,7 +73,7 @@ const GalleryMasonry = ({ photos }: { photos: Photo[] }) => {
     <>
       {/* ── C'est ici qu'on gère le responsive des colonnes ── */}
       <div className="columns-2 tablet:columns-3 desktop:columns-4 gap-2">
-        {photos.map((photo) => {
+        {galleryPhotos.map((photo) => {
           const item = allItems.find((i) => i.id === photo.id)!;
           return (
             <div

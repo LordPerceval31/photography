@@ -28,6 +28,13 @@ export const FloatingTextarea = ({
           4k:px-12 4k:pt-20 4k:pb-8
           text-sm tablet:text-base 2k:text-2xl 4k:text-3xl
           text-cream
+          
+          /* Custom Scrollbar (Même design que le formulaire) */
+          [&::-webkit-scrollbar]:w-1.5 tablet:[&::-webkit-scrollbar]:w-2 
+          [&::-webkit-scrollbar-track]:bg-transparent 
+          [&::-webkit-scrollbar-thumb]:bg-cream/10 hover:[&::-webkit-scrollbar-thumb]:bg-cream/30 
+          [&::-webkit-scrollbar-thumb]:rounded-full
+          
           ${error ? "border-red-400 focus:border-red-400" : "border-cream/20 focus:border-blue"}
           ${className}
         `}

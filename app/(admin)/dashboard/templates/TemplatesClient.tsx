@@ -85,7 +85,7 @@ const TemplatesClient = ({ templates, currentThemeSlug }: Props) => {
             </div>
 
             {/* Sélecteur de thème + bouton */}
-            {template.isPurchased ? (
+            {template.isPurchased && (
               <div className="flex items-center gap-2 tablet:gap-3">
                 {TEMPLATES_WITH_THEMES.includes(template.slug) && (
                   <div className="relative">
@@ -94,9 +94,9 @@ const TemplatesClient = ({ templates, currentThemeSlug }: Props) => {
                       onChange={(e) => setSelectedTheme(e.target.value)}
                       disabled={isPending}
                       className="appearance-none bg-cream/10 text-cream text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm 4k:text-2xl
-                        pl-3 pr-8 py-2 tablet:pl-4 tablet:pr-10 tablet:py-3 rounded-lg border border-cream/20
-                        focus:outline-none focus:border-cream/40
-                        disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            pl-3 pr-8 py-2 tablet:pl-4 tablet:pr-10 tablet:py-3 rounded-lg border border-cream/20
+            focus:outline-none focus:border-cream/40
+            disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                       {THEMES.map((theme) => (
                         <option
@@ -118,26 +118,16 @@ const TemplatesClient = ({ templates, currentThemeSlug }: Props) => {
                   onClick={() => handleActivate(template.id)}
                   disabled={isPending && activatingId === template.id}
                   className="px-4 py-2 tablet:px-6 tablet:py-3 desktop:px-8 2k:px-10 2k:py-4 4k:px-16 4k:py-6
-                    text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm 4k:text-xl
-                    uppercase tracking-widest font-semibold rounded-lg transition-all
-                    disabled:opacity-50 disabled:cursor-not-allowed
-                    bg-cream/10 text-cream hover:bg-cream/20"
+        text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm 4k:text-xl
+        uppercase tracking-widest font-semibold rounded-lg transition-all
+        disabled:opacity-50 disabled:cursor-not-allowed
+        bg-cream/10 text-cream hover:bg-cream/20"
                 >
                   {isPending && activatingId === template.id
                     ? "Activation..."
                     : "Configurer"}
                 </button>
               </div>
-            ) : (
-              <button
-                disabled
-                className="px-4 py-2 tablet:px-6 tablet:py-3 desktop:px-8 2k:px-10 2k:py-4 4k:px-16 4k:py-6
-                  text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm 4k:text-xl
-                  uppercase tracking-widest font-semibold rounded-lg
-                  bg-blue/20 text-blue cursor-not-allowed opacity-70"
-              >
-                Acheter — {template.price.toFixed(0)} €
-              </button>
             )}
           </div>
         ))}
