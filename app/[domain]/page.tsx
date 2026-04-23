@@ -28,7 +28,8 @@ export async function generateMetadata({
   if (!user) return { title: "Portfolio introuvable" };
 
   const config = user.siteConfig;
-  const seoTitle = config?.seoTitle || `${user.name || "Photographe"} | Portfolio`;
+  const seoTitle =
+    config?.seoTitle || `${user.name || "Photographe"} | Portfolio`;
   const seoDescription =
     config?.seoDescription ||
     `Découvrez les galeries et le portfolio de ${user.name || "ce photographe"}.`;
@@ -36,11 +37,11 @@ export async function generateMetadata({
   return {
     title: seoTitle,
     description: seoDescription,
-    alternates: { canonical: `https://${domain}` },
+    alternates: { canonical: `https://${domain}.photolio.fr` },
     openGraph: {
       title: seoTitle,
       description: seoDescription,
-      url: `https://${domain}`,
+      url: `https://${domain}.photolio.fr`,
       type: "website",
     },
   };
@@ -63,12 +64,15 @@ const Home = async ({ params }: { params: Promise<{ domain: string }> }) => {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "@id": `https://${domain}`,
+    "@id": `https://${domain}.photolio.fr`,
     name: config?.seoTitle || user.name || "Photographe",
-    url: `https://${domain}`,
+    url: `https://${domain}.photolio.fr`,
     image: coverPhoto?.url || user.image || "",
     description:
-      config?.seoDescription || config?.bioParagraph1 || config?.heroTagline || "",
+      config?.seoDescription ||
+      config?.bioParagraph1 ||
+      config?.heroTagline ||
+      "",
     ...(config?.heroTagline && { slogan: config.heroTagline }),
   };
 

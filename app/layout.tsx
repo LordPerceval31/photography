@@ -56,6 +56,10 @@ export const metadata: Metadata = {
     ],
   },
   metadataBase: new URL("https://photolio.fr"),
+
+  alternates: {
+    canonical: "/", // Ça dit à Google : "La version officielle de la page que tu regardes, c'est celle-là"
+  },
 };
 
 export default function RootLayout({
