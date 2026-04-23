@@ -31,7 +31,7 @@ const StorySection = async ({ userId }: { userId: string }) => {
       <div className="flex-1 flex flex-col justify-center w-full relative z-10">
         <div className="w-full laptop:w-[60%] desktop:w-[60%] 2k:w-[60%] ml-auto mr-0 laptop:mr-8 desktop:mr-40 2k:mr-40 ultrawide:mr-80 4k:mr-32">
           <p
-            className={`${caveat.className} text-2xl tablet:text-4xl laptop:text-3xl desktop:text-5xl 2k:text-6xl 4k:text-8xl italic text-blue leading-tight laptop:text-right`}
+            className={`${caveat.className} text-2xl tablet:text-4xl laptop:text-2xl desktop:text-4xl 2k:text-5xl 4k:text-7xl italic text-blue leading-tight laptop:text-right`}
           >
             {storyParagraph1}
           </p>
@@ -43,7 +43,7 @@ const StorySection = async ({ userId }: { userId: string }) => {
         {/* Bordure bleue latérale comme dans ta version Premium */}
         <div className="w-full desktop:w-[45%] 2k:w-[60%] border-l-2 border-blue pl-6 tablet:pl-16 laptop:ml-10 desktop:ml-40 2k:ml-60">
           <div className="w-full max-w-base laptop:max-w-lg desktop:max-w-2xl 2k:max-w-4xl 4k:max-w-7xl">
-            <p className="text-sm tablet:text-lg laptop:text-lg desktop:text-xl 2k:text-3xl 4k:text-4xl opacity-80 leading-relaxed text-justify">
+            <p className="text-sm tablet:text-lg laptop:text-base desktop:text-xl 2k:text-3xl 4k:text-4xl opacity-80 leading-relaxed text-justify">
               {storyParagraph2}
             </p>
           </div>
