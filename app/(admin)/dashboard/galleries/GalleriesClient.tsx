@@ -21,6 +21,7 @@ import {
 import { FloatingInput } from "@/app/_components/FloatingInput";
 import { FloatingTextarea } from "@/app/_components/FloatingTextarea";
 import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
+import Link from "next/link";
 
 type Gallery = {
   id: string;
@@ -255,12 +256,12 @@ export default function GalleriesClient({
                   <p className="text-cream/60 text-xs text-center leading-relaxed">
                     Le partage de galeries est réservé au template Premium.
                   </p>
-                  <a
+                  <Link
                     href="/dashboard/templates"
                     className="text-[10px] uppercase tracking-widest text-cream/50 hover:text-cream border border-cream/20 hover:border-cream/40 px-4 py-2 rounded-lg transition-all"
                   >
                     Voir mes templates →
-                  </a>
+                  </Link>
                 </div>
               )}
 
@@ -357,20 +358,23 @@ export default function GalleriesClient({
                   </div>
                 )}
 
-                {/* Étoile mise en avant — haut droite */}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation(); // ne pas sélectionner la galerie
-                    if (!gallery.isPremium) handleSetFeatured(gallery.id);
-                  }}
-                  className={`absolute top-2 right-2 z-10 transition-colors ${gallery.isPremium ? "cursor-default text-yellow-400" : "text-cream/40 hover:text-yellow-400"}`}
-                >
-                  <Star
-                    className="w-5 h-5"
-                    fill={gallery.isPremium ? "currentColor" : "none"}
-                  />
-                </button>
+                {/* ON ENTOURE L'ÉTOILE PAR LA CONDITION PREMIUM (canShare) */}
+                {canShare && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation(); // ne pas sélectionner la galerie
+                      if (!gallery.isPremium) handleSetFeatured(gallery.id);
+                    }}
+                    className={`absolute top-2 right-2 z-10 transition-colors ${gallery.isPremium ? "cursor-default text-yellow-400" : "text-cream/40 hover:text-yellow-400"}`}
+                  >
+                    <Star
+                      className="w-5 h-5"
+                      fill={gallery.isPremium ? "currentColor" : "none"}
+                    />
+                  </button>
+                )}
+
                 {gallery.coverUrl ? (
                   <img
                     src={optimizeCloudinaryUrl(gallery.coverUrl, 600)}
@@ -379,7 +383,7 @@ export default function GalleriesClient({
                     className={`w-full h-full object-cover transition-all duration-500 ${isSelected ? "opacity-70" : ""}`}
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-cream/30 text-base laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl  uppercase tracking-widest">
+                  <div className="w-full h-full flex items-center justify-center text-cream/30 text-xs uppercase tracking-widest">
                     Aucune couverture
                   </div>
                 )}

@@ -242,7 +242,7 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
             onClick={() => {
               if (!canShare) {
                 toast.info(
-                  "La mise en avant de galeries n'est pas disponible avec votre template actuel.",
+                  "La mise en avant de galeries n'est pas disponible avec votre gabarit actuel.",
                 );
                 return;
               }
