@@ -190,14 +190,14 @@ const AddPhotoPage = async () => {
               </p>
               <div className="grid grid-cols-2 gap-4 w-full">
                 <PhotoSlot
-                  slot="isDarkPicture1"
-                  aspectRatio="aspect-square"
-                  currentUrl={dark1Url}
-                />
-                <PhotoSlot
                   slot="isDarkPicture2"
                   aspectRatio="aspect-square"
                   currentUrl={dark2Url}
+                />
+                <PhotoSlot
+                  slot="isDarkPicture1"
+                  aspectRatio="aspect-square"
+                  currentUrl={dark1Url}
                 />
               </div>
             </div>
