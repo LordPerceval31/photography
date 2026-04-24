@@ -10,7 +10,9 @@ type PhotoSlotType =
   | "isPortrait"
   | "isAboutPicture1"
   | "isAboutPicture2"
-  | "isAboutPicture3";
+  | "isAboutPicture3"
+  | "isDarkPicture1"
+  | "isDarkPicture2";
 
 export const savePhoto = async (
   url: string,
@@ -37,7 +39,11 @@ export const savePhoto = async (
     });
 
     if (oldPhoto?.publicId && oldPhoto.publicId !== publicId) {
-      await cloudinary.uploader.destroy(oldPhoto.publicId);
+      try {
+        await cloudinary.uploader.destroy(oldPhoto.publicId);
+      } catch {
+        // nettoyage Cloudinary best-effort : on ne bloque pas la sauvegarde si ça échoue
+      }
     }
 
     // 2. Supprimer tous les enregistrements qui bloqueraient le create :

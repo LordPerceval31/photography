@@ -2,14 +2,18 @@ import Image from "next/image";
 import prisma from "../../../../lib/prisma";
 
 const DarkSection = async ({ userId }: { userId: string }) => {
-  const config = await prisma.siteConfig.findFirst({
-    where: { userId: userId },
-  });
+  const [config, darkPhoto1, darkPhoto2] = await Promise.all([
+    prisma.siteConfig.findFirst({ where: { userId } }),
+    prisma.photo.findFirst({ where: { userId, isDarkPicture1: true }, select: { url: true } }),
+    prisma.photo.findFirst({ where: { userId, isDarkPicture2: true }, select: { url: true } }),
+  ]);
 
   const quote =
     config?.darkQuote ||
     "Photographier, c'est mettre sur la même ligne de mire la tête, l'œil et le cœur.";
   const quoteAuthor = config?.darkQuoteAuthor || "Henri Cartier-Bresson";
+  const image1 = darkPhoto1?.url ?? "/DarkPicture01.webp";
+  const image2 = darkPhoto2?.url ?? "/DarkPicture02.webp";
 
   return (
     <section
@@ -36,8 +40,8 @@ const DarkSection = async ({ userId }: { userId: string }) => {
         {/* IMAGE 1 (Celle du haut/droite) */}
         <div className="absolute top-10 right-10 tablet:top-20 tablet:right-20 laptop:top-60 laptop:right-20 desktop:top-40 desktop:right-20 w-48 tablet:w-90 laptop:w-60 desktop:w-90 2k:w-125 ultrawide:left-150 ultrawide:bottom-60 ultrawide:w-150 4k:left-200 4k:bottom-60 4k:w-200 aspect-square z-10">
           <Image
-            src="/DarkPicture01.webp"
-            alt="Description de la première image"
+            src={image1}
+            alt={`Composition photographique — ${config?.seoTitle || "Portfolio"}`}
             fill
             className="object-cover"
           />
@@ -46,8 +50,8 @@ const DarkSection = async ({ userId }: { userId: string }) => {
         {/* IMAGE 2 (Celle du bas/gauche) */}
         <div className="absolute bottom-10 left-10 tablet:bottom-1 tablet:left-20 laptop:bottom-60 laptop:left-30 w-48 desktop:bottom-60 desktop:left-40 desktop:w-90 2k:w-125 ultrawide:left-40 ultrawide:bottom-60 ultrawide:w-150 4k:left-40 4k:bottom-60 4k:w-200  tablet:w-90 laptop:w-60 aspect-square z-20">
           <Image
-            src="/DarkPicture02.webp"
-            alt="Description de la deuxième image"
+            src={image2}
+            alt={`Mise en scène artistique — ${config?.seoTitle || "Portfolio"}`}
             fill
             className="object-cover"
           />

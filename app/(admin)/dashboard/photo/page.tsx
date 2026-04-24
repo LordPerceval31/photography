@@ -59,6 +59,8 @@ const AddPhotoPage = async () => {
       isAboutPicture1: true,
       isAboutPicture2: true,
       isAboutPicture3: true,
+      isDarkPicture1: true,
+      isDarkPicture2: true,
     },
   });
 
@@ -76,6 +78,12 @@ const AddPhotoPage = async () => {
   );
   const about3Url = optimizeCloudinaryUrl(
     photos.find((p) => p.isAboutPicture3)?.url ?? "",
+  );
+  const dark1Url = optimizeCloudinaryUrl(
+    photos.find((p) => p.isDarkPicture1)?.url ?? "",
+  );
+  const dark2Url = optimizeCloudinaryUrl(
+    photos.find((p) => p.isDarkPicture2)?.url ?? "",
   );
 
   return (
@@ -170,7 +178,33 @@ const AddPhotoPage = async () => {
           </div>
         )}
 
-        {/* 4. SECTION GALERIE - COPIE CONFORME DES DIMENSIONS DE LA COVER */}
+        {/* 4. DARK SECTION (x2) */}
+        {capabilities.darkPhotos && (
+          <div className="flex flex-col laptop:flex-row items-center justify-between gap-4 w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
+            <p className="text-center laptop:text-left italic font-light text-cream/60 text-[12px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-3xl leading-relaxed">
+              Images de la section sombre de la page d&apos;accueil.
+            </p>
+            <div className="flex flex-col items-center gap-1 w-[80vw] tablet:w-[60vw] laptop:w-82.5 desktop:w-100 2k:w-125 ultrawide:w-150 4k:w-225">
+              <p className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl uppercase tracking-widest text-cream/30">
+                Section sombre (x2)
+              </p>
+              <div className="grid grid-cols-2 gap-4 w-full">
+                <PhotoSlot
+                  slot="isDarkPicture1"
+                  aspectRatio="aspect-square"
+                  currentUrl={dark1Url}
+                />
+                <PhotoSlot
+                  slot="isDarkPicture2"
+                  aspectRatio="aspect-square"
+                  currentUrl={dark2Url}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 5. SECTION GALERIE - COPIE CONFORME DES DIMENSIONS DE LA COVER */}
         <div className="flex flex-col laptop:flex-row items-center laptop:items-start justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%] gap-8">
           <p className="text-center laptop:text-left italic font-light text-cream/60 text-[12px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-3xl leading-relaxed laptop:pt-12">
             Ajouter une photo à l&apos;une de vos galeries.

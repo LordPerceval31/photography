@@ -5,7 +5,35 @@ import { getUserByDomain } from "@/app/lib/getUserByDomain";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = { title: "À propos" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ domain: string }>;
+}): Promise<Metadata> {
+  const { domain } = await params;
+  const user = await getUserByDomain(domain);
+
+  if (!user) return { title: "À propos" };
+
+  const name = user.name || "ce photographe";
+  const config = user.siteConfig;
+  const title = `À propos | ${config?.seoTitle || `${name} Photographe`}`;
+  const description =
+    config?.bioParagraph1 ||
+    `Découvrez le parcours et la vision de ${name}, photographe passionné.`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `https://${domain}.photolio.fr/about` },
+    openGraph: {
+      title,
+      description,
+      url: `https://${domain}.photolio.fr/about`,
+      type: "website",
+    },
+  };
+}
 
 const templateMap: Record<
   string,

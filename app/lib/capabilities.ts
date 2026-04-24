@@ -2,6 +2,7 @@ export type Capabilities = {
   services: boolean;
   shareGalleries: boolean;
   aboutPhotos: boolean;
+  darkPhotos: boolean;
   vitrineFields: {
     heroSubtitle: boolean;
     bioTitle: boolean;
@@ -15,6 +16,7 @@ const PREMIUM: Capabilities = {
   services: true,
   shareGalleries: true,
   aboutPhotos: true,
+  darkPhotos: true,
   vitrineFields: {
     heroSubtitle: true,
     bioTitle: true,
@@ -28,6 +30,7 @@ const THREE_PAGES: Capabilities = {
   services: true,
   shareGalleries: false,
   aboutPhotos: true,
+  darkPhotos: false,
   vitrineFields: {
     heroSubtitle: false,
     bioTitle: true,
@@ -41,6 +44,7 @@ const TWO_PAGES: Capabilities = {
   services: true,
   shareGalleries: false,
   aboutPhotos: false,
+  darkPhotos: false,
   vitrineFields: {
     heroSubtitle: false,
     bioTitle: false,
@@ -54,6 +58,7 @@ const ONE_PAGE: Capabilities = {
   services: false,
   shareGalleries: false,
   aboutPhotos: false,
+  darkPhotos: false,
   vitrineFields: {
     heroSubtitle: false,
     bioTitle: false,

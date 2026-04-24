@@ -38,12 +38,14 @@ const TemplatesClient = ({ templates, currentThemeSlug }: Props) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [activatingId, setActivatingId] = useState<string | null>(null);
-  const [selectedTheme, setSelectedTheme] = useState(currentThemeSlug);
+  const [themes, setThemes] = useState<Record<string, string>>(
+    () => Object.fromEntries(templates.map((t) => [t.id, currentThemeSlug]))
+  );
 
   const handleActivate = (templateId: string) => {
     setActivatingId(templateId);
     startTransition(async () => {
-      await configureTemplate(templateId, selectedTheme);
+      await configureTemplate(templateId, themes[templateId]);
       router.push("/dashboard");
     });
   };
@@ -90,8 +92,10 @@ const TemplatesClient = ({ templates, currentThemeSlug }: Props) => {
                 {TEMPLATES_WITH_THEMES.includes(template.slug) && (
                   <div className="relative">
                     <select
-                      value={selectedTheme}
-                      onChange={(e) => setSelectedTheme(e.target.value)}
+                      value={themes[template.id]}
+                      onChange={(e) =>
+                        setThemes((prev) => ({ ...prev, [template.id]: e.target.value }))
+                      }
                       disabled={isPending}
                       className="appearance-none bg-cream/10 text-cream text-[10px] tablet:text-xs desktop:text-xs 2k:text-sm 4k:text-2xl
             pl-3 pr-8 py-2 tablet:pl-4 tablet:pr-10 tablet:py-3 rounded-lg border border-cream/20

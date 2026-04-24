@@ -105,6 +105,8 @@ model Photo {
   isAboutPicture1  Boolean  @default(false)
   isAboutPicture2  Boolean  @default(false)
   isAboutPicture3  Boolean  @default(false)
+  isDarkPicture1   Boolean @default(false)
+  isDarkPicture2   Boolean @default(false)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now()) @updatedAt
 
@@ -168,6 +170,7 @@ model SiteConfig {
   // Section sombre (page d'accueil)
   darkQuote       String @default("")
   darkQuoteAuthor String @default("")
+  
   // SEO
   seoTitle        String? @default("")
   seoDescription  String? @default("")

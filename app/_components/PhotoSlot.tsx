@@ -10,7 +10,9 @@ type PhotoSlotType =
   | "isPortrait"
   | "isAboutPicture1"
   | "isAboutPicture2"
-  | "isAboutPicture3";
+  | "isAboutPicture3"
+  | "isDarkPicture1"
+  | "isDarkPicture2";
 type UploadStatus = "idle" | "signing" | "uploading" | "saving";
 
 interface PhotoSlotProps {
