@@ -41,7 +41,7 @@ const HeroSection = async ({ userId, fonts }: Props) => {
   }
 
   return (
-    <div className="relative w-full h-screen">
+    <div data-theme="dark" className="relative w-full h-screen">
       <Image
         src={coverPhoto.url}
         alt={finalAlt}

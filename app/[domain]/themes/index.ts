@@ -22,6 +22,10 @@ export type Theme = {
   "--color-quote"?: string;
 };
 
+const DARK_BG_THEMES = new Set(["argentic", "street", "cinema", "voyage"]);
+export const getNavTheme = (themeSlug: string | undefined): "dark" | "light" =>
+  DARK_BG_THEMES.has(themeSlug ?? "") ? "dark" : "light";
+
 export const themes: Record<string, Theme> = {
   default: defaultTheme,
   argentic,

@@ -28,7 +28,7 @@ const DarkSection = async ({ userId, fonts }: Props) => {
   const image2 = darkPhoto2?.url ?? "/DarkPicture02.webp";
 
   return (
-    <section className="flex flex-col laptop:flex-row w-full h-screen laptop:h-[80vh] bg-black overflow-hidden">
+    <section data-theme="dark" className="flex flex-col laptop:flex-row w-full h-screen laptop:h-[80vh] bg-black overflow-hidden">
       <div className="order-2 laptop:order-1 w-full h-1/2 laptop:w-1/2 laptop:h-full flex flex-col justify-center items-center p-8 laptop:p-12 z-10">
         <div className="w-full max-w-lg 4k:max-w-4xl text-xl 2k:text-3xl ultrawide:text-4xl 4k:text-5xl text-(--color-quote)">
           <p

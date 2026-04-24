@@ -14,6 +14,7 @@ interface PremiumGallerySectionProps {
   coverPhoto: { url: string; title: string | null };
   items: Item[];
   fonts: ThemeFonts;
+  navTheme: "dark" | "light";
 }
 
 const PremiumGallerySection = ({
@@ -22,6 +23,7 @@ const PremiumGallerySection = ({
   coverPhoto,
   items,
   fonts,
+  navTheme,
 }: PremiumGallerySectionProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
@@ -49,6 +51,7 @@ const PremiumGallerySection = ({
   return (
     <>
       <section
+        data-theme={navTheme}
         className="w-full min-h-[90vh] bg-(--color-bg) p-6 tablet:p-12 laptop:p-16
                    flex flex-col laptop:flex-row items-center justify-center laptop:justify-start gap-8 laptop:gap-12"
       >

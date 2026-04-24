@@ -13,9 +13,10 @@ import Lightbox from "@/app/_components/lightbox";
 interface Props {
   galleries: CarouselGallery[];
   fonts: ThemeFonts;
+  navTheme: "dark" | "light";
 }
 
-const CarouselSection = ({ galleries, fonts }: Props) => {
+const CarouselSection = ({ galleries, fonts, navTheme }: Props) => {
   const [emblaRef] = useEmblaCarousel({ loop: true, dragFree: true }, [
     AutoScroll({ speed: 1, stopOnInteraction: false }),
   ]);
@@ -55,7 +56,7 @@ const CarouselSection = ({ galleries, fonts }: Props) => {
 
   return (
     <>
-      <section className="w-full h-screen bg-(--color-bg) overflow-hidden cursor-grab active:cursor-grabbing">
+      <section data-theme={navTheme} className="w-full h-screen bg-(--color-bg) overflow-hidden cursor-grab active:cursor-grabbing">
         <div ref={emblaRef} className="h-full px-6 tablet:px-12">
           <div className="flex -ml-6 tablet:-ml-12 h-full items-center">
             {displayGalleries.map((gallery, index) => (

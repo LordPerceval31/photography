@@ -6,9 +6,10 @@ import PremiumGallerySection from "./PremiumGallerySection";
 interface Props {
   userId: string;
   fonts: ThemeFonts;
+  navTheme: "dark" | "light";
 }
 
-const PremiumGalleryWrapper = async ({ userId, fonts }: Props) => {
+const PremiumGalleryWrapper = async ({ userId, fonts, navTheme }: Props) => {
   const premiumGallery = await prisma.gallery.findFirst({
     where: {
       isPremium: true,
@@ -49,6 +50,7 @@ const PremiumGalleryWrapper = async ({ userId, fonts }: Props) => {
       coverPhoto={{ url: coverPhoto.url, title: coverPhoto.title }}
       items={items}
       fonts={fonts}
+      navTheme={navTheme}
     />
   );
 };

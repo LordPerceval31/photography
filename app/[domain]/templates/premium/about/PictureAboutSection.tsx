@@ -9,7 +9,7 @@ type AboutPhoto = {
   title: string;
 };
 
-const PictureAboutSection = ({ photos }: { photos: AboutPhoto[] }) => {
+const PictureAboutSection = ({ photos, navTheme }: { photos: AboutPhoto[]; navTheme: "dark" | "light" }) => {
   const cardSizing =
     "relative w-full aspect-square laptop:w-[30%] laptop:aspect-[3/4] rounded-2xl shadow-xl overflow-hidden";
 
@@ -27,6 +27,7 @@ const PictureAboutSection = ({ photos }: { photos: AboutPhoto[] }) => {
 
   return (
     <section
+      data-theme={navTheme}
       className="flex flex-col laptop:flex-row items-center justify-around min-h-screen bg-(--color-bg) px-8 tablet:px-16 laptop:px-24 ultrawide:px-[15vw] py-32 gap-12"
     >
       {/* IMAGE 1 (Gauche) */}

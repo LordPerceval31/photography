@@ -4,9 +4,10 @@ import prisma from "../../../../lib/prisma";
 interface Props {
   userId: string;
   fonts: ThemeFonts;
+  navTheme: "dark" | "light";
 }
 
-const StorySection = async ({ userId, fonts }: Props) => {
+const StorySection = async ({ userId, fonts, navTheme }: Props) => {
   const config = await prisma.siteConfig.findFirst({ where: { userId } });
 
   const storyParagraph1 =
@@ -17,7 +18,7 @@ const StorySection = async ({ userId, fonts }: Props) => {
     "Aujourd'hui, mon approche est intimement liée à cette quête d'authenticité. Je fuis la perfection plastique des studios aseptisés pour traquer la vérité : un éclat de rire spontané, la mélancolie d'une lumière de fin de journée...";
 
   return (
-    <section className="relative flex flex-col px-8 tablet:px-16 laptop:px-24 py-24 tablet:py-40 min-h-screen bg-(--color-bg) text-(--color-text) overflow-hidden">
+    <section data-theme={navTheme} className="relative flex flex-col px-8 tablet:px-16 laptop:px-24 py-24 tablet:py-40 min-h-screen bg-(--color-bg) text-(--color-text) overflow-hidden">
       {/* LE TITRE DE FOND (Disposition Magazine) */}
       <div className="absolute inset-0 laptop:inset-auto laptop:left-0 desktop:left-10 2k:left-12 4k:left-2 laptop:top-1/2 laptop:-translate-y-1/2 flex items-center justify-center laptop:justify-start pointer-events-none z-0">
         <h2

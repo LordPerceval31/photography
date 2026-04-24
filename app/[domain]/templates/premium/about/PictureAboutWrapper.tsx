@@ -2,7 +2,7 @@ import { optimizeCloudinaryUrl } from "../../../../lib/types";
 import PictureAboutSection from "./PictureAboutSection";
 import prisma from "../../../../lib/prisma";
 
-const PictureAboutWrapper = async ({ userId }: { userId: string }) => {
+const PictureAboutWrapper = async ({ userId, navTheme }: { userId: string; navTheme: "dark" | "light" }) => {
   // 1. On va chercher chaque photo par son flag spécifique (gauche, milieu, droite)
   const [photo1, photo2, photo3] = await Promise.all([
     prisma.photo.findFirst({
@@ -28,7 +28,7 @@ const PictureAboutWrapper = async ({ userId }: { userId: string }) => {
   }));
 
   // 3. On envoie les données formatées au composant client
-  return <PictureAboutSection photos={formattedPhotos} />;
+  return <PictureAboutSection photos={formattedPhotos} navTheme={navTheme} />;
 };
 
 export default PictureAboutWrapper;

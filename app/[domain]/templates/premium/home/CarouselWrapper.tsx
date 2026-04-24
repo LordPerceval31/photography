@@ -13,9 +13,10 @@ export type CarouselGallery = {
 interface Props {
   userId: string;
   fonts: ThemeFonts;
+  navTheme: "dark" | "light";
 }
 
-const CarouselWrapper = async ({ userId, fonts }: Props) => {
+const CarouselWrapper = async ({ userId, fonts, navTheme }: Props) => {
   const galleries = await prisma.gallery.findMany({
     where: { userId },
     orderBy: { createdAt: "desc" },
@@ -49,7 +50,7 @@ const CarouselWrapper = async ({ userId, fonts }: Props) => {
     })
     .filter((g): g is CarouselGallery => g !== null);
 
-  return <CarouselSection galleries={carouselGalleries} fonts={fonts} />;
+  return <CarouselSection galleries={carouselGalleries} fonts={fonts} navTheme={navTheme} />;
 };
 
 export default CarouselWrapper;

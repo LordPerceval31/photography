@@ -8,9 +8,10 @@ export const revalidate = 0;
 interface Props {
   userId: string;
   fonts: ThemeFonts;
+  navTheme: "dark" | "light";
 }
 
-const BioSection = async ({ userId, fonts }: Props) => {
+const BioSection = async ({ userId, fonts, navTheme }: Props) => {
   const [portraitPhoto, config] = await Promise.all([
     prisma.photo.findFirst({ where: { isPortrait: true, userId } }),
     prisma.siteConfig.findFirst({ where: { userId } }),
@@ -35,7 +36,7 @@ const BioSection = async ({ userId, fonts }: Props) => {
     "Mon travail se concentre sur la narration visuelle, cherchant à transformer chaque cliché en une histoire intemporelle.";
 
   return (
-    <section className="flex flex-col laptop:flex-row items-center justify-center min-h-screen bg-(--color-bg) px-8 tablet:px-16 laptop:px-24 py-16">
+    <section data-theme={navTheme} className="flex flex-col laptop:flex-row items-center justify-center min-h-screen bg-(--color-bg) px-8 tablet:px-16 laptop:px-24 py-16">
       {/* LA BOÎTE DE L'IMAGE */}
       <div className="w-full laptop:w-1/2 flex justify-center laptop:justify-end laptop:pr-12">
         <div className="relative w-full laptop:max-w-md desktop:max-w-2xl 2k:max-w-4xl 4k:max-w-7xl aspect-4/5 overflow-hidden rounded-sm shadow-xl">
