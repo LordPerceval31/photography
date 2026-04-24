@@ -1,3 +1,8 @@
+import prisma from "@/app/lib/prisma";
+import { themes } from "../../../themes/index";
+import type { Theme } from "../../../themes/index";
+import { themeFonts } from "../../../themes/fonts";
+import type { ThemeFonts } from "../../../themes/fonts";
 import HeroSection from "./HeroSection";
 import PremiumGalleryWrapper from "./PremiumGalleryWrapper";
 import DarkSection from "./DarkSection";
@@ -9,17 +14,20 @@ interface Props {
   userId: string;
 }
 
-// Contenu visuel de la page home — template Premium
-// L'aiguilleur (app/[domain]/page.tsx) injecte userId
-const PremiumHome = ({ userId }: Props) => {
+const PremiumHome = async ({ userId }: Props) => {
+  const config = await prisma.siteConfig.findUnique({ where: { userId } });
+  const themeSlug = (config?.templateConfig as { themeSlug?: string })?.themeSlug;
+  const theme: Theme = themes[themeSlug ?? ""] ?? themes.premium;
+  const fonts: ThemeFonts = themeFonts[themeSlug ?? ""] ?? themeFonts.premium;
+
   return (
-    <main className="relative w-full">
+    <main className="relative w-full" style={theme as React.CSSProperties}>
       <NavBar />
       <SmoothScroll>
-        <HeroSection userId={userId} />
-        <PremiumGalleryWrapper userId={userId} />
-        <DarkSection userId={userId} />
-        <CarouselWrapper userId={userId} />
+        <HeroSection userId={userId} fonts={fonts} />
+        <PremiumGalleryWrapper userId={userId} fonts={fonts} />
+        <DarkSection userId={userId} fonts={fonts} />
+        <CarouselWrapper userId={userId} fonts={fonts} />
       </SmoothScroll>
     </main>
   );

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import prisma from "@/app/lib/prisma";
+import { themes } from "../../../themes/index";
+import type { Theme } from "../../../themes/index";
 import ServicesSection from "./ServicesSection";
 import ContactSection from "./ContactSection";
 import NavBar from "@/app/_components/navBar";
@@ -8,11 +10,8 @@ interface Props {
   userId: string;
 }
 
-// Contenu visuel de la page services — template Premium
-// Ce composant est async car il fetch les services en DB
-// L'aiguilleur (app/[domain]/services/page.tsx) injecte userId
 const PremiumServices = async ({ userId }: Props) => {
-  const [services, user] = await Promise.all([
+  const [services, user, config] = await Promise.all([
     prisma.service.findMany({
       where: { userId },
       orderBy: { order: "asc" },
@@ -25,10 +24,14 @@ const PremiumServices = async ({ userId }: Props) => {
         emailjsPublicKey: true,
       },
     }),
+    prisma.siteConfig.findUnique({ where: { userId } }),
   ]);
 
+  const themeSlug = (config?.templateConfig as { themeSlug?: string })?.themeSlug;
+  const theme: Theme = themes[themeSlug ?? ""] ?? themes.premium;
+
   return (
-    <main className="relative w-full min-h-screen flex flex-col">
+    <main className="relative w-full min-h-screen flex flex-col" style={theme as React.CSSProperties}>
       {/* Background fixé derrière le contenu */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <Image

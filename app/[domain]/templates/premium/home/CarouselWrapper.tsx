@@ -1,6 +1,7 @@
 import prisma from "../../../../lib/prisma";
 import CarouselSection from "./CarouselSection";
 import { Item } from "../../../../lib/types";
+import type { ThemeFonts } from "../../../themes/fonts";
 
 export type CarouselGallery = {
   id: string;
@@ -9,11 +10,14 @@ export type CarouselGallery = {
   items: Item[];
 };
 
-const CarouselWrapper = async ({ userId }: { userId: string }) => {
+interface Props {
+  userId: string;
+  fonts: ThemeFonts;
+}
+
+const CarouselWrapper = async ({ userId, fonts }: Props) => {
   const galleries = await prisma.gallery.findMany({
-    where: {
-      userId: userId, // <-- On filtre pour ne récupérer que les galeries de ce photographe
-    },
+    where: { userId },
     orderBy: { createdAt: "desc" },
     include: {
       photos: {
@@ -45,7 +49,7 @@ const CarouselWrapper = async ({ userId }: { userId: string }) => {
     })
     .filter((g): g is CarouselGallery => g !== null);
 
-  return <CarouselSection galleries={carouselGalleries} />;
+  return <CarouselSection galleries={carouselGalleries} fonts={fonts} />;
 };
 
 export default CarouselWrapper;

@@ -6,4 +6,9 @@ export const defaultTheme: Theme = {
   "--color-secondary": "#558b8b",
   "--color-text": "#2c2c2c",
   "--color-muted": "#888888",
+  "--color-ink": "#1a1a1a",
+  "--color-hero-subtitle": "#ffffff",
+  "--color-hero-name": "#ffffff",
+  "--color-hero-tagline": "#ffffff",
+  "--color-quote": "#ffffff",
 };

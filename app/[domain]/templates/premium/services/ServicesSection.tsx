@@ -31,7 +31,7 @@ const ServicesSection = ({ services }: { services: Service[] }) => {
           <PolaroidCard
             key={service.id || index}
             service={service}
-            widthClass={cardWidthClass} // On envoie la classe de taille à la carte
+            widthClass={cardWidthClass}
           />
         ))}
       </div>

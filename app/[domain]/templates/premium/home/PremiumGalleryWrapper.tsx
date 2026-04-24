@@ -1,8 +1,14 @@
 import prisma from "../../../../lib/prisma";
 import { Item } from "../../../../lib/types";
+import type { ThemeFonts } from "../../../themes/fonts";
 import PremiumGallerySection from "./PremiumGallerySection";
 
-const PremiumGalleryWrapper = async ({ userId }: { userId: string }) => {
+interface Props {
+  userId: string;
+  fonts: ThemeFonts;
+}
+
+const PremiumGalleryWrapper = async ({ userId, fonts }: Props) => {
   const premiumGallery = await prisma.gallery.findFirst({
     where: {
       isPremium: true,
@@ -21,10 +27,7 @@ const PremiumGalleryWrapper = async ({ userId }: { userId: string }) => {
 
   if (!coverPhoto || !premiumGallery) {
     return (
-      <div
-        data-theme="light"
-        className="w-full min-h-[90vh] bg-dark flex items-center justify-center text-zinc-500"
-      >
+      <div className="w-full min-h-[90vh] bg-(--color-bg) flex items-center justify-center text-(--color-muted)">
         <p>Aucune galerie ou image de couverture disponible.</p>
       </div>
     );
@@ -45,6 +48,7 @@ const PremiumGalleryWrapper = async ({ userId }: { userId: string }) => {
       galleryDescription={premiumGallery.description}
       coverPhoto={{ url: coverPhoto.url, title: coverPhoto.title }}
       items={items}
+      fonts={fonts}
     />
   );
 };

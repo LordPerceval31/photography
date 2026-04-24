@@ -27,8 +27,7 @@ const PictureAboutSection = ({ photos }: { photos: AboutPhoto[] }) => {
 
   return (
     <section
-      data-theme="light"
-      className="flex flex-col laptop:flex-row items-center justify-around min-h-screen bg-cream px-8 tablet:px-16 laptop:px-24 ultrawide:px-[15vw] py-32 gap-12"
+      className="flex flex-col laptop:flex-row items-center justify-around min-h-screen bg-(--color-bg) px-8 tablet:px-16 laptop:px-24 ultrawide:px-[15vw] py-32 gap-12"
     >
       {/* IMAGE 1 (Gauche) */}
       <motion.div

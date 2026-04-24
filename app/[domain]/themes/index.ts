@@ -7,6 +7,7 @@ import { voyage } from "./voyage";
 import { portrait } from "./portrait";
 import { street } from "./street";
 import { cinema } from "./cinema";
+import { premium } from "./premium";
 
 export type Theme = {
   "--color-bg": string;
@@ -14,6 +15,11 @@ export type Theme = {
   "--color-secondary": string;
   "--color-text": string;
   "--color-muted": string;
+  "--color-ink": string;
+  "--color-hero-subtitle": string;
+  "--color-hero-name": string;
+  "--color-hero-tagline": string;
+  "--color-quote"?: string;
 };
 
 export const themes: Record<string, Theme> = {
@@ -26,4 +32,5 @@ export const themes: Record<string, Theme> = {
   portrait,
   street,
   cinema,
+  premium,
 };

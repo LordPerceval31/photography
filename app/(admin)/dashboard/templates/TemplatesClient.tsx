@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { CheckCircle } from "lucide-react";
 import { configureTemplate } from "@/app/(admin)/actions/templates";
 
-const TEMPLATES_WITH_THEMES = ["one-page", "two-pages", "three-pages"];
+const TEMPLATES_WITH_THEMES = ["one-page", "two-pages", "three-pages", "premium"];
 
 const THEMES = [
   { slug: "default", name: "Classique" },
@@ -17,7 +17,13 @@ const THEMES = [
   { slug: "portrait", name: "Portrait" },
   { slug: "street", name: "Street" },
   { slug: "cinema", name: "Cinéma" },
+  { slug: "premium", name: "Premium" },
 ] as const;
+
+const PREMIUM_THEMES = new Set(["premium"]);
+
+const getThemesForTemplate = (templateSlug: string) =>
+  THEMES.filter((t) => templateSlug === "premium" || !PREMIUM_THEMES.has(t.slug));
 
 type Template = {
   id: string;
@@ -102,7 +108,7 @@ const TemplatesClient = ({ templates, currentThemeSlug }: Props) => {
             focus:outline-none focus:border-cream/40
             disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
-                      {THEMES.map((theme) => (
+                      {getThemesForTemplate(template.slug).map((theme) => (
                         <option
                           key={theme.slug}
                           value={theme.slug}

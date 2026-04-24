@@ -10,6 +10,7 @@ import {
   Lora,
   Barlow,
   Raleway,
+  Caveat,
 } from "next/font/google";
 
 const cormorant = Cormorant_Garamond({
@@ -27,6 +28,7 @@ const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400"] });
 const lora = Lora({ subsets: ["latin"], weight: ["400", "500"] });
 const barlow = Barlow({ subsets: ["latin"], weight: ["300", "400", "500"] });
 const raleway = Raleway({ subsets: ["latin"], weight: ["300", "400"] });
+const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
 
 export type ThemeFonts = {
   heading: string;
@@ -145,5 +147,17 @@ export const themeFonts: Record<string, ThemeFonts> = {
       "text-sm tablet:text-base laptop:text-lg desktop:text-lg ultrawide:text-3xl 4k:text-3xl",
     bodyScale:
       "text-xs tablet:text-sm laptop:text-sm desktop:text-sm ultrawide:text-xl 4k:text-xl",
+  },
+  premium: {
+    heading: caveat.style.fontFamily,
+    body: dmSans.style.fontFamily,
+    heroSize:
+      "text-6xl tablet:text-8xl laptop:text-9xl desktop:text-[12rem] ultrawide:text-[16rem] 4k:text-[18rem]",
+    taglineSize:
+      "text-sm tablet:text-base laptop:text-lg desktop:text-lg ultrawide:text-xl 4k:text-2xl tracking-[0.25em]",
+    headingScale:
+      "text-sm tablet:text-base laptop:text-lg desktop:text-lg ultrawide:text-3xl 4k:text-3xl",
+    bodyScale:
+      "text-xs tablet:text-sm laptop:text-base desktop:text-base ultrawide:text-2xl 4k:text-2xl",
   },
 };

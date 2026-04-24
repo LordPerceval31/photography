@@ -6,10 +6,16 @@ import { AnimatePresence } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { Item } from "../../../../lib/types";
+import type { ThemeFonts } from "../../../themes/fonts";
 import { CarouselGallery } from "./CarouselWrapper";
 import Lightbox from "@/app/_components/lightbox";
 
-const CarouselSection = ({ galleries }: { galleries: CarouselGallery[] }) => {
+interface Props {
+  galleries: CarouselGallery[];
+  fonts: ThemeFonts;
+}
+
+const CarouselSection = ({ galleries, fonts }: Props) => {
   const [emblaRef] = useEmblaCarousel({ loop: true, dragFree: true }, [
     AutoScroll({ speed: 1, stopOnInteraction: false }),
   ]);
@@ -49,10 +55,7 @@ const CarouselSection = ({ galleries }: { galleries: CarouselGallery[] }) => {
 
   return (
     <>
-      <section
-        data-theme="light"
-        className="w-full h-screen bg-cream overflow-hidden cursor-grab active:cursor-grabbing"
-      >
+      <section className="w-full h-screen bg-(--color-bg) overflow-hidden cursor-grab active:cursor-grabbing">
         <div ref={emblaRef} className="h-full px-6 tablet:px-12">
           <div className="flex -ml-6 tablet:-ml-12 h-full items-center">
             {displayGalleries.map((gallery, index) => (
@@ -66,7 +69,7 @@ const CarouselSection = ({ galleries }: { galleries: CarouselGallery[] }) => {
                   onClick={() => handleOpen(gallery.items)}
                   className="group block relative w-full h-[65vh] laptop:h-[60vh] ultrawide:h-auto ultrawide:aspect-3/2 4k:h-[70vh] 4k:aspect-auto text-left"
                 >
-                  <div className="relative h-full w-full overflow-hidden bg-gray-200 rounded-2xl transition-transform duration-500 ease-out group-hover:scale-105">
+                  <div className="relative h-full w-full overflow-hidden bg-(--color-muted)/20 rounded-2xl transition-transform duration-500 ease-out group-hover:scale-105">
                     <Image
                       src={gallery.coverUrl}
                       alt={gallery.galleryName}
@@ -78,12 +81,13 @@ const CarouselSection = ({ galleries }: { galleries: CarouselGallery[] }) => {
 
                   <div className="mt-4 flex justify-between items-center px-1">
                     <span
-                      className="text-xs uppercase tracking-widest text-gray-500 font-medium 
+                      className="text-xs uppercase tracking-widest text-(--color-muted) font-medium
                      tablet:text-sm laptop:text-xs desktop:text-sm 2k:text-base 4k:text-2xl"
+                      style={{ fontFamily: fonts.body }}
                     >
                       {gallery.galleryName}
                     </span>
-                    <span className="text-gray-400 text-lg 4k:text-2xl transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1">
+                    <span className="text-(--color-muted) text-lg 4k:text-2xl transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1">
                       ↗
                     </span>
                   </div>
