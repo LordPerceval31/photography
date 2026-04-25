@@ -1,6 +1,7 @@
 import Image from "next/image";
 import prisma from "../../../../lib/prisma";
 import type { ThemeFonts } from "../../../themes/fonts";
+import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
 
 interface Props {
   userId: string;
@@ -24,8 +25,8 @@ const DarkSection = async ({ userId, fonts }: Props) => {
     config?.darkQuote ||
     "Photographier, c'est mettre sur la même ligne de mire la tête, l'œil et le cœur.";
   const quoteAuthor = config?.darkQuoteAuthor || "Henri Cartier-Bresson";
-  const image1 = darkPhoto1?.url ?? "/DarkPicture01.webp";
-  const image2 = darkPhoto2?.url ?? "/DarkPicture02.webp";
+  const image1 = optimizeCloudinaryUrl(darkPhoto1?.url ?? "/DarkPicture01.webp", 800);
+  const image2 = optimizeCloudinaryUrl(darkPhoto2?.url ?? "/DarkPicture02.webp", 800);
 
   return (
     <section data-theme="dark" className="flex flex-col laptop:flex-row w-full h-screen laptop:h-[80vh] bg-black overflow-hidden">

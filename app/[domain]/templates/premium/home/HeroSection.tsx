@@ -1,6 +1,7 @@
 import Image from "next/image";
 import prisma from "../../../../lib/prisma";
 import type { ThemeFonts } from "../../../themes/fonts";
+import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
 
 export const revalidate = 0;
 
@@ -43,9 +44,10 @@ const HeroSection = async ({ userId, fonts }: Props) => {
   return (
     <div data-theme="dark" className="relative w-full h-screen">
       <Image
-        src={coverPhoto.url}
+        src={optimizeCloudinaryUrl(coverPhoto.url, 1920)}
         alt={finalAlt}
         fill
+        sizes="100vw"
         className="object-cover"
         priority
       />

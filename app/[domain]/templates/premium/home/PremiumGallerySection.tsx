@@ -7,6 +7,7 @@ import { Item } from "../../../../lib/types";
 import type { ThemeFonts } from "../../../themes/fonts";
 import Lightbox from "../../../../_components/lightbox";
 import posthog from "posthog-js";
+import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
 
 interface PremiumGallerySectionProps {
   galleryName: string;
@@ -62,9 +63,10 @@ const PremiumGallerySection = ({
                      overflow-hidden shrink-0"
         >
           <Image
-            src={coverPhoto.url}
+            src={optimizeCloudinaryUrl(coverPhoto.url, 1200)}
             alt={coverPhoto.title || galleryName}
             fill
+            sizes="(max-width: 1024px) 90vw, 65vw"
             className="object-cover"
             priority
           />

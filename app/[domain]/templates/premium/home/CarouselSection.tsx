@@ -9,6 +9,7 @@ import { Item } from "../../../../lib/types";
 import type { ThemeFonts } from "../../../themes/fonts";
 import { CarouselGallery } from "./CarouselWrapper";
 import Lightbox from "@/app/_components/lightbox";
+import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
 
 interface Props {
   galleries: CarouselGallery[];
@@ -72,7 +73,7 @@ const CarouselSection = ({ galleries, fonts, navTheme }: Props) => {
                 >
                   <div className="relative h-full w-full overflow-hidden bg-(--color-muted)/20 rounded-2xl transition-transform duration-500 ease-out group-hover:scale-105">
                     <Image
-                      src={gallery.coverUrl}
+                      src={optimizeCloudinaryUrl(gallery.coverUrl, 800)}
                       alt={gallery.galleryName}
                       fill
                       className="object-cover"
