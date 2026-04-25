@@ -92,6 +92,7 @@ const HeroSection = async ({ userId, fonts }: Props) => {
           </p>
           <div className="animate-bounce">
             <svg
+              aria-hidden="true"
               className="w-5 h-5 text-(--color-bg) 2k:w-8 2k:h-8 4k:w-12 4k:h-12"
               fill="none"
               stroke="currentColor"

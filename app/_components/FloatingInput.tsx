@@ -52,16 +52,17 @@ export const FloatingInput = ({
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
+          aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
           className="absolute right-4 tablet:right-5 2k:right-8 4k:right-12 text-cream/50 hover:text-cream transition-colors focus:outline-none"
         >
           <div className="block 4k:hidden 2k:hidden">
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            {showPassword ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
           </div>
           <div className="hidden 2k:block 4k:hidden">
-            {showPassword ? <EyeOff size={28} /> : <Eye size={28} />}
+            {showPassword ? <EyeOff size={28} aria-hidden="true" /> : <Eye size={28} aria-hidden="true" />}
           </div>
           <div className="hidden 4k:block">
-            {showPassword ? <EyeOff size={56} /> : <Eye size={56} />}
+            {showPassword ? <EyeOff size={56} aria-hidden="true" /> : <Eye size={56} aria-hidden="true" />}
           </div>
         </button>
       )}

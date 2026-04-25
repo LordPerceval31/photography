@@ -66,6 +66,7 @@ const TwoPage = async ({ userId }: Props) => {
 
   return (
     <main
+      id="main-content"
       style={theme as React.CSSProperties}
       className="bg-(--color-bg) text-(--color-text) relative cursor-default"
     >

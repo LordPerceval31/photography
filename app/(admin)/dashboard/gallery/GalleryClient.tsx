@@ -369,11 +369,12 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
             </div>
             <button
               type="button"
+              aria-label="Ajouter l'email"
               onClick={handleAddEmail}
               className="rounded-xl border border-cream/20 text-cream/50 hover:text-cream hover:border-cream/40 transition-all
                 px-3 tablet:px-4 2k:px-6 4k:px-10"
             >
-              <Plus className="w-4 h-4 tablet:w-5 tablet:h-5 laptop:w-6 laptop:h-6 2k:w-7 2k:h-7 4k:w-10 4k:h-10" />
+              <Plus aria-hidden="true" className="w-4 h-4 tablet:w-5 tablet:h-5 laptop:w-6 laptop:h-6 2k:w-7 2k:h-7 4k:w-10 4k:h-10" />
             </button>
           </div>
 
@@ -390,9 +391,10 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
                   <span>{email}</span>
                   <button
                     type="button"
+                    aria-label={`Supprimer ${email}`}
                     onClick={() => handleRemoveEmail(email)}
                   >
-                    <X className="w-3 h-3 tablet:w-4 tablet:h-4 2k:w-5 2k:h-5 4k:w-6 4k:h-6" />
+                    <X aria-hidden="true" className="w-3 h-3 tablet:w-4 tablet:h-4 2k:w-5 2k:h-5 4k:w-6 4k:h-6" />
                   </button>
                 </div>
               ))}
@@ -441,7 +443,11 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
                     </div>
                   </td>
                   <td className="py-2 tablet:py-3 2k:py-4 4k:py-6 px-2 tablet:px-3 laptop:px-4 2k:px-5 4k:px-8">
+                    <label htmlFor={`title-${photo.id}`} className="sr-only">
+                      Titre de la photo
+                    </label>
                     <input
+                      id={`title-${photo.id}`}
                       type="text"
                       value={photo.title}
                       onChange={(e) =>
@@ -456,23 +462,25 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
                   <td className="py-2 tablet:py-3 2k:py-4 4k:py-6 px-2 tablet:px-3 laptop:px-4 2k:px-5 4k:px-8">
                     <button
                       type="button"
+                      aria-label={photo.isGalleryCover ? "Photo de couverture actuelle" : `Définir "${photo.title || "cette photo"}" comme couverture`}
                       onClick={() => handleSetCover(photo.id)}
                       className={`rounded-lg border transition-all duration-300
                         p-1.5 tablet:p-2 laptop:p-2.5 2k:p-3 4k:p-5
                         ${photo.isGalleryCover ? "border-blue bg-blue/10 text-blue" : "border-cream/10 text-cream/20 hover:text-cream/60 hover:border-cream/30"}`}
                     >
-                      <Crown className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8" />
+                      <Crown aria-hidden="true" className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8" />
                     </button>
                   </td>
                   <td className="py-2 tablet:py-3 2k:py-4 4k:py-6 px-2 tablet:px-3 laptop:px-4 2k:px-5 4k:px-8">
                     <button
                       type="button"
+                      aria-label={`Retirer "${photo.title || "cette photo"}" de la galerie`}
                       onClick={() => handleRemovePhoto(photo.id)}
                       className="rounded-lg border border-cream/10 text-cream/20
                         hover:text-red-400 hover:border-red-400/20 transition-all duration-300
                         p-1.5 tablet:p-2 laptop:p-2.5 2k:p-3 4k:p-5"
                     >
-                      <X className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8" />
+                      <X aria-hidden="true" className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8" />
                     </button>
                   </td>
                 </tr>
@@ -482,25 +490,27 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
         </div>
       )}
 
-      {error && (
-        <p
-          className="text-red-400 font-medium laptop:self-center
-          w-[90%] tablet:w-[80%] laptop:w-[70%] desktop:w-[65%]
-          text-[10px] tablet:text-xs laptop:text-sm desktop:text-base 2k:text-lg 4k:text-2xl"
-        >
-          {error}
-        </p>
-      )}
+      <div aria-live="polite" aria-atomic="true">
+        {error && (
+          <p
+            className="text-red-400 font-medium laptop:self-center
+            w-[90%] tablet:w-[80%] laptop:w-[70%] desktop:w-[65%]
+            text-[10px] tablet:text-xs laptop:text-sm desktop:text-base 2k:text-lg 4k:text-2xl"
+          >
+            {error}
+          </p>
+        )}
 
-      {success && (
-        <p
-          className="text-green-400 font-medium laptop:self-center
-          w-[90%] tablet:w-[80%] laptop:w-[70%] desktop:w-[65%]
-          text-[10px] tablet:text-xs laptop:text-sm desktop:text-base 2k:text-lg 4k:text-2xl"
-        >
-          Galerie créée avec succès !
-        </p>
-      )}
+        {success && (
+          <p
+            className="text-green-400 font-medium laptop:self-center
+            w-[90%] tablet:w-[80%] laptop:w-[70%] desktop:w-[65%]
+            text-[10px] tablet:text-xs laptop:text-sm desktop:text-base 2k:text-lg 4k:text-2xl"
+          >
+            Galerie créée avec succès !
+          </p>
+        )}
+      </div>
 
       {/* SUBMIT */}
       <button

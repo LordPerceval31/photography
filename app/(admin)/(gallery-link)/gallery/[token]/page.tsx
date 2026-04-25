@@ -94,11 +94,13 @@ export default function GalleryAccessPage() {
           autoFocus
         />
 
-        {error && (
-          <p className="ml-1 text-xs tablet:text-sm 4k:text-2xl text-red-400 font-medium cursor-default">
-            {error}
-          </p>
-        )}
+        <div aria-live="polite" aria-atomic="true">
+          {error && (
+            <p className="ml-1 text-xs tablet:text-sm 4k:text-2xl text-red-400 font-medium cursor-default">
+              {error}
+            </p>
+          )}
+        </div>
 
         <button
           type="button"

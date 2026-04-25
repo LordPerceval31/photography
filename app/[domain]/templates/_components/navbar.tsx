@@ -14,7 +14,7 @@ export const Navbar = ({
   isHome = false,
 }: NavbarProps) => {
   return (
-    <nav className="absolute top-0 w-full z-50">
+    <nav aria-label="Navigation principale" className="absolute top-0 w-full z-50">
       {/* 2. Le dégradé ne s'affiche que si isHome est true */}
       {isHome && (
         <div className="absolute top-0 left-0 right-0 h-32 tablet:h-48 laptop:h-64 bg-linear-to-b from-(--color-bg)/80 to-transparent pointer-events-none" />

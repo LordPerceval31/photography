@@ -15,7 +15,8 @@ const PolaroidCard = ({
     >
       <Image
         src="/polaroïde.webp"
-        alt="Cadre polaroïd"
+        alt=""
+        role="presentation"
         fill
         className="object-cover z-0"
         sizes="(max-width: 640px) 100vw, (max-width: 1366px) 50vw, 33vw"

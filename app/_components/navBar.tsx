@@ -82,29 +82,34 @@ const NavBar = () => {
         laptop:right-auto laptop:left-1/2 laptop:-translate-x-1/2
         top-6 tablet:top-10 laptop:top-6 2k:top-12 4k:top-16"
     >
-      <nav>
+      <nav aria-label="Navigation principale">
         <div
           className={`relative flex items-center justify-center transition-all duration-500 ease-in-out overflow-hidden rounded-full
-            backdrop-blur-[3px] border 
+            backdrop-blur-[3px] border
             ${textColor} ${borderColor} ${bgColor} ${shadowClasses}
             ${heightClasses}
             ${isOpen ? widthOpen : widthClosed}`}
         >
           <button
             onClick={() => setIsOpen(true)}
+            aria-label="Ouvrir le menu"
+            aria-expanded={isOpen}
+            aria-controls="nav-links"
             className={`absolute flex items-center justify-center transition-all duration-300 ease-in-out active:scale-95 ${
               isOpen
                 ? "opacity-0 scale-50 pointer-events-none"
                 : "opacity-100 scale-100"
             }`}
           >
-            <Menu className={iconClasses} strokeWidth={1} />
+            <Menu className={iconClasses} strokeWidth={1} aria-hidden="true" />
           </button>
 
           {/* AJOUT : shrink-0 et w-max pour que le contenu ne se compresse jamais */}
           <div
+            id="nav-links"
+            aria-hidden={!isOpen}
             className={`flex items-center justify-center px-4 tablet:px-8 transition-all duration-500 ease-in-out shrink-0 w-max
-            ${gapClasses} 
+            ${gapClasses}
             ${isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}
           >
             <Link
@@ -152,11 +157,13 @@ const NavBar = () => {
 
             <button
               onClick={() => setIsOpen(false)}
+              aria-label="Fermer le menu"
               className="flex items-center justify-center active:scale-90 shrink-0"
             >
               <X
                 className={`${closeIconColor} transition-colors cursor-pointer w-4 h-4 tablet:w-5 tablet:h-5 laptop:w-4 laptop:h-4 desktop:w-5 desktop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8 ultrawide:w-8 ultrawide:h-8`}
                 strokeWidth={2}
+                aria-hidden="true"
               />
             </button>
           </div>

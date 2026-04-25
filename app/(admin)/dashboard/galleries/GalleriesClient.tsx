@@ -345,8 +345,18 @@ export default function GalleriesClient({
           return (
             <div
               key={gallery.id}
+              role="button"
+              tabIndex={0}
+              aria-label={`${isSelected ? "Désélectionner" : "Sélectionner"} la galerie : ${gallery.name}`}
+              aria-pressed={isSelected}
               onClick={() => selectGallery(gallery)}
-              className={`flex flex-col gap-3 group cursor-pointer transition-all duration-200 ${isSelected ? "scale-[0.98]" : ""}`}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  selectGallery(gallery);
+                }
+              }}
+              className={`flex flex-col gap-3 group cursor-pointer transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cream/60 rounded-xl ${isSelected ? "scale-[0.98]" : ""}`}
             >
               {/* IMAGE 16/9 */}
               <div
@@ -362,6 +372,7 @@ export default function GalleriesClient({
                 {canShare && (
                   <button
                     type="button"
+                    aria-label={gallery.isPremium ? "Galerie mise en avant" : "Mettre en avant cette galerie"}
                     onClick={(e) => {
                       e.stopPropagation(); // ne pas sélectionner la galerie
                       if (!gallery.isPremium) handleSetFeatured(gallery.id);
@@ -369,6 +380,7 @@ export default function GalleriesClient({
                     className={`absolute top-2 right-2 z-10 transition-colors ${gallery.isPremium ? "cursor-default text-yellow-400" : "text-cream/40 hover:text-yellow-400"}`}
                   >
                     <Star
+                      aria-hidden="true"
                       className="w-5 h-5"
                       fill={gallery.isPremium ? "currentColor" : "none"}
                     />

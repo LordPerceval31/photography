@@ -22,7 +22,7 @@ const PremiumHome = async ({ userId }: Props) => {
   const navTheme = getNavTheme(themeSlug);
 
   return (
-    <main className="relative w-full" style={theme as React.CSSProperties}>
+    <main id="main-content" className="relative w-full" style={theme as React.CSSProperties}>
       <NavBar />
       <SmoothScroll>
         <HeroSection userId={userId} fonts={fonts} />

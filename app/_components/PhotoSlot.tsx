@@ -100,8 +100,17 @@ export const PhotoSlot = ({
   return (
     <div className="w-full flex flex-col gap-2">
       <div
-        className={`relative ${aspectRatio} w-full overflow-hidden glass-card flex items-center justify-center cursor-pointer active:scale-95 group`}
+        role="button"
+        tabIndex={0}
+        aria-label={preview ? "Modifier la photo" : "Ajouter une photo"}
+        className={`relative ${aspectRatio} w-full overflow-hidden glass-card flex items-center justify-center cursor-pointer active:scale-95 group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue`}
         onClick={handleClick}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleClick();
+          }
+        }}
       >
         <input
           ref={inputRef}
@@ -115,7 +124,8 @@ export const PhotoSlot = ({
         {preview && (
           <img
             src={preview}
-            alt={slot}
+            alt=""
+            role="presentation"
             className="absolute inset-0 w-full h-full object-cover"
           />
         )}
@@ -136,17 +146,20 @@ export const PhotoSlot = ({
           ${preview ? "bg-black/0 group-hover:bg-black/30" : ""}`}
           >
             <Plus
+              aria-hidden="true"
               className={`w-6 h-6 tablet:w-8 tablet:h-8 laptop:w-6 laptop:h-6 desktop:w-8 desktop:h-8 2k:w-12 2k:h-12 4k:w-16 4k:h-16
             ${preview ? "text-white opacity-50" : "text-blue opacity-50"}`}
             />
           </div>
         )}
       </div>
-      {error && (
-        <p className="text-red-400 text-[10px] tablet:text-xs 4k:text-xl text-center leading-snug">
-          {error}
-        </p>
-      )}
+      <div aria-live="polite" aria-atomic="true">
+        {error && (
+          <p className="text-red-400 text-[10px] tablet:text-xs 4k:text-xl text-center leading-snug">
+            {error}
+          </p>
+        )}
+      </div>
     </div>
   );
 };

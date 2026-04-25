@@ -34,42 +34,60 @@ export function LandingContactForm() {
     <form action={formAction} className="flex flex-col gap-3">
       {/* Ligne Nom + Email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <input
-          type="text"
-          name="name"
-          placeholder="Prénom / Nom"
-          required
-          className={inputClass}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          required
-          className={inputClass}
-        />
+        <label htmlFor="lc-name">
+          <span className="sr-only">Prénom / Nom</span>
+          <input
+            id="lc-name"
+            type="text"
+            name="name"
+            placeholder="Prénom / Nom"
+            required
+            className={inputClass}
+          />
+        </label>
+        <label htmlFor="lc-email">
+          <span className="sr-only">Email</span>
+          <input
+            id="lc-email"
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+            className={inputClass}
+          />
+        </label>
       </div>
 
       {/* Sujet */}
-      <input
-        type="text"
-        name="subject"
-        placeholder="Sujet"
-        required
-        className={inputClass}
-      />
+      <label htmlFor="lc-subject">
+        <span className="sr-only">Sujet</span>
+        <input
+          id="lc-subject"
+          type="text"
+          name="subject"
+          placeholder="Sujet"
+          required
+          className={inputClass}
+        />
+      </label>
 
       {/* Message */}
-      <textarea
-        name="message"
-        placeholder="Message..."
-        required
-        rows={5}
-        className={`${inputClass} resize-none`}
-      />
+      <label htmlFor="lc-message">
+        <span className="sr-only">Message</span>
+        <textarea
+          id="lc-message"
+          name="message"
+          placeholder="Message..."
+          required
+          rows={5}
+          className={`${inputClass} resize-none`}
+        />
+      </label>
 
       {/* Erreur */}
-      {state.error && <p className="text-red-400 text-sm">{state.error}</p>}
+      <div aria-live="polite" aria-atomic="true">
+        {state.error && <p className="text-red-400 text-sm">{state.error}</p>}
+      </div>
 
       {/* Submit */}
       <button

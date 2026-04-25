@@ -30,6 +30,7 @@ export default async function ContactPage({ userId }: { userId: string }) {
 
   return (
     <main
+      id="main-content"
       style={theme as React.CSSProperties}
       className="bg-(--color-bg) min-h-screen flex flex-col cursor-default"
     >

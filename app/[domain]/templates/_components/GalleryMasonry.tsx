@@ -75,15 +75,25 @@ const GalleryMasonry = ({ photos }: { photos: Photo[] }) => {
       <div className="columns-2 tablet:columns-3 desktop:columns-4 gap-2">
         {galleryPhotos.map((photo) => {
           const item = allItems.find((i) => i.id === photo.id)!;
+          const label = photo.alt || photo.title || "Photographie";
           return (
             <div
               key={photo.id}
-              className="mb-2 break-inside-avoid overflow-hidden rounded-[10px] cursor-pointer group"
+              role="button"
+              tabIndex={0}
+              aria-label={`Ouvrir : ${label}`}
+              className="mb-2 break-inside-avoid overflow-hidden rounded-[10px] cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
               onClick={() => handleOpen(item)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleOpen(item);
+                }
+              }}
             >
               <Image
                 src={photo.url}
-                alt={photo.alt || photo.title || "Photographie"}
+                alt={label}
                 width={0}
                 height={0}
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"

@@ -31,7 +31,7 @@ const PremiumServices = async ({ userId }: Props) => {
   const theme: Theme = themes[themeSlug ?? ""] ?? themes.premium;
 
   return (
-    <main className="relative w-full min-h-screen flex flex-col" style={theme as React.CSSProperties}>
+    <main id="main-content" className="relative w-full min-h-screen flex flex-col" style={theme as React.CSSProperties}>
       {/* Background fixé derrière le contenu */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <Image

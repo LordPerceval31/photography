@@ -94,46 +94,61 @@ const ContactForm = ({
     >
       <div className="grid grid-cols-1 tablet:grid-cols-2 gap-8">
         <div className="text-md tablet:text-lg laptop:text-lg desktop:text-xl 2k:text-2xl 4k:text-4xl">
-          <input
-            name="nom"
-            placeholder="Nom"
-            value={fields.nom}
-            onChange={handleChange}
-            className={inputClass}
-          />
+          <label htmlFor="cf-nom">
+            <span className="sr-only">Nom</span>
+            <input
+              id="cf-nom"
+              name="nom"
+              placeholder="Nom"
+              value={fields.nom}
+              onChange={handleChange}
+              className={inputClass}
+              aria-describedby={errors.nom ? "cf-nom-error" : undefined}
+            />
+          </label>
           {errors.nom && (
-            <p className="mt-1 text-xs tablet:text-sm laptop:text-base desktop:text-lg 2k:text-2xl ultrawide:text-2xl 4k:text-4xl text-(--color-secondary) opacity-80">
+            <p id="cf-nom-error" className="mt-1 text-xs tablet:text-sm laptop:text-base desktop:text-lg 2k:text-2xl ultrawide:text-2xl 4k:text-4xl text-(--color-secondary) opacity-80">
               {errors.nom}
             </p>
           )}
         </div>
         <div className="text-md tablet:text-lg laptop:text-lg desktop:text-xl 2k:text-2xl 4k:text-4xl">
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={fields.email}
-            onChange={handleChange}
-            className={inputClass}
-          />
+          <label htmlFor="cf-email">
+            <span className="sr-only">Email</span>
+            <input
+              id="cf-email"
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={fields.email}
+              onChange={handleChange}
+              className={inputClass}
+              aria-describedby={errors.email ? "cf-email-error" : undefined}
+            />
+          </label>
           {errors.email && (
-            <p className="mt-1 text-xs tablet:text-sm laptop:text-base desktop:text-lg 2k:text-2xl ultrawide:text-2xl 4k:text-4xl text-(--color-secondary) opacity-80">
+            <p id="cf-email-error" className="mt-1 text-xs tablet:text-sm laptop:text-base desktop:text-lg 2k:text-2xl ultrawide:text-2xl 4k:text-4xl text-(--color-secondary) opacity-80">
               {errors.email}
             </p>
           )}
         </div>
       </div>
       <div className="text-md tablet:text-lg laptop:text-lg desktop:text-xl 2k:text-2xl 4k:text-4xl">
-        <textarea
-          name="message"
-          placeholder="Message"
-          rows={4}
-          value={fields.message}
-          onChange={handleChange}
-          className={`${inputClass} resize-none`}
-        />
+        <label htmlFor="cf-message">
+          <span className="sr-only">Message</span>
+          <textarea
+            id="cf-message"
+            name="message"
+            placeholder="Message"
+            rows={4}
+            value={fields.message}
+            onChange={handleChange}
+            className={`${inputClass} resize-none`}
+            aria-describedby={errors.message ? "cf-message-error" : undefined}
+          />
+        </label>
         {errors.message && (
-          <p className="mt-1 text-xs tablet:text-sm laptop:text-base desktop:text-lg 2k:text-2xl ultrawide:text-2xl 4k:text-4xl text-(--color-secondary) opacity-80">
+          <p id="cf-message-error" className="mt-1 text-xs tablet:text-sm laptop:text-base desktop:text-lg 2k:text-2xl ultrawide:text-2xl 4k:text-4xl text-(--color-secondary) opacity-80">
             {errors.message}
           </p>
         )}

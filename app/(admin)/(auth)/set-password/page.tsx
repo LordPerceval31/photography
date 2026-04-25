@@ -141,35 +141,37 @@ export const ResetPassword = () => {
           />
 
           {/* LISTE D'ERREURS DÉTAILLÉES */}
-          {fieldErrors?.password && (
-            <div className="bg-red-400/10 border border-red-400/30 rounded-xl p-4 tablet:p-5 laptop:p-6 2k:p-8 4k:p-16 space-y-2 tablet:space-y-3 4k:space-y-8 animate-in slide-in-from-top-2">
-              <div className="flex items-center gap-3 text-red-400">
-                <div className="laptop:hidden">
-                  <AlertTriangle size={20} />
+          <div aria-live="polite" aria-atomic="true">
+            {fieldErrors?.password && (
+              <div className="bg-red-400/10 border border-red-400/30 rounded-xl p-4 tablet:p-5 laptop:p-6 2k:p-8 4k:p-16 space-y-2 tablet:space-y-3 4k:space-y-8 animate-in slide-in-from-top-2">
+                <div className="flex items-center gap-3 text-red-400">
+                  <div className="laptop:hidden">
+                    <AlertTriangle size={20} aria-hidden="true" />
+                  </div>
+                  <div className="hidden laptop:block 4k:hidden">
+                    <AlertTriangle size={24} aria-hidden="true" />
+                  </div>
+                  <div className="hidden 4k:block">
+                    <AlertTriangle size={48} aria-hidden="true" />
+                  </div>
+                  <p className="text-sm tablet:text-base 2k:text-xl 4k:text-2xl font-medium">
+                    Le mot de passe doit :
+                  </p>
                 </div>
-                <div className="hidden laptop:block 4k:hidden">
-                  <AlertTriangle size={24} />
-                </div>
-                <div className="hidden 4k:block">
-                  <AlertTriangle size={48} />
-                </div>
-                <p className="text-sm tablet:text-base 2k:text-xl 4k:text-2xl font-medium">
-                  Le mot de passe doit :
-                </p>
+                <ul className="list-disc list-inside pl-1 text-[10px] tablet:text-xs laptop:text-sm 2k:text-lg 4k:text-2xl text-red-300/90 space-y-1 tablet:space-y-1.5 4k:space-y-4 font-light">
+                  {fieldErrors.password.map((err, index) => (
+                    <li key={index}>{err}</li>
+                  ))}
+                </ul>
               </div>
-              <ul className="list-disc list-inside pl-1 text-[10px] tablet:text-xs laptop:text-sm 2k:text-lg 4k:text-2xl text-red-300/90 space-y-1 tablet:space-y-1.5 4k:space-y-4 font-light">
-                {fieldErrors.password.map((err, index) => (
-                  <li key={index}>{err}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+            )}
 
-          {globalError && (
-            <p className="mt-1 ml-1 text-xs tablet:text-sm 2k:text-xl 4k:text-2xl text-red-400 font-medium">
-              {globalError}
-            </p>
-          )}
+            {globalError && (
+              <p className="mt-1 ml-1 text-xs tablet:text-sm 2k:text-xl 4k:text-2xl text-red-400 font-medium">
+                {globalError}
+              </p>
+            )}
+          </div>
 
           <button
             type="submit"

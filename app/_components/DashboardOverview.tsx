@@ -53,12 +53,13 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
       <div className="absolute top-6 right-6 desktop:top-10 desktop:right-10 2k:top-14 2k:right-14 ultrawide:top-16 ultrawide:right-16 4k:top-20 4k:right-20 flex flex-col items-end gap-3 desktop:gap-4 z-100">
         <Link
           href="/dashboard/settings"
+          aria-label="Paramètres"
           className="flex items-center gap-3 desktop:gap-4 4k:gap-10 text-cream/30 hover:text-cream transition-all duration-300 group cursor-pointer hover:-translate-y-1 active:translate-y-0 active:scale-95"
         >
-          <span className="hidden laptop:block uppercase tracking-[0.4em] text-[10px] desktop:text-xs 2k:text-base ultrawide:text-xl 4k:text-2xl font-medium">
+          <span aria-hidden="true" className="hidden laptop:block uppercase tracking-[0.4em] text-[10px] desktop:text-xs 2k:text-base ultrawide:text-xl 4k:text-2xl font-medium">
             Paramètres
           </span>
-          <Settings className="w-5 h-5 desktop:w-7 desktop:h-7 2k:w-10 2k:h-10 ultrawide:w-10 ultrawide:h-10 4k:w-12 4k:h-12 group-hover:rotate-90 transition-transform duration-500" />
+          <Settings aria-hidden="true" className="w-5 h-5 desktop:w-7 desktop:h-7 2k:w-10 2k:h-10 ultrawide:w-10 ultrawide:h-10 4k:w-12 4k:h-12 group-hover:rotate-90 transition-transform duration-500" />
         </Link>
 
         {portfolioUrl && (
@@ -66,12 +67,13 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
             href={portfolioUrl}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Aperçu de mon portfolio (ouvre dans un nouvel onglet)"
             className="flex items-center gap-3 desktop:gap-4 4k:gap-10 text-cream/30 hover:text-cream transition-all duration-300 group cursor-pointer hover:-translate-y-1 active:translate-y-0 active:scale-95"
           >
-            <span className="hidden laptop:block uppercase tracking-[0.4em] text-[10px] desktop:text-xs 2k:text-base ultrawide:text-xl 4k:text-2xl font-medium">
+            <span aria-hidden="true" className="hidden laptop:block uppercase tracking-[0.4em] text-[10px] desktop:text-xs 2k:text-base ultrawide:text-xl 4k:text-2xl font-medium">
               Aperçu
             </span>
-            <ExternalLink className="w-5 h-5 desktop:w-7 desktop:h-7 2k:w-10 2k:h-10 ultrawide:w-10 ultrawide:h-10 4k:w-12 4k:h-12 group-hover:scale-110 transition-transform duration-300" />
+            <ExternalLink aria-hidden="true" className="w-5 h-5 desktop:w-7 desktop:h-7 2k:w-10 2k:h-10 ultrawide:w-10 ultrawide:h-10 4k:w-12 4k:h-12 group-hover:scale-110 transition-transform duration-300" />
           </a>
         )}
       </div>
@@ -83,12 +85,13 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
       >
         <button
           type="submit"
+          aria-label="Déconnexion"
           className="flex items-center gap-3 desktop:gap-4 4k:gap-10 text-cream/30 hover:text-cream transition-all duration-300 group cursor-pointer hover:-translate-y-1 active:translate-y-0 active:scale-95"
         >
-          <span className="hidden laptop:block uppercase tracking-[0.4em] text-[10px] desktop:text-xs 2k:text-base ultrawide:text-xl 4k:text-2xl font-medium">
+          <span aria-hidden="true" className="hidden laptop:block uppercase tracking-[0.4em] text-[10px] desktop:text-xs 2k:text-base ultrawide:text-xl 4k:text-2xl font-medium">
             Déconnexion
           </span>
-          <LogOut className="w-5 h-5 desktop:w-7 desktop:h-7 2k:w-10 2k:h-10 ultrawide:w-10 ultrawide:h-10 4k:w-12 4k:h-12 group-hover:translate-x-2 transition-transform duration-300" />
+          <LogOut aria-hidden="true" className="w-5 h-5 desktop:w-7 desktop:h-7 2k:w-10 2k:h-10 ultrawide:w-10 ultrawide:h-10 4k:w-12 4k:h-12 group-hover:translate-x-2 transition-transform duration-300" />
         </button>
       </form>
 
@@ -163,7 +166,7 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
             >
               <Image
                 src={optimizeCloudinaryUrl(photo.url)}
-                alt="photo"
+                alt={photo.title || "Photo récente"}
                 fill
                 sizes="15vw"
                 className="object-cover"

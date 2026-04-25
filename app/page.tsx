@@ -132,7 +132,7 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <main className="bg-[#0a0a0a] text-[#ededed] min-h-screen overflow-x-hidden selection:bg-blue selection:text-white cursor-default">
+      <main id="main-content" className="bg-[#0a0a0a] text-[#ededed] min-h-screen overflow-x-hidden selection:bg-blue selection:text-white cursor-default">
         {/* ── HEADER ── */}
         <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between w-[calc(100%-32px)] tablet:w-[70%] max-w-5xl desktop:max-w-7xl 2k:max-w-400 ultrawide:max-w-500 4k:max-w-600 px-4 py-3 2k:px-6 2k:py-4 4k:px-10 4k:py-8 glass-premium rounded-full transition-all duration-300">
           <span className="font-extrabold text-[15px] tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-4xl tracking-tight text-cream cursor-default">
@@ -297,11 +297,14 @@ export default function LandingPage() {
                       </span>
                     )}
                   </div>
-                  <div className="flex items-baseline gap-1 2k:gap-2 4k:gap-4">
-                    <span className="text-5xl tablet:text-6xl laptop:text-5xl desktop:text-7xl 2k:text-8xl ultrawide:text-[7rem] 4k:text-[10rem] font-extrabold tracking-tight text-cream cursor-default">
+                  <div
+                    aria-label={`${plan.price} euros`}
+                    className="flex items-baseline gap-1 2k:gap-2 4k:gap-4"
+                  >
+                    <span aria-hidden="true" className="text-5xl tablet:text-6xl laptop:text-5xl desktop:text-7xl 2k:text-8xl ultrawide:text-[7rem] 4k:text-[10rem] font-extrabold tracking-tight text-cream cursor-default">
                       {plan.price}
                     </span>
-                    <span className="text-xl tablet:text-2xl laptop:text-xl desktop:text-3xl 2k:text-4xl ultrawide:text-5xl 4k:text-6xl font-medium text-cream/60 cursor-default">
+                    <span aria-hidden="true" className="text-xl tablet:text-2xl laptop:text-xl desktop:text-3xl 2k:text-4xl ultrawide:text-5xl 4k:text-6xl font-medium text-cream/60 cursor-default">
                       €
                     </span>
                   </div>
@@ -359,33 +362,49 @@ export default function LandingPage() {
             className="glass-card p-6 tablet:p-10 laptop:p-14 desktop:p-20 2k:p-24 ultrawide:p-32 4k:p-40 rounded-3xl 2k:rounded-[40px] 4k:rounded-[60px] flex flex-col gap-6 desktop:gap-8 2k:gap-12 4k:gap-16"
           >
             <div className="flex flex-col tablet:flex-row gap-6 desktop:gap-8 2k:gap-12 4k:gap-16">
+              <label htmlFor="contact-name" className="w-full">
+                <span className="sr-only">Votre nom</span>
+                <input
+                  id="contact-name"
+                  name="name"
+                  type="text"
+                  placeholder="Votre nom"
+                  required
+                  className="glass-input w-full p-4 tablet:p-5 desktop:p-6 2k:p-8 ultrawide:p-10 4k:p-12 rounded-xl 2k:rounded-2xl 4k:rounded-3xl text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors cursor-text"
+                />
+              </label>
+              <label htmlFor="contact-phone" className="w-full">
+                <span className="sr-only">Téléphone (optionnel)</span>
+                <input
+                  id="contact-phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="Téléphone (optionnel)"
+                  className="glass-input w-full p-4 tablet:p-5 desktop:p-6 2k:p-8 ultrawide:p-10 4k:p-12 rounded-xl 2k:rounded-2xl 4k:rounded-3xl text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors cursor-text"
+                />
+              </label>
+            </div>
+            <label htmlFor="contact-email">
+              <span className="sr-only">Votre email</span>
               <input
-                name="name"
-                type="text"
-                placeholder="Votre nom"
+                id="contact-email"
+                name="email"
+                type="email"
+                placeholder="Votre email"
                 required
                 className="glass-input w-full p-4 tablet:p-5 desktop:p-6 2k:p-8 ultrawide:p-10 4k:p-12 rounded-xl 2k:rounded-2xl 4k:rounded-3xl text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors cursor-text"
               />
-              <input
-                name="phone"
-                type="tel"
-                placeholder="Téléphone (optionnel)"
-                className="glass-input w-full p-4 tablet:p-5 desktop:p-6 2k:p-8 ultrawide:p-10 4k:p-12 rounded-xl 2k:rounded-2xl 4k:rounded-3xl text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors cursor-text"
+            </label>
+            <label htmlFor="contact-message">
+              <span className="sr-only">Détails sur vos besoins</span>
+              <textarea
+                id="contact-message"
+                name="message"
+                placeholder="Détails sur vos besoins (précisez l'offre qui vous intéresse)..."
+                required
+                className="glass-input w-full p-4 tablet:p-5 desktop:p-6 2k:p-8 ultrawide:p-10 4k:p-12 rounded-xl 2k:rounded-2xl 4k:rounded-3xl text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-4xl text-cream placeholder:text-cream/30 min-h-40 tablet:min-h-50 desktop:min-h-62.5 2k:min-h-75 ultrawide:min-h-100 4k:min-h-125 resize-none outline-none focus:border-blue transition-colors cursor-text"
               />
-            </div>
-            <input
-              name="email"
-              type="email"
-              placeholder="Votre email"
-              required
-              className="glass-input w-full p-4 tablet:p-5 desktop:p-6 2k:p-8 ultrawide:p-10 4k:p-12 rounded-xl 2k:rounded-2xl 4k:rounded-3xl text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-4xl text-cream placeholder:text-cream/30 outline-none focus:border-blue transition-colors cursor-text"
-            />
-            <textarea
-              name="message"
-              placeholder="Détails sur vos besoins (précisez l'offre qui vous intéresse)..."
-              required
-              className="glass-input w-full p-4 tablet:p-5 desktop:p-6 2k:p-8 ultrawide:p-10 4k:p-12 rounded-xl 2k:rounded-2xl 4k:rounded-3xl text-sm tablet:text-base laptop:text-lg desktop:text-xl 2k:text-2xl ultrawide:text-3xl 4k:text-4xl text-cream placeholder:text-cream/30 min-h-40 tablet:min-h-50 desktop:min-h-62.5 2k:min-h-75 ultrawide:min-h-100 4k:min-h-125 resize-none outline-none focus:border-blue transition-colors cursor-text"
-            />
+            </label>
 
             <button
               type="submit"
@@ -395,16 +414,18 @@ export default function LandingPage() {
               {isPending ? "Envoi..." : "Envoyer ma demande"}
             </button>
 
-            {state.error && (
-              <p className="text-red-400 text-sm tablet:text-base desktop:text-lg 2k:text-xl ultrawide:text-2xl 4k:text-3xl text-center cursor-default">
-                {state.error}
-              </p>
-            )}
-            {state.success && (
-              <p className="text-green-400 text-sm tablet:text-base desktop:text-lg 2k:text-xl ultrawide:text-2xl 4k:text-3xl text-center font-bold cursor-default">
-                Demande envoyée ! Je vous recontacte très vite.
-              </p>
-            )}
+            <div aria-live="polite" aria-atomic="true">
+              {state.error && (
+                <p className="text-red-400 text-sm tablet:text-base desktop:text-lg 2k:text-xl ultrawide:text-2xl 4k:text-3xl text-center cursor-default">
+                  {state.error}
+                </p>
+              )}
+              {state.success && (
+                <p className="text-green-400 text-sm tablet:text-base desktop:text-lg 2k:text-xl ultrawide:text-2xl 4k:text-3xl text-center font-bold cursor-default">
+                  Demande envoyée ! Je vous recontacte très vite.
+                </p>
+              )}
+            </div>
           </form>
         </section>
 
@@ -427,6 +448,8 @@ export default function LandingPage() {
             <a
               href="https://levynixstudio.netlify.app/"
               target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Levynix Studio (ouvre dans un nouvel onglet)"
               className="text-cream/70 hover:text-blue underline underline-offset-4 cursor-pointer"
             >
               Levynix Studio

@@ -134,6 +134,9 @@ const Lightbox = ({
 
   return (
     <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Photo ${selectedIndex + 1} sur ${items.length}`}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -142,9 +145,10 @@ const Lightbox = ({
       {/* BOUTON FERMER */}
       <button
         onClick={() => handleClose("button")}
+        aria-label="Fermer la photo"
         className="absolute top-6 right-6 tablet:top-10 tablet:right-10 text-white/70 hover:text-white z-50 p-2 bg-black/20 rounded-full backdrop-blur-md"
       >
-        <X size={28} />
+        <X size={28} aria-hidden="true" />
       </button>
 
       {/* IMAGE */}
@@ -153,6 +157,7 @@ const Lightbox = ({
           <motion.img
             key={items[selectedIndex].id}
             src={items[selectedIndex].img}
+            alt={items[selectedIndex].alt ?? "Photographie"}
             className="absolute w-auto h-auto max-w-full max-h-[70vh] tablet:max-h-[75vh] object-contain rounded-lg shadow-2xl cursor-grab active:cursor-grabbing"
             custom={direction}
             variants={sliderVariants}
@@ -187,23 +192,25 @@ const Lightbox = ({
       {/* FLECHES — côtés sur tablet+, bas sur mobile */}
       {selectedIndex > 0 && (
         <button
+          aria-label="Photo précédente"
           className="absolute z-50 p-3 text-white/50 hover:text-white bg-black/10 rounded-full backdrop-blur-md
       left-6 bottom-8
       laptop:left-10 laptop:bottom-auto laptop:top-1/2 laptop:-translate-y-1/2"
           onClick={() => handleNavigate(-1, "arrow")}
         >
-          <ChevronLeft size={32} />
+          <ChevronLeft size={32} aria-hidden="true" />
         </button>
       )}
 
       {selectedIndex < items.length - 1 && (
         <button
+          aria-label="Photo suivante"
           className="absolute z-50 p-3 text-white/50 hover:text-white bg-black/10 rounded-full backdrop-blur-md
       right-6 bottom-8
       laptop:right-10 laptop:bottom-auto laptop:top-1/2 laptop:-translate-y-1/2"
           onClick={() => handleNavigate(1, "arrow")}
         >
-          <ChevronRight size={32} />
+          <ChevronRight size={32} aria-hidden="true" />
         </button>
       )}
 

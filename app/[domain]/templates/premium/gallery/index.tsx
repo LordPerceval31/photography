@@ -9,7 +9,7 @@ interface Props {
 // L'aiguilleur (app/[domain]/gallery/page.tsx) injecte userId
 const PremiumGallery = ({ userId }: Props) => {
   return (
-    <main className="min-h-screen w-full bg-dark relative">
+    <main id="main-content" className="min-h-screen w-full bg-dark relative">
       <NavBar />
       <BackgroundWrapper userId={userId} />
     </main>

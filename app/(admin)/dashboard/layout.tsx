@@ -26,7 +26,8 @@ export default async function DashboardLayout({
       <div className="fixed inset-0 -z-10">
         <Image
           src="/dashboard.webp"
-          alt="image de fond"
+          alt=""
+          role="presentation"
           fill
           sizes="100vw"
           className="object-cover opacity-50"

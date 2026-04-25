@@ -712,12 +712,22 @@ const PhotosClient = ({
           return (
             <div
               key={photo.id}
+              role="button"
+              tabIndex={0}
+              aria-label={`${isSelected ? "Désélectionner" : "Sélectionner"} : ${photo.title || "Photo sans titre"}`}
+              aria-pressed={isSelected}
               onClick={() => toggleSelection(photo.id)}
-              className="relative group cursor-pointer overflow-hidden glass-card mb-4 break-inside-avoid inline-block w-full"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  toggleSelection(photo.id);
+                }
+              }}
+              className="relative group cursor-pointer overflow-hidden glass-card mb-4 break-inside-avoid inline-block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-cream/60"
             >
               <img
                 src={optimizeCloudinaryUrl(photo.url, 500)}
-                alt={photo.title || "Photo"}
+                alt={photo.title || "Photo sans titre"}
                 loading="lazy"
                 decoding="async"
                 className={`w-full h-auto block transition-transform duration-300 ${

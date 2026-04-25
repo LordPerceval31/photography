@@ -21,6 +21,7 @@ const PremiumAbout = async ({ userId }: Props) => {
 
   return (
     <main
+      id="main-content"
       style={theme as React.CSSProperties}
       className="relative w-full min-h-screen bg-(--color-bg) text-(--color-text) cursor-default"
     >

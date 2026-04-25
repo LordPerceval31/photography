@@ -73,6 +73,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-blue focus:text-white focus:rounded-lg focus:font-semibold"
+        >
+          Passer au contenu
+        </a>
         {children}
 
         {/* 2. LE CONTENEUR (Placé à la fin du body pour être au-dessus de tout) */}

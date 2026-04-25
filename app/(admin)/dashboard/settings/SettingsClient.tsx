@@ -188,11 +188,13 @@ const SettingsClient = ({ user }: { user: User }) => {
               />
             </div>
 
-            {email.status === "error" && (
-              <p className="text-red-400 text-xs tablet:text-sm 4k:text-2xl">
-                {email.errorMessage}
-              </p>
-            )}
+            <div aria-live="polite" aria-atomic="true">
+              {email.status === "error" && (
+                <p className="text-red-400 text-xs tablet:text-sm 4k:text-2xl">
+                  {email.errorMessage}
+                </p>
+              )}
+            </div>
 
             <SubmitButton
               pending={email.isPending}
@@ -244,11 +246,13 @@ const SettingsClient = ({ user }: { user: User }) => {
               />
             </div>
 
-            {password.status === "error" && (
-              <p className="text-red-400 text-xs tablet:text-sm 4k:text-2xl">
-                {password.errorMessage}
-              </p>
-            )}
+            <div aria-live="polite" aria-atomic="true">
+              {password.status === "error" && (
+                <p className="text-red-400 text-xs tablet:text-sm 4k:text-2xl">
+                  {password.errorMessage}
+                </p>
+              )}
+            </div>
 
             <SubmitButton
               pending={password.isPending}
@@ -360,11 +364,13 @@ const SettingsClient = ({ user }: { user: User }) => {
               />
             </div>
 
-            {cloudinary.status === "error" && (
-              <p className="text-red-400 text-xs tablet:text-sm 4k:text-2xl">
-                {cloudinary.errorMessage}
-              </p>
-            )}
+            <div aria-live="polite" aria-atomic="true">
+              {cloudinary.status === "error" && (
+                <p className="text-red-400 text-xs tablet:text-sm 4k:text-2xl">
+                  {cloudinary.errorMessage}
+                </p>
+              )}
+            </div>
 
             <SubmitButton
               pending={cloudinary.isPending}
@@ -465,11 +471,13 @@ const SettingsClient = ({ user }: { user: User }) => {
               </div>
             </div>
 
-            {emailjs.status === "error" && (
-              <p className="text-red-400 text-xs tablet:text-sm 4k:text-2xl">
-                {emailjs.errorMessage}
-              </p>
-            )}
+            <div aria-live="polite" aria-atomic="true">
+              {emailjs.status === "error" && (
+                <p className="text-red-400 text-xs tablet:text-sm 4k:text-2xl">
+                  {emailjs.errorMessage}
+                </p>
+              )}
+            </div>
 
             <SubmitButton
               pending={emailjs.isPending}

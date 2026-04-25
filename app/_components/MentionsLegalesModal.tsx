@@ -25,10 +25,14 @@ const MentionsLegalesModal = ({ open, onClose }: Props) => {
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"
       }`}
+      aria-hidden={!open}
       onClick={onClose}
     >
       {/* Panneau : transition uniquement sur le translate pour l'effet de slide */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mentions-modal-title"
         className={`relative glass-card rounded-2xl p-12 w-full max-w-4xl 2k:max-w-6xl 4k:max-w-600 max-h-[90vh] 4k:max-h-[85vh] overflow-y-auto scrollbar-thin transition-transform duration-300 ${
           open ? "translate-y-0" : "translate-y-6"
         }`}
@@ -36,12 +40,13 @@ const MentionsLegalesModal = ({ open, onClose }: Props) => {
       >
         <button
           onClick={onClose}
+          aria-label="Fermer"
           className="absolute top-6 right-6 text-cream/40 hover:text-cream transition-colors cursor-pointer"
         >
-          <X className="w-6 h-6" />
+          <X className="w-6 h-6" aria-hidden="true" />
         </button>
 
-        <h2 className="text-3xl font-bold text-cream mb-10">
+        <h2 id="mentions-modal-title" className="text-3xl font-bold text-cream mb-10">
           Mentions légales, Confidentialité, CGU & CGV
         </h2>
 
