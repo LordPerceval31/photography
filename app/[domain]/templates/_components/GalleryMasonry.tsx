@@ -5,6 +5,7 @@ import Image from "next/image";
 import { AnimatePresence } from "framer-motion";
 import Lightbox from "@/app/_components/lightbox";
 import type { Item } from "@/app/lib/types";
+import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
 
 type Photo = {
   id: string;
@@ -92,7 +93,7 @@ const GalleryMasonry = ({ photos }: { photos: Photo[] }) => {
               }}
             >
               <Image
-                src={photo.url}
+                src={optimizeCloudinaryUrl(photo.url, 800)}
                 alt={label}
                 width={0}
                 height={0}

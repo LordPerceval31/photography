@@ -9,6 +9,8 @@ posthog.init(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN!, {
   persistence: "memory",
   // Active la capture automatique des exceptions non gérées
   capture_exceptions: true,
+  // Désactive le chargement de surveys.js (fonctionnalité non utilisée)
+  disable_surveys: true,
   // Mode debug en développement
   debug: process.env.NODE_ENV === "development",
 });
