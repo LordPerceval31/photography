@@ -5,6 +5,7 @@ import type { Theme } from "../../../themes/index";
 import { themeFonts } from "../../../themes/fonts";
 import { Navbar } from "../../_components/navbar";
 import GalleryMasonry from "../../_components/GalleryMasonry";
+import { optimizeCloudinaryUrl } from "@/app/lib/cloudinary-url";
 
 interface Props {
   userId: string;
@@ -76,9 +77,10 @@ const TwoPage = async ({ userId }: Props) => {
       <section className="relative h-screen w-full overflow-hidden">
         {coverPhoto ? (
           <Image
-            src={coverPhoto.url}
+            src={optimizeCloudinaryUrl(coverPhoto.url, 1920)}
             alt={coverAlt}
             fill
+            sizes="100vw"
             className="object-cover"
             priority
           />
