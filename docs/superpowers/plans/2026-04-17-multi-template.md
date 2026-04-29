@@ -140,7 +140,7 @@ import prisma from "@/app/lib/prisma";
 export const getUserByDomain = cache(async (domain: string) => {
   return prisma.user.findFirst({
     where: {
-      OR: [{ subdomain: domain }, { customDomain: domain }],
+      subdomain: domain,
     },
     include: {
       siteConfig: true,

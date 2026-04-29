@@ -9,7 +9,7 @@ export default async function sitemap({
   const { domain } = await params;
 
   const user = await prisma.user.findFirst({
-    where: { OR: [{ subdomain: domain }, { customDomain: domain }] },
+    where: { subdomain: domain },
     include: { galleries: { where: { isPrivate: false } } }, // Uniquement les galeries publiques
   });
 

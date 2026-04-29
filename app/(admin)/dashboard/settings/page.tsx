@@ -18,6 +18,7 @@ const SettingsPage = async () => {
     where: { id: session.user.id },
     select: {
       email: true,
+      subdomain: true,
       cloudinaryName: true,
       cloudinaryKey: true,
       cloudinarySecret: true,

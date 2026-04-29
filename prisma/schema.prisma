@@ -22,7 +22,6 @@ model User {
   tempCodeExpiry DateTime?
 
   subdomain        String?   @unique // ex: "jean"
-  customDomain     String?   @unique // ex: "www.jean-photo.fr"
 
   cloudinaryName   String?
   cloudinaryKey    String?

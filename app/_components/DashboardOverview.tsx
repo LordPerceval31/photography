@@ -27,7 +27,6 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
       select: {
         activeTemplate: { select: { slug: true } },
         subdomain: true,
-        customDomain: true,
       },
     }),
   ]);
@@ -36,16 +35,11 @@ export const DashboardOverview = async ({ userId }: DashboardOverviewProps) => {
 
   const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_DOMAIN || "photolio.fr";
   const isDev = process.env.NODE_ENV === "development";
-  const realCustomDomain = user?.customDomain?.includes(".")
-    ? user.customDomain
+  const portfolioUrl = user?.subdomain
+    ? isDev
+      ? `http://localhost:3000/${user.subdomain}`
+      : `https://${user.subdomain}.${BASE_DOMAIN}`
     : null;
-  const portfolioUrl = realCustomDomain
-    ? `https://${realCustomDomain}`
-    : user?.subdomain
-      ? isDev
-        ? `http://localhost:3000/${user.subdomain}`
-        : `https://${user.subdomain}.${BASE_DOMAIN}`
-      : null;
 
   return (
     <div className="w-full flex flex-col items-center laptop:items-start gap-10 laptop:gap-4 desktop:gap-8 2k:gap-12 4k:gap-20">

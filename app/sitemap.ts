@@ -16,36 +16,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 2. TES SOUS-DOMAINES DYNAMIQUES (La requête vers ta BDD)
   const users = await prisma.user.findMany({
-    where: {
-      OR: [{ subdomain: { not: null } }, { customDomain: { not: null } }],
-    },
-    select: {
-      subdomain: true,
-      customDomain: true,
-    },
+    where: { subdomain: { not: null } },
+    select: { subdomain: true },
   });
 
   const tenantSites: MetadataRoute.Sitemap = users
-    .map((user) => {
-      // Un customDomain valide doit contenir un point (ex: "mon-site.fr")
-      // Sinon on replie sur le sous-domaine photolio.fr
-      const domainUrl =
-        user.customDomain && user.customDomain.includes(".")
-          ? `https://${user.customDomain}`
-          : user.subdomain
-            ? `https://${user.subdomain}.photolio.fr`
-            : null;
-
-      if (!domainUrl) return null;
-
-      return {
-        url: domainUrl,
-        lastModified: new Date(),
-        changeFrequency: "weekly" as const,
-        priority: 0.8,
-      };
-    })
-    .filter((entry) => entry !== null);
+    .filter((user) => user.subdomain !== null)
+    .map((user) => ({
+      url: `https://${user.subdomain}.photolio.fr`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }));
 
   // 3. ON ASSEMBLE TOUT ET ON ENVOIE À GOOGLE
   return [...staticPages, ...tenantSites];

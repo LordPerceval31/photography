@@ -13,7 +13,7 @@ export async function generateMetadata({
   const { domain } = await params;
 
   const user = await prisma.user.findFirst({
-    where: { OR: [{ subdomain: domain }, { customDomain: domain }] },
+    where: { subdomain: domain },
     include: { siteConfig: true },
   });
 
@@ -33,10 +33,7 @@ export async function generateMetadata({
     config?.bioParagraph1 ||
     "";
 
-  // URL canonique : domaine custom en priorité, sinon sous-domaine Photolio
-  const baseUrl = user.customDomain
-    ? `https://${user.customDomain}`
-    : `https://${user.subdomain}.${process.env.NEXT_PUBLIC_BASE_DOMAIN}`;
+  const baseUrl = `https://${domain}.${process.env.NEXT_PUBLIC_BASE_DOMAIN}`;
 
   // Photo de couverture pour og:image
   const coverPhoto = await prisma.photo.findFirst({

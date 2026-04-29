@@ -135,7 +135,7 @@ Chaque `templates/[slug]/home/page.tsx` exporte un composant `default` respectan
 ```ts
 // app/[domain]/page.tsx
 const user = await prisma.user.findFirst({
-  where: { OR: [{ subdomain: domain }, { customDomain: domain }] },
+  where: { subdomain: domain },
   include: { activeTemplate: true, siteConfig: true },
 })
 

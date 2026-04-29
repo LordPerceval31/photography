@@ -9,11 +9,13 @@ import {
   updateEmail,
   updateEmailJsCredentials,
   updatePassword,
+  updateSubdomain,
 } from "../../actions/settings";
 import { FloatingInput } from "@/app/_components/FloatingInput";
 
 type User = {
   email: string;
+  subdomain: string | null;
   cloudinaryName: string | null;
   cloudinaryKey: string | null;
   cloudinarySecret: string | null;
@@ -112,10 +114,12 @@ const SettingsClient = ({ user }: { user: User }) => {
     !!user.cloudinaryName && !!user.cloudinaryKey && !!user.cloudinarySecret,
   );
 
+  const subdomain = useFormStatus();
   const cloudinary = useFormStatus();
   const emailjs = useFormStatus();
   const email = useFormStatus();
   const password = useFormStatus();
+  const [subdomainValue, setSubdomainValue] = useState(user.subdomain ?? "");
 
   const [isEmailJsConfigured, setIsEmailJsConfigured] = useState(
     !!user.emailjsServiceId &&
@@ -154,6 +158,67 @@ const SettingsClient = ({ user }: { user: User }) => {
       {/* CONTENU DÉFILANT */}
       <div className="flex-1 flex flex-col items-center laptop:items-stretch w-full overflow-y-auto no-scrollbar pb-20 px-4 tablet:px-6 laptop:px-0">
         <div className={`flex flex-col ${rowWidth} gap-0`}>
+          {/* ── SECTION SOUS-DOMAINE ── */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const fd = new FormData(e.currentTarget);
+              subdomain.submit(() => updateSubdomain(fd));
+            }}
+            className={`flex flex-col ${sectionSpacing}`}
+          >
+            <div className="flex flex-col gap-2 tablet:gap-3">
+              <h2 className="text-base tablet:text-lg laptop:text-xl desktop:text-2xl 2k:text-3xl 4k:text-5xl font-semibold text-cream tracking-wide">
+                Nom de domaine
+              </h2>
+              <p className="italic font-light text-cream/60 text-sm tablet:text-base laptop:text-[14px] desktop:text-base 2k:text-xl 4k:text-4xl leading-relaxed">
+                L&apos;adresse web de votre portfolio. Choisissez un nom court et mémorisable.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 w-full laptop:max-w-lg desktop:max-w-xl 4k:max-w-5xl">
+              <div className="flex items-center gap-0 w-full">
+                <FloatingInput
+                  name="subdomain"
+                  label="votre-nom"
+                  defaultValue={user.subdomain ?? ""}
+                  autoComplete="off"
+                  onChange={(e) =>
+                    setSubdomainValue(e.target.value.toLowerCase())
+                  }
+                />
+                <span className="shrink-0 text-cream/40 text-sm desktop:text-base 2k:text-xl 4k:text-3xl pl-2 pb-1 self-end whitespace-nowrap">
+                  .photolio.fr
+                </span>
+              </div>
+              {subdomainValue && (
+                <p className="text-cream/50 text-[10px] tablet:text-xs 2k:text-base 4k:text-2xl pl-1">
+                  Votre adresse :{" "}
+                  <span className="text-cream/80">
+                    https://{subdomainValue}.photolio.fr
+                  </span>
+                </p>
+              )}
+            </div>
+
+            <div aria-live="polite" aria-atomic="true">
+              {subdomain.status === "error" && (
+                <p className="text-red-400 text-xs tablet:text-sm 4k:text-2xl">
+                  {subdomain.errorMessage}
+                </p>
+              )}
+            </div>
+
+            <SubmitButton
+              pending={subdomain.isPending}
+              status={subdomain.status}
+              label="Enregistrer"
+            />
+          </form>
+
+          {/* ── SÉPARATEUR ── */}
+          <div className={`w-full h-px bg-cream/10 ${separatorMargin}`} />
+
           {/* ── SECTION EMAIL ── */}
           <form
             onSubmit={(e) => {

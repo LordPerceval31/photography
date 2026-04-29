@@ -32,7 +32,6 @@ ALTER TABLE "User" ADD COLUMN     "activeTemplateId" TEXT,
 ADD COLUMN     "cloudinaryKey" TEXT,
 ADD COLUMN     "cloudinaryName" TEXT,
 ADD COLUMN     "cloudinarySecret" TEXT,
-ADD COLUMN     "customDomain" TEXT,
 ADD COLUMN     "emailVerified" TIMESTAMP(3),
 ADD COLUMN     "emailjsPublicKey" TEXT,
 ADD COLUMN     "emailjsServiceId" TEXT,
@@ -148,9 +147,6 @@ CREATE UNIQUE INDEX "SiteConfig_userId_key" ON "SiteConfig"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_subdomain_key" ON "User"("subdomain");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_customDomain_key" ON "User"("customDomain");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_activeTemplateId_fkey" FOREIGN KEY ("activeTemplateId") REFERENCES "Template"("id") ON DELETE SET NULL ON UPDATE CASCADE;

@@ -12,7 +12,7 @@ export const getUploadSignature = async (title: string, allowReplace = false) =>
   const slug = titleToSlug(title);
   if (!slug) return { error: "Le titre est requis." };
 
-  const publicId = `${CLOUDINARY_FOLDER}/${slug}`;
+  const publicId = `${CLOUDINARY_FOLDER}/${session.user.id}/${slug}`;
 
   // Pour les slots (cover, portrait…) on autorise le remplacement
   if (!allowReplace) {

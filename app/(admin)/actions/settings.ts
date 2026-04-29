@@ -8,7 +8,59 @@ import { auth } from "@/auth";
 import prisma from "@/app/lib/prisma";
 import { encrypt } from "@/app/lib/crypto";
 
-// ── 1. CREDENTIALS CLOUDINARY ────────────────────────────────────────────────
+// ── 1. SOUS-DOMAINE ──────────────────────────────────────────────────────────
+
+const subdomainSchema = z.object({
+  subdomain: z
+    .string()
+    .min(3, "3 caractères minimum")
+    .max(30, "30 caractères maximum")
+    .regex(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+      "Minuscules, chiffres et tirets uniquement (pas en début ni fin)",
+    ),
+});
+
+const updateSubdomain = async (formData: FormData) => {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Session expirée" };
+
+  const parsed = subdomainSchema.safeParse({
+    subdomain: (formData.get("subdomain") as string)?.toLowerCase(),
+  });
+
+  if (!parsed.success) {
+    return {
+      error: parsed.error.issues?.[0]?.message || "Erreur de validation.",
+    };
+  }
+
+  const existing = await prisma.user.findUnique({
+    where: { subdomain: parsed.data.subdomain },
+  });
+  if (existing && existing.id !== session.user.id) {
+    return { error: "Ce nom de domaine est déjà pris" };
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: session.user.id },
+      data: { subdomain: parsed.data.subdomain },
+    });
+  } catch (err: unknown) {
+    console.error("[settings:updateSubdomain] Erreur Prisma", {
+      userId: session.user.id,
+      error: err,
+    });
+    return { error: "Erreur lors de la sauvegarde." };
+  }
+
+  revalidatePath("/dashboard/settings");
+  return { success: true };
+};
+export { updateSubdomain };
+
+// ── 2. CREDENTIALS CLOUDINARY ────────────────────────────────────────────────
 
 const cloudinarySchema = z.object({
   cloudinaryName: z.string().min(1, "Cloud name requis"),
