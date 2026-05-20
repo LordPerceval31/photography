@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // ─── Mocks ─────────────────────────────────────────────────────────────────
 
-const mockAuth = vi.fn();
+const mockGetAuthenticatedUser = vi.fn();
 const mockDeleteMany = vi.fn();
 const mockFindFirst = vi.fn();
 const mockCreate = vi.fn();
@@ -10,7 +10,9 @@ const mockCloudinaryConfig = vi.fn();
 const mockDestroy = vi.fn();
 const mockGetCloudinaryConfig = vi.fn();
 
-vi.mock("@/auth", () => ({ auth: mockAuth }));
+vi.mock("@/app/lib/auth-guard", () => ({
+  getAuthenticatedUser: mockGetAuthenticatedUser,
+}));
 
 vi.mock("@/app/lib/prisma", () => ({
   default: {
@@ -44,20 +46,20 @@ describe("savePhoto", () => {
   });
 
   it("retourne une erreur si la session est expirée", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockGetAuthenticatedUser.mockResolvedValue(null);
     const result = await savePhoto("https://img.jpg", "photographe/iscover", "isCover");
     expect(result.error).toBe("Session expirée.");
   });
 
   it("retourne une erreur si Cloudinary n'est pas configuré", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGetCloudinaryConfig.mockRejectedValue(new Error("non configuré"));
     const result = await savePhoto("https://img.jpg", "photographe/iscover", "isCover");
     expect(result.error).toBe("Configure tes credentials Cloudinary dans les Paramètres.");
   });
 
   it("supprime l'ancienne photo Cloudinary si le publicId a changé", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGetCloudinaryConfig.mockResolvedValue({ cloud_name: "test", api_key: "k", api_secret: "s" });
     mockCloudinaryConfig.mockReturnValue(undefined);
     // Ancienne photo avec un publicId différent
@@ -71,7 +73,7 @@ describe("savePhoto", () => {
   });
 
   it("ne supprime PAS Cloudinary si le publicId est identique (déjà remplacé)", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGetCloudinaryConfig.mockResolvedValue({ cloud_name: "test", api_key: "k", api_secret: "s" });
     mockCloudinaryConfig.mockReturnValue(undefined);
     // Même publicId → Cloudinary a déjà été remplacé lors de l'upload
@@ -85,7 +87,7 @@ describe("savePhoto", () => {
   });
 
   it("retourne success:true quand tout se passe bien", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGetCloudinaryConfig.mockResolvedValue({ cloud_name: "test", api_key: "k", api_secret: "s" });
     mockCloudinaryConfig.mockReturnValue(undefined);
     mockFindFirst.mockResolvedValue(null);
@@ -98,7 +100,7 @@ describe("savePhoto", () => {
   });
 
   it("retourne une erreur générique si Prisma échoue au create", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGetCloudinaryConfig.mockResolvedValue({ cloud_name: "test", api_key: "k", api_secret: "s" });
     mockCloudinaryConfig.mockReturnValue(undefined);
     mockFindFirst.mockResolvedValue(null);

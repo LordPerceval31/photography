@@ -7,19 +7,19 @@ import {
 import { sendGalleryShareEmail } from "@/app/lib/mail";
 import prisma from "@/app/lib/prisma";
 import { isValidEmail } from "@/app/lib/validators";
-import { auth } from "@/auth";
+import { getAuthenticatedUser } from "@/app/lib/auth-guard";
 import { v2 as cloudinary } from "cloudinary";
 import { revalidatePath } from "next/cache";
 
 export async function deleteGallery(galleryId: string) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   try {
-    cloudinary.config(await getCloudinaryConfig(session.user.id));
+    cloudinary.config(await getCloudinaryConfig(user.id));
 
     const gallery = await prisma.gallery.findUnique({
-      where: { id: galleryId, userId: session.user.id },
+      where: { id: galleryId, userId: user.id },
       select: { id: true, photos: { select: { photoId: true } } },
     });
     if (!gallery) return { error: "Galerie introuvable" };
@@ -29,7 +29,7 @@ export async function deleteGallery(galleryId: string) {
     // Trouve les photos liées UNIQUEMENT à cette galerie (pas partagées avec d'autres)
     // On compte le nombre de galeries pour chaque photo — si c'est 1, elle est exclusive
     const photosWithCount = await prisma.photo.findMany({
-      where: { id: { in: photoIdsInGallery }, userId: session.user.id },
+      where: { id: { in: photoIdsInGallery }, userId: user.id },
       select: { id: true, publicId: true, _count: { select: { galleries: true } } },
     });
     const photosExclusive = photosWithCount.filter((p) => p._count.galleries === 1);
@@ -64,14 +64,14 @@ export async function updateGallery(
   galleryId: string,
   data: { name: string; description: string },
 ) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   if (!data.name.trim()) return { error: "Le nom est requis" };
 
   try {
     await prisma.gallery.update({
-      where: { id: galleryId, userId: session.user.id },
+      where: { id: galleryId, userId: user.id },
       data: { name: data.name.trim(), description: data.description.trim() },
     });
     revalidatePath("/dashboard/galleries");
@@ -86,19 +86,19 @@ export async function updateGallery(
 }
 
 export async function setFeaturedGallery(galleryId: string) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   try {
     // Retire la mise en avant de toutes les galeries de l'utilisateur
     await prisma.gallery.updateMany({
-      where: { userId: session.user.id },
+      where: { userId: user.id },
       data: { isPremium: false },
     });
 
     // Met en avant uniquement celle-ci
     await prisma.gallery.update({
-      where: { id: galleryId, userId: session.user.id },
+      where: { id: galleryId, userId: user.id },
       data: { isPremium: true },
     });
 
@@ -111,13 +111,13 @@ export async function setFeaturedGallery(galleryId: string) {
 }
 
 export async function shareGallery(galleryId: string, email: string) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   if (!isValidEmail(email)) return { error: "Email invalide" };
 
   const gallery = await prisma.gallery.findUnique({
-    where: { id: galleryId, userId: session.user.id },
+    where: { id: galleryId, userId: user.id },
     select: { token: true, name: true },
   });
   if (!gallery) return { error: "Galerie introuvable" };

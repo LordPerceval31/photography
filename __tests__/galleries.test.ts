@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 
-const mockAuth = vi.fn();
+const mockGetAuthenticatedUser = vi.fn();
 const mockGalleryFindUnique = vi.fn();
 const mockGalleryUpdate = vi.fn();
 const mockGalleryUpdateMany = vi.fn();
@@ -13,7 +13,9 @@ const mockDeleteCloudinaryPhotos = vi.fn();
 const mockGetCloudinaryConfig = vi.fn().mockResolvedValue({});
 const mockSendShareEmail = vi.fn();
 
-vi.mock("@/auth", () => ({ auth: mockAuth }));
+vi.mock("@/app/lib/auth-guard", () => ({
+  getAuthenticatedUser: mockGetAuthenticatedUser,
+}));
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
 vi.mock("cloudinary", () => ({ v2: { config: vi.fn() } }));
 
@@ -54,13 +56,13 @@ describe("deleteGallery", () => {
   beforeEach(() => vi.clearAllMocks());
 
   it("retourne une erreur si la session est expirée", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockGetAuthenticatedUser.mockResolvedValue(null);
     const result = await deleteGallery("gal-1");
     expect(result.error).toBe("Non autorisé");
   });
 
   it("retourne une erreur si la galerie est introuvable", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGetCloudinaryConfig.mockResolvedValue({});
     mockGalleryFindUnique.mockResolvedValue(null);
     const result = await deleteGallery("gal-inexistante");
@@ -68,7 +70,7 @@ describe("deleteGallery", () => {
   });
 
   it("ne supprime pas les photos partagées avec d'autres galeries", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGetCloudinaryConfig.mockResolvedValue({});
     mockGalleryFindUnique.mockResolvedValue({
       id: "gal-1",
@@ -87,7 +89,7 @@ describe("deleteGallery", () => {
   });
 
   it("supprime les photos exclusives de Cloudinary et de la base", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGetCloudinaryConfig.mockResolvedValue({});
     mockGalleryFindUnique.mockResolvedValue({
       id: "gal-1",
@@ -112,7 +114,7 @@ describe("deleteGallery", () => {
   });
 
   it("retourne success:true quand tout se passe bien", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGetCloudinaryConfig.mockResolvedValue({});
     mockGalleryFindUnique.mockResolvedValue({ id: "gal-1", photos: [] });
     mockPhotoFindMany.mockResolvedValue([]);
@@ -130,19 +132,19 @@ describe("updateGallery", () => {
   beforeEach(() => vi.clearAllMocks());
 
   it("retourne une erreur si la session est expirée", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockGetAuthenticatedUser.mockResolvedValue(null);
     const result = await updateGallery("gal-1", { name: "Nom", description: "" });
     expect(result.error).toBe("Non autorisé");
   });
 
   it("retourne une erreur si le nom est vide", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     const result = await updateGallery("gal-1", { name: "   ", description: "" });
     expect(result.error).toBe("Le nom est requis");
   });
 
   it("retourne success:true quand la mise à jour réussit", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGalleryUpdate.mockResolvedValue({});
 
     const result = await updateGallery("gal-1", { name: "Nouveau nom", description: "desc" });
@@ -156,13 +158,13 @@ describe("setFeaturedGallery", () => {
   beforeEach(() => vi.clearAllMocks());
 
   it("retourne une erreur si la session est expirée", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockGetAuthenticatedUser.mockResolvedValue(null);
     const result = await setFeaturedGallery("gal-1");
     expect(result.error).toBe("Non autorisé");
   });
 
   it("retire isPremium de toutes les galeries avant de mettre en avant", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGalleryUpdateMany.mockResolvedValue({});
     mockGalleryUpdate.mockResolvedValue({});
 
@@ -175,7 +177,7 @@ describe("setFeaturedGallery", () => {
   });
 
   it("met isPremium:true uniquement sur la galerie ciblée", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGalleryUpdateMany.mockResolvedValue({});
     mockGalleryUpdate.mockResolvedValue({});
 
@@ -188,7 +190,7 @@ describe("setFeaturedGallery", () => {
   });
 
   it("retourne success:true quand tout se passe bien", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGalleryUpdateMany.mockResolvedValue({});
     mockGalleryUpdate.mockResolvedValue({});
 
@@ -203,26 +205,26 @@ describe("shareGallery", () => {
   beforeEach(() => vi.clearAllMocks());
 
   it("retourne une erreur si la session est expirée", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockGetAuthenticatedUser.mockResolvedValue(null);
     const result = await shareGallery("gal-1", "test@example.com");
     expect(result.error).toBe("Non autorisé");
   });
 
   it("retourne une erreur si l'email est invalide", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     const result = await shareGallery("gal-1", "pas-un-email");
     expect(result.error).toBe("Email invalide");
   });
 
   it("retourne une erreur si la galerie est introuvable", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGalleryFindUnique.mockResolvedValue(null);
     const result = await shareGallery("gal-inexistante", "test@example.com");
     expect(result.error).toBe("Galerie introuvable");
   });
 
   it("retourne success:true après l'envoi de l'email", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGalleryFindUnique.mockResolvedValue({ token: "tok-abc", name: "Ma galerie" });
     mockSendShareEmail.mockResolvedValue(undefined);
 

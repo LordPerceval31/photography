@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { auth } from "@/auth";
+import { getAuthenticatedUser } from "@/app/lib/auth-guard";
 import { revalidatePath } from "next/cache";
 
 export type VitrineData = {
@@ -22,10 +22,10 @@ export type VitrineData = {
 };
 
 export async function updateVitrineTexts(data: VitrineData) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
-  const userId = session.user.id;
+  const userId = user.id;
 
   try {
     await prisma.siteConfig.upsert({

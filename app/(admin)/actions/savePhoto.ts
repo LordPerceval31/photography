@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { getAuthenticatedUser } from "@/app/lib/auth-guard";
 import prisma from "@/app/lib/prisma";
 import { getCloudinaryConfig } from "@/app/lib/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
@@ -19,11 +19,11 @@ export const savePhoto = async (
   publicId: string,
   slot: PhotoSlotType,
 ) => {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Session expirée." };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Session expirée." };
 
   try {
-    cloudinary.config(await getCloudinaryConfig(session.user.id));
+    cloudinary.config(await getCloudinaryConfig(user.id));
   } catch {
     return {
       error: "Configure tes credentials Cloudinary dans les Paramètres.",
@@ -34,7 +34,7 @@ export const savePhoto = async (
     // 1. Chercher l'ancienne photo du slot pour supprimer son fichier Cloudinary
     //    si son publicId est différent du nouveau (sinon Cloudinary l'a déjà remplacé)
     const oldPhoto = await prisma.photo.findFirst({
-      where: { userId: session.user.id, [slot]: true },
+      where: { userId: user.id, [slot]: true },
       select: { publicId: true },
     });
 
@@ -51,7 +51,7 @@ export const savePhoto = async (
     //    - tout enregistrement orphelin avec le même publicId
     await prisma.photo.deleteMany({
       where: {
-        userId: session.user.id,
+        userId: user.id,
         OR: [{ [slot]: true }, { publicId }],
       },
     });
@@ -61,7 +61,7 @@ export const savePhoto = async (
       data: {
         url,
         publicId,
-        userId: session.user.id,
+        userId: user.id,
         [slot]: true,
       },
     });
@@ -69,7 +69,7 @@ export const savePhoto = async (
     return { success: true };
   } catch (err: unknown) {
     console.error("[savePhoto] Erreur lors de la sauvegarde", {
-      userId: session.user.id,
+      userId: user.id,
       slot,
       publicId,
       error: err,
