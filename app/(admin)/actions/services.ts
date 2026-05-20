@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { getAuthenticatedUser } from "@/app/lib/auth-guard";
 import prisma from "@/app/lib/prisma";
 import { getCloudinaryConfig } from "@/app/lib/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
@@ -14,8 +14,8 @@ const createService = async (data: {
   photoUrl?: string;
   photoPublicId?: string;
 }) => {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   if (!data.title.trim() || !data.description.trim() || !data.price.trim()) {
     return { error: "Le titre, la description et le prix sont obligatoires." };
@@ -24,7 +24,7 @@ const createService = async (data: {
   try {
     // Récupère l'ordre max existant pour placer le nouveau service en dernier
     const last = await prisma.service.findFirst({
-      where: { userId: session.user.id },
+      where: { userId: user.id },
       orderBy: { order: "desc" },
       select: { order: true },
     });
@@ -37,7 +37,7 @@ const createService = async (data: {
         photoUrl: data.photoUrl ?? null,
         photoPublicId: data.photoPublicId ?? null,
         order: (last?.order ?? -1) + 1,
-        userId: session.user.id,
+        userId: user.id,
       },
     });
 
@@ -63,8 +63,8 @@ const updateService = async (
     oldPhotoPublicId?: string;
   },
 ) => {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   if (!data.title.trim() || !data.description.trim() || !data.price.trim()) {
     return { error: "Le titre, la description et le prix sont obligatoires." };
@@ -76,7 +76,7 @@ const updateService = async (
       where: { id: serviceId },
       select: { userId: true },
     });
-    if (!existing || existing.userId !== session.user.id) {
+    if (!existing || existing.userId !== user.id) {
       return { error: "Service introuvable." };
     }
 
@@ -84,7 +84,7 @@ const updateService = async (
     // on supprime l'ancienne de Cloudinary
     if (data.oldPhotoPublicId && data.oldPhotoPublicId !== data.photoPublicId) {
       try {
-        cloudinary.config(await getCloudinaryConfig(session.user.id));
+        cloudinary.config(await getCloudinaryConfig(user.id));
         await cloudinary.uploader.destroy(data.oldPhotoPublicId);
       } catch {
         console.warn(
@@ -116,8 +116,8 @@ export { updateService };
 
 // 3. SUPPRIMER UN SERVICE
 const deleteService = async (serviceId: string) => {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   try {
     // Récupère le service en vérifiant qu'il appartient à l'utilisateur
@@ -126,14 +126,14 @@ const deleteService = async (serviceId: string) => {
       select: { userId: true, photoPublicId: true },
     });
 
-    if (!service || service.userId !== session.user.id) {
+    if (!service || service.userId !== user.id) {
       return { error: "Service introuvable." };
     }
 
     // Supprime la photo Cloudinary associée si elle existe
     if (service.photoPublicId) {
       try {
-        cloudinary.config(await getCloudinaryConfig(session.user.id));
+        cloudinary.config(await getCloudinaryConfig(user.id));
         await cloudinary.uploader.destroy(service.photoPublicId);
       } catch {
         // Suppression Cloudinary non bloquante

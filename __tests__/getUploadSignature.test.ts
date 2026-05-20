@@ -2,12 +2,14 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // ─── Mocks ─────────────────────────────────────────────────────────────────
 
-const mockAuth = vi.fn();
+const mockGetAuthenticatedUser = vi.fn();
 const mockFindFirst = vi.fn();
 const mockGetCloudinaryConfig = vi.fn();
 const mockApiSignRequest = vi.fn().mockReturnValue("fake-signature");
 
-vi.mock("@/auth", () => ({ auth: mockAuth }));
+vi.mock("@/app/lib/auth-guard", () => ({
+  getAuthenticatedUser: mockGetAuthenticatedUser,
+}));
 
 vi.mock("@/app/lib/prisma", () => ({
   default: {
@@ -41,19 +43,19 @@ describe("getUploadSignature", () => {
   });
 
   it("retourne une erreur si la session est expirée", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockGetAuthenticatedUser.mockResolvedValue(null);
     const result = await getUploadSignature("mon-titre");
     expect(result.error).toBe("Session expirée.");
   });
 
   it("retourne une erreur si le titre est vide", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     const result = await getUploadSignature("   ");
     expect(result.error).toBe("Le titre est requis.");
   });
 
   it("retourne une erreur si Cloudinary n'est pas configuré", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockFindFirst.mockResolvedValue(null);
     mockGetCloudinaryConfig.mockRejectedValue(new Error("non configuré"));
     const result = await getUploadSignature("mon-titre");
@@ -63,14 +65,14 @@ describe("getUploadSignature", () => {
   });
 
   it("bloque si un doublon existe et allowReplace=false (défaut)", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockFindFirst.mockResolvedValue({ id: "photo-existante" });
     const result = await getUploadSignature("mon-titre");
     expect(result.error).toBe("Une photo avec ce nom existe déjà.");
   });
 
   it("autorise le doublon si allowReplace=true", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockGetCloudinaryConfig.mockResolvedValue({
       cloud_name: "demo",
       api_key: "key",
@@ -82,7 +84,7 @@ describe("getUploadSignature", () => {
   });
 
   it("retourne signature, timestamp, cloudName, apiKey et publicId", async () => {
-    mockAuth.mockResolvedValue({ user: { id: "user-1" } });
+    mockGetAuthenticatedUser.mockResolvedValue({ id: "user-1" });
     mockFindFirst.mockResolvedValue(null);
     mockGetCloudinaryConfig.mockResolvedValue({
       cloud_name: "mon-cloud",

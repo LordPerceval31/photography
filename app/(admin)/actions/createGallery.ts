@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { ExpiresIn } from "../types/gallery";
 import prisma from "@/app/lib/prisma";
 import { sendGalleryInviteEmail } from "@/app/lib/mail";
-import { auth } from "@/auth";
+import { getAuthenticatedUser } from "@/app/lib/auth-guard";
 import { galleryInviteRateLimit } from "@/app/lib/ratelimit";
 import { isValidEmail } from "@/app/lib/validators";
 
@@ -108,8 +108,8 @@ async function scheduleDeletion(
 // ── Orchestrateur principal ───────────────────────────────────────────────────
 
 export async function createGallery(data: CreateGalleryInput) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Session expirée." };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Session expirée." };
 
   const { name, description, isPremium, isPrivate, expiresIn, emails, photos } =
     data;
@@ -117,7 +117,7 @@ export async function createGallery(data: CreateGalleryInput) {
   if (!name.trim()) return { error: "Le titre est requis." };
 
   if (isPrivate) {
-    const { success } = await galleryInviteRateLimit.limit(session.user.id);
+    const { success } = await galleryInviteRateLimit.limit(user.id);
     if (!success)
       return { error: "Trop de galeries créées. Réessaie dans une heure." };
   }
@@ -137,12 +137,12 @@ export async function createGallery(data: CreateGalleryInput) {
         description,
         isPremium,
         isPrivate,
-        userId: session.user.id,
+        userId: user.id,
         expiresAt,
       },
     });
 
-    await createPhotos(gallery.id, session.user.id, photos);
+    await createPhotos(gallery.id, user.id, photos);
 
     if (isPrivate && emails.length > 0) {
       await inviteGuests(gallery.id, gallery.token, emails, expiresAt);
@@ -156,7 +156,7 @@ export async function createGallery(data: CreateGalleryInput) {
     return { success: true, galleryId: gallery.id };
   } catch (err: unknown) {
     console.error("[createGallery] Erreur lors de la création", {
-      userId: session.user.id,
+      userId: user.id,
       galleryName: name,
       error: err,
     });

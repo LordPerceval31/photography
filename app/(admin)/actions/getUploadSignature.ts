@@ -2,29 +2,29 @@
 
 import { CLOUDINARY_FOLDER, getCloudinaryConfig, titleToSlug } from "@/app/lib/cloudinary";
 import prisma from "@/app/lib/prisma";
-import { auth } from "@/auth";
+import { getAuthenticatedUser } from "@/app/lib/auth-guard";
 import { v2 as cloudinary } from "cloudinary";
 
 export const getUploadSignature = async (title: string, allowReplace = false) => {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Session expirée." };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Session expirée." };
 
   const slug = titleToSlug(title);
   if (!slug) return { error: "Le titre est requis." };
 
-  const publicId = `${CLOUDINARY_FOLDER}/${session.user.id}/${slug}`;
+  const publicId = `${CLOUDINARY_FOLDER}/${user.id}/${slug}`;
 
   // Pour les slots (cover, portrait…) on autorise le remplacement
   if (!allowReplace) {
     const existing = await prisma.photo.findFirst({
-      where: { userId: session.user.id, publicId },
+      where: { userId: user.id, publicId },
     });
     if (existing) return { error: "Une photo avec ce nom existe déjà." };
   }
 
   let config: Awaited<ReturnType<typeof getCloudinaryConfig>>;
   try {
-    config = await getCloudinaryConfig(session.user.id);
+    config = await getCloudinaryConfig(user.id);
   } catch {
     return {
       error: "Configure tes credentials Cloudinary dans les Paramètres.",

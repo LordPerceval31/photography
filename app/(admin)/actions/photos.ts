@@ -8,7 +8,7 @@ import {
   titleToSlug,
 } from "@/app/lib/cloudinary";
 import prisma from "@/app/lib/prisma";
-import { auth } from "@/auth";
+import { getAuthenticatedUser } from "@/app/lib/auth-guard";
 import { v2 as cloudinary } from "cloudinary";
 import { revalidatePath } from "next/cache";
 
@@ -24,12 +24,12 @@ export async function addPhotosToGallery(
   galleryId: string,
   photos: PhotoInput[],
 ) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   try {
     const gallery = await prisma.gallery.findUnique({
-      where: { id: galleryId, userId: session.user.id },
+      where: { id: galleryId, userId: user.id },
     });
     if (!gallery) return { error: "Galerie introuvable" };
 
@@ -47,7 +47,7 @@ export async function addPhotosToGallery(
           url: p.url,
           publicId: p.publicId,
           title: p.title.trim() || null,
-          userId: session.user.id,
+          userId: user.id,
         },
       });
 
@@ -71,12 +71,12 @@ export async function addPhotoToGallery(
   publicId: string,
   title: string,
 ) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   try {
     const gallery = await prisma.gallery.findUnique({
-      where: { id: galleryId, userId: session.user.id },
+      where: { id: galleryId, userId: user.id },
     });
     if (!gallery) return { error: "Galerie introuvable" };
 
@@ -85,7 +85,7 @@ export async function addPhotoToGallery(
         url,
         publicId,
         title: title.trim() || null,
-        userId: session.user.id,
+        userId: user.id,
       },
     });
 
@@ -103,8 +103,8 @@ export async function addPhotoToGallery(
 
 // 1. RENOMMER UNE PHOTO (renomme aussi le fichier sur Cloudinary)
 export async function renamePhoto(photoId: string, newTitle: string) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   const slug = titleToSlug(newTitle);
   if (!slug) return { error: "Titre invalide." };
@@ -114,7 +114,7 @@ export async function renamePhoto(photoId: string, newTitle: string) {
   try {
     // Récupère la photo pour avoir son publicId actuel
     const photo = await prisma.photo.findUnique({
-      where: { id: photoId, userId: session.user.id },
+      where: { id: photoId, userId: user.id },
       select: { publicId: true },
     });
     if (!photo) return { error: "Photo introuvable." };
@@ -122,7 +122,7 @@ export async function renamePhoto(photoId: string, newTitle: string) {
     // Vérifie qu'aucune autre photo n'a déjà ce nom
     const duplicate = await prisma.photo.findFirst({
       where: {
-        userId: session.user.id,
+        userId: user.id,
         publicId: newPublicId,
         id: { not: photoId }, // on exclut la photo courante
       },
@@ -132,14 +132,14 @@ export async function renamePhoto(photoId: string, newTitle: string) {
     // Renomme le fichier sur Cloudinary si la photo a un publicId
     let newUrl: string | undefined;
     if (photo.publicId && photo.publicId !== newPublicId) {
-      cloudinary.config(await getCloudinaryConfig(session.user.id));
+      cloudinary.config(await getCloudinaryConfig(user.id));
       const result = await cloudinary.uploader.rename(photo.publicId, newPublicId);
       newUrl = result.secure_url;
     }
 
     // Met à jour le titre, le publicId et l'URL en base
     await prisma.photo.update({
-      where: { id: photoId, userId: session.user.id },
+      where: { id: photoId, userId: user.id },
       data: {
         title: newTitle.trim(),
         publicId: newPublicId,
@@ -157,24 +157,24 @@ export async function renamePhoto(photoId: string, newTitle: string) {
 
 // 2. SUPPRIMER DES PHOTOS (DB + CLOUDINARY)
 export async function deletePhotos(photoIds: string[]) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   try {
     const photosToDelete = await prisma.photo.findMany({
-      where: { id: { in: photoIds }, userId: session.user.id },
+      where: { id: { in: photoIds }, userId: user.id },
       select: { id: true, publicId: true },
     });
 
     if (photosToDelete.length === 0) return { success: true };
 
-    cloudinary.config(await getCloudinaryConfig(session.user.id));
+    cloudinary.config(await getCloudinaryConfig(user.id));
     await deleteCloudinaryPhotos(photosToDelete);
 
     await prisma.photo.deleteMany({
       where: {
         id: { in: photosToDelete.map((p) => p.id) },
-        userId: session.user.id,
+        userId: user.id,
       },
     });
 
@@ -188,17 +188,17 @@ export async function deletePhotos(photoIds: string[]) {
 
 // 3. DÉPLACER DES PHOTOS (efface l'ancien lien de galerie, crée le nouveau)
 export async function movePhotos(photoIds: string[], targetGalleryId: string) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   try {
     const targetGallery = await prisma.gallery.findUnique({
-      where: { id: targetGalleryId, userId: session.user.id },
+      where: { id: targetGalleryId, userId: user.id },
     });
     if (!targetGallery) return { error: "Galerie introuvable" };
 
     const ownedPhotos = await prisma.photo.findMany({
-      where: { id: { in: photoIds }, userId: session.user.id },
+      where: { id: { in: photoIds }, userId: user.id },
       select: { id: true },
     });
     const ownedIds = ownedPhotos.map((p) => p.id);
@@ -228,21 +228,21 @@ export async function movePhotos(photoIds: string[], targetGalleryId: string) {
 
 // 4. COPIER DES PHOTOS (crée de vraies copies sur Cloudinary + nouveaux enregistrements en base)
 export async function copyPhotos(photoIds: string[], targetGalleryId: string) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Non autorisé" };
+  const user = await getAuthenticatedUser();
+  if (!user) return { error: "Non autorisé" };
 
   try {
     const targetGallery = await prisma.gallery.findUnique({
-      where: { id: targetGalleryId, userId: session.user.id },
+      where: { id: targetGalleryId, userId: user.id },
     });
     if (!targetGallery) return { error: "Galerie introuvable" };
 
     const ownedPhotos = await prisma.photo.findMany({
-      where: { id: { in: photoIds }, userId: session.user.id },
+      where: { id: { in: photoIds }, userId: user.id },
       select: { id: true, url: true, publicId: true, title: true },
     });
 
-    cloudinary.config(await getCloudinaryConfig(session.user.id));
+    cloudinary.config(await getCloudinaryConfig(user.id));
 
     const createdPhotos: {
       id: string;
@@ -261,7 +261,7 @@ export async function copyPhotos(photoIds: string[], targetGalleryId: string) {
           : "photo");
 
       // Génère un publicId unique avec auto-incrément si déjà pris
-      const newPublicId = await generateUniquePublicId(session.user.id, baseName);
+      const newPublicId = await generateUniquePublicId(user.id, baseName);
 
       // Copie le fichier sur Cloudinary en uploadant depuis l'URL existante
       const result = await cloudinary.uploader.upload(photo.url, {
@@ -278,7 +278,7 @@ export async function copyPhotos(photoIds: string[], targetGalleryId: string) {
           url: result.secure_url,
           publicId: newPublicId,
           title: newTitle,
-          userId: session.user.id,
+          userId: user.id,
         },
       });
 
