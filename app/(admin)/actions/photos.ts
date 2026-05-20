@@ -12,7 +12,59 @@ import { auth } from "@/auth";
 import { v2 as cloudinary } from "cloudinary";
 import { revalidatePath } from "next/cache";
 
-// 0. AJOUTER UNE PHOTO À UNE GALERIE EXISTANTE
+// 0. AJOUTER PLUSIEURS PHOTOS À UNE GALERIE EXISTANTE
+type PhotoInput = {
+  url: string;
+  publicId: string;
+  title: string;
+  isGalleryCover: boolean;
+};
+
+export async function addPhotosToGallery(
+  galleryId: string,
+  photos: PhotoInput[],
+) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Non autorisé" };
+
+  try {
+    const gallery = await prisma.gallery.findUnique({
+      where: { id: galleryId, userId: session.user.id },
+    });
+    if (!gallery) return { error: "Galerie introuvable" };
+
+    // Si une photo doit devenir couverture, on retire l'ancienne
+    if (photos.some((p) => p.isGalleryCover)) {
+      await prisma.galleryPhoto.updateMany({
+        where: { galleryId },
+        data: { isGalleryCover: false },
+      });
+    }
+
+    for (const p of photos) {
+      const photo = await prisma.photo.create({
+        data: {
+          url: p.url,
+          publicId: p.publicId,
+          title: p.title.trim() || null,
+          userId: session.user.id,
+        },
+      });
+
+      await prisma.galleryPhoto.create({
+        data: { galleryId, photoId: photo.id, isGalleryCover: p.isGalleryCover },
+      });
+    }
+
+    revalidatePath("/dashboard/photos");
+    return { success: true };
+  } catch (err: unknown) {
+    console.error("[photos:addPhotosToGallery]", { galleryId, error: err });
+    return { error: "Erreur lors de l'ajout des photos." };
+  }
+}
+
+// 0b. AJOUTER UNE PHOTO À UNE GALERIE EXISTANTE (legacy — utilisé par PhotosClient)
 export async function addPhotoToGallery(
   galleryId: string,
   url: string,

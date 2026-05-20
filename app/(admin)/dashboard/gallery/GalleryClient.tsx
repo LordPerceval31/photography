@@ -226,6 +226,16 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
         />
       </div>
 
+      {/* AVERTISSEMENT CLOUDINARY */}
+      <p
+        className={`italic text-cream/40 self-center laptop:self-start
+        text-[10px] tablet:text-xs 2k:text-base 4k:text-2xl
+        w-[90%] tablet:w-[80%] laptop:w-auto ${leftMargin}`}
+      >
+        Les photos sont envoyées directement chez Cloudinary. Taille maximale
+        par photo : 10 Mo avec le compte gratuit.
+      </p>
+
       {/* TOGGLES + BOUTON AJOUTER PHOTOS */}
       <div
         className={`flex flex-col laptop:flex-row laptop:items-center laptop:justify-between
@@ -374,7 +384,10 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
               className="rounded-xl border border-cream/20 text-cream/50 hover:text-cream hover:border-cream/40 transition-all
                 px-3 tablet:px-4 2k:px-6 4k:px-10"
             >
-              <Plus aria-hidden="true" className="w-4 h-4 tablet:w-5 tablet:h-5 laptop:w-6 laptop:h-6 2k:w-7 2k:h-7 4k:w-10 4k:h-10" />
+              <Plus
+                aria-hidden="true"
+                className="w-4 h-4 tablet:w-5 tablet:h-5 laptop:w-6 laptop:h-6 2k:w-7 2k:h-7 4k:w-10 4k:h-10"
+              />
             </button>
           </div>
 
@@ -394,7 +407,10 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
                     aria-label={`Supprimer ${email}`}
                     onClick={() => handleRemoveEmail(email)}
                   >
-                    <X aria-hidden="true" className="w-3 h-3 tablet:w-4 tablet:h-4 2k:w-5 2k:h-5 4k:w-6 4k:h-6" />
+                    <X
+                      aria-hidden="true"
+                      className="w-3 h-3 tablet:w-4 tablet:h-4 2k:w-5 2k:h-5 4k:w-6 4k:h-6"
+                    />
                   </button>
                 </div>
               ))}
@@ -462,13 +478,20 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
                   <td className="py-2 tablet:py-3 2k:py-4 4k:py-6 px-2 tablet:px-3 laptop:px-4 2k:px-5 4k:px-8">
                     <button
                       type="button"
-                      aria-label={photo.isGalleryCover ? "Photo de couverture actuelle" : `Définir "${photo.title || "cette photo"}" comme couverture`}
+                      aria-label={
+                        photo.isGalleryCover
+                          ? "Photo de couverture actuelle"
+                          : `Définir "${photo.title || "cette photo"}" comme couverture`
+                      }
                       onClick={() => handleSetCover(photo.id)}
                       className={`rounded-lg border transition-all duration-300
                         p-1.5 tablet:p-2 laptop:p-2.5 2k:p-3 4k:p-5
                         ${photo.isGalleryCover ? "border-blue bg-blue/10 text-blue" : "border-cream/10 text-cream/20 hover:text-cream/60 hover:border-cream/30"}`}
                     >
-                      <Crown aria-hidden="true" className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8" />
+                      <Crown
+                        aria-hidden="true"
+                        className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8"
+                      />
                     </button>
                   </td>
                   <td className="py-2 tablet:py-3 2k:py-4 4k:py-6 px-2 tablet:px-3 laptop:px-4 2k:px-5 4k:px-8">
@@ -480,7 +503,10 @@ const GalleryClient = ({ canShare }: { canShare: boolean }) => {
                         hover:text-red-400 hover:border-red-400/20 transition-all duration-300
                         p-1.5 tablet:p-2 laptop:p-2.5 2k:p-3 4k:p-5"
                     >
-                      <X aria-hidden="true" className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8" />
+                      <X
+                        aria-hidden="true"
+                        className="w-3 h-3 tablet:w-4 tablet:h-4 laptop:w-5 laptop:h-5 2k:w-6 2k:h-6 4k:w-8 4k:h-8"
+                      />
                     </button>
                   </td>
                 </tr>

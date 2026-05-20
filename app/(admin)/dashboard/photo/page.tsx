@@ -102,11 +102,13 @@ const AddPhotoPage = async () => {
         <h1
           className="font-bold text-cream tracking-wide text-center cursor-default laptop:self-center
         w-[90%] tablet:w-[80%] laptop:w-[70%]
-        text-xl tablet:text-2xl laptop:text-2xl desktop:text-3xl 2k:text-4xl ultrawide:text-4xl 4k:text-7xl
-         laptop:mb-6 desktop:mb-8 2k:mb-12 ultrawide:mb-14 4k:mb-20"
+        text-xl tablet:text-2xl laptop:text-2xl desktop:text-3xl 2k:text-4xl ultrawide:text-4xl 4k:text-7xl"
         >
           Configuration des photos de la vitrine
         </h1>
+        <p className="italic text-cream/40 text-center text-[10px] tablet:text-xs 2k:text-base 4k:text-2xl">
+          Les photos sont envoyées directement chez Cloudinary. Taille maximale par photo : 10 Mo.
+        </p>
       </div>
 
       {/* CONTENEUR CENTRAL */}
@@ -204,19 +206,12 @@ const AddPhotoPage = async () => {
           </div>
         )}
 
-        {/* 5. SECTION GALERIE - COPIE CONFORME DES DIMENSIONS DE LA COVER */}
-        <div className="flex flex-col laptop:flex-row items-center laptop:items-start justify-between w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%] gap-8">
-          <p className="text-center laptop:text-left italic font-light text-cream/60 text-[12px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-3xl leading-relaxed laptop:pt-12">
-            Ajouter une photo à l&apos;une de vos galeries.
+        {/* 5. SECTION GALERIE */}
+        <div className="flex flex-col gap-4 w-full max-w-[90%] laptop:max-w-[75%] desktop:max-w-[70%]">
+          <p className="text-center laptop:text-left italic font-light text-cream/60 text-[12px] tablet:text-sm laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-3xl leading-relaxed">
+            Ajouter des photos à l&apos;une de vos galeries.
           </p>
-
-          {/* L'enveloppe ci-dessous utilise tes classes au pixel près */}
-          <div className="flex flex-col items-center gap-1 w-[70vw] tablet:w-[50vw] laptop:w-55 desktop:w-87.5 2k:w-100 ultrawide:w-100 4k:w-175">
-            <p className="text-[10px] tablet:text-[12px] laptop:text-sm desktop:text-lg 2k:text-xl 4k:text-2xl uppercase tracking-widest text-cream/30">
-              Galerie
-            </p>
-            <GalleryUpload galleries={galleries} />
-          </div>
+          <GalleryUpload galleries={galleries} />
         </div>
       </div>
     </div>
